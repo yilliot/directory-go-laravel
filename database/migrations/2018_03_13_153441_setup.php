@@ -66,6 +66,11 @@ class Setup extends Migration
             $table->integer('category_id')->index();
         });
 
+        Schema::create('zone_categories', function(Blueprint $table){
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -81,6 +86,7 @@ class Setup extends Migration
         Schema::drop('areas');
         Schema::drop('categories');
         Schema::drop('area_categories');
+        Schema::drop('zone_categories');
 
     }
 }
