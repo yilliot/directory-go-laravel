@@ -13,15 +13,15 @@ class ZoneController extends Controller
     }
     function getList()
     {
-        return view('office.zone.getList');
+        return view('office.zone.list');
     }
     function getCreate()
     {
-        return view('office.zone.getCreate');
+        return view('office.zone.create');
     }
     function getEdit()
     {
-        return view('office.zone.getEdit');
+        return view('office.zone.edit');
     }
     function postCreate()
     {

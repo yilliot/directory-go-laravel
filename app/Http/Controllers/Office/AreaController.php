@@ -13,15 +13,15 @@ class AreaController extends Controller
     }
     function getList()
     {
-        return view('office.area.getList');
+        return view('office.area.list');
     }
     function getCreate()
     {
-        return view('office.area.getCreate');
+        return view('office.area.create');
     }
     function getEdit()
     {
-        return view('office.area.getEdit');
+        return view('office.area.edit');
     }
     function postCreate()
     {
