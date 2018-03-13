@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'back-office'], function(){
+Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     Route::group(['prefix' => 'block'], function(){
         Route::get('/edit/{id}', 'BlockController@getEdit');
         Route::post('/edit/{id}', 'BlockController@postEdit');
@@ -8,9 +8,9 @@ Route::group(['prefix' => 'back-office'], function(){
     Route::group(['prefix' => 'level'], function(){
         Route::get('/', 'LevelController@index');
         Route::get('/list', 'LevelController@getList');
-        Route::post('/create', 'BlockController@postCreate');
-        Route::post('/edit', 'BlockController@postEdit');
-        Route::post('/delete', 'BlockController@postDelete');
+        Route::post('/create', 'LevelController@postCreate');
+        Route::post('/edit', 'LevelController@postEdit');
+        Route::post('/delete', 'LevelController@postDelete');
     });
     Route::group(['prefix' => 'category'], function(){
         Route::get('/list', 'CategoryController@getList');
