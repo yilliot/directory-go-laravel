@@ -1,0 +1,15 @@
+.container{
+    width: 1920px;
+    height: 1080px;
+    position:relative;
+    top: 0px;
+    left: 0px;
+}
+
+button:active,
+button:focus{
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+          box-shadow: none;
+}

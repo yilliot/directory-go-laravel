@@ -1,0 +1,9 @@
+#category > .button {
+    position: absolute;
+    background-color: grey;
+    height: 998px;
+    width: 236px;
+    top: 40px;
+    right: 27px;
+    z-index: 3;
+}
