@@ -1,5 +1,7 @@
 <?php
 
+Route::get('/{id?}', 'KioskController@index');
+
 Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     Route::group(['prefix' => 'block'], function(){
         Route::get('/edit/{id}', 'BlockController@getEdit');
@@ -7,16 +9,16 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     });
     Route::group(['prefix' => 'level'], function(){
         Route::get('/', 'LevelController@index');
-        Route::get('/list', 'LevelController@getList');
-        Route::post('/create', 'LevelController@postCreate');
-        Route::post('/edit', 'LevelController@postEdit');
-        Route::post('/delete', 'LevelController@postDelete');
+        Route::get('/list/{block_id?}', 'LevelController@getList');
+        Route::get('/edit/{id}', 'LevelController@getEdit');
+        Route::post('/edit/{id}', 'LevelController@postEdit');
     });
     Route::group(['prefix' => 'category'], function(){
         Route::get('/list', 'CategoryController@getList');
         Route::post('/create', 'CategoryController@postCreate');
         Route::post('/edit', 'CategoryController@postEdit');
         Route::post('/delete', 'CategoryController@postDelete');
+        Route::post('/order/{id}', 'CategoryController@postOrder');
     });
     Route::group(['prefix' => 'zone'], function(){
         Route::get('/', 'ZoneController@index');

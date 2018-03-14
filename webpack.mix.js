@@ -12,5 +12,10 @@ let mix = require('laravel-mix');
  */
 
 mix.react('resources/assets/js/app.js', 'public/js')
-   .react('resources/assets/js/ui.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+  .react('resources/assets/js/ui.js', 'public/js')
+  .sass('resources/assets/sass/app.scss', 'public/css');
+  .js('resources/assets/js/office.js', 'public/js')
+  .sass('resources/assets/sass/office.scss', 'public/css')
+  .copy('semantic/dist', 'public/semantic', false)
+  .copy('resources/assets/map_path/*', 'storage/app/public/map_path', false)
+;
