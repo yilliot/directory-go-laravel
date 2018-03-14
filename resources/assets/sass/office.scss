@@ -1,0 +1,19 @@
+// semantic ui
+$go-red: #db4437;
+
+.bg-red {
+  background-color: $go-red !important;
+  color: #FFF;
+}
+
+.no-corner {
+  border-radius: 0 !important;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+// @import './../../../semantic/dist/semantic.min.css';
