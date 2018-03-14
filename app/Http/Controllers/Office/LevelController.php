@@ -9,8 +9,8 @@ class LevelController extends Controller
 {
     function index(Request $request)
     {
-
-        return view('office.level.index');
+        $levels = \App\Models\Level::all();
+        return view('office.level.index', compact('levels'));
     }
     function getList(Request $request)
     {

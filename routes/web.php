@@ -7,7 +7,7 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     });
     Route::group(['prefix' => 'level'], function(){
         Route::get('/', 'LevelController@index');
-        Route::get('/list', 'LevelController@getList');
+        Route::get('/list/{block_id?}', 'LevelController@getList');
         Route::post('/create', 'LevelController@postCreate');
         Route::post('/edit', 'LevelController@postEdit');
         Route::post('/delete', 'LevelController@postDelete');

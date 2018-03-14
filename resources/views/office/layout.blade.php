@@ -5,9 +5,13 @@
   <title> {{$title or ''}} | Majulah Interactive CMS</title>
 </head>
 <body>
-  <div class="ui bg-red no-corner mb-0 menu">
-    <h1>Interactive CMS</h1>
+  <div class="ui bg-red no-corner mb-0 pl-5 inverted menu">
+    <h1 class="pt-3">Interactive CMS</h1>
     <div class="right menu">
+      <div class="item">
+        <i class="upload icon"></i>
+        Publish to kiosk
+      </div>
       <div class="ui simple dropdown item">
         <i class="circular white inverted user icon"></i>
         {{ Auth::user() }}
@@ -37,8 +41,8 @@
     @section('content')
     @show
   </div>
-  <script src="/js/office.js"></script>
   <link rel="stylesheet" href="/semantic/semantic.min.css">
   <link rel="stylesheet" href="/css/office.css">
+  <script src="/js/office.js"></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ class Setup extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('colour');
+            $table->integer('order')->unsigned();
             $table->timestamps();
         });
 
@@ -25,8 +26,8 @@ class Setup extends Migration
             $table->integer('block_id')->unsigned()->index();
             $table->integer('level_order')->unsigned()->index();
             $table->string('name');
-            $table->string('colour');
-            $table->string('map_path');
+            $table->string('map_path')->nullable();
+            $table->boolean('is_activated')->default(true);
             $table->timestamps();
         });
 
@@ -57,6 +58,7 @@ class Setup extends Migration
         Schema::create('categories', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
+            $table->integer('order')->unsigned();
             $table->timestamps();
         });
 
@@ -69,6 +71,7 @@ class Setup extends Migration
         Schema::create('zone_categories', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
+            $table->integer('order')->unsigned();
             $table->timestamps();
         });
     }
