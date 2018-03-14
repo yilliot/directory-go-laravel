@@ -37,3 +37,5 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
         Route::post('/delete', 'AreaController@postDelete');
     });
 });
+
+Route::get('/', 'UiController@get');

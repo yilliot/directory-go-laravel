@@ -1,4 +1,6 @@
 {
-    "/js/office.js": "/js/office.js",
-    "/css/office.css": "/css/office.css"
+    "/js/ui.js": "/js/ui.js",
+    "/js/app.js": "/js/app.js",
+    "/undefined.js": "/undefined.js",
+    "/css/app.css": "/css/app.css"
 }

@@ -1,0 +1,31 @@
+#floor > .button {
+    /*position: fixed;*/
+    position: absolute;
+    /*background-color: grey;*/
+    height: 940px;
+    width: 76px;
+    top: 40px;
+    right: 267px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#floor > .display {
+    position: absolute;
+    /*position: fixed;*/
+    top: 30px;
+    left: 60px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#floor > .button > .floor {
+    position: relative;
+    height: 60px;
+    color: grey;
+    font-size: 1.5rem;
+}
