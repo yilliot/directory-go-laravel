@@ -31,7 +31,7 @@
   </div>
   <div class="ui inverted no-corner mt-0 menu">
     <div class="ui text container">
-      <a href="/back-office/level" class="active item">Manage Floor Plans</a>
+      <a href="/back-office/level/list/1" class="active item">Manage Floor Plans</a>
       <a href="/back-office/category/list" class="item">Manage Categories</a>
       <a href="/back-office/zone" class="item">Manage Zones</a>
       <a href="/back-office/area" class="item">Manage Areas</a>

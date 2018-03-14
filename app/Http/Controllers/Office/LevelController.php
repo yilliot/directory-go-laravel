@@ -18,12 +18,18 @@ class LevelController extends Controller
         $blocks = \App\Models\Block::all();
         return view('office.level.list', compact('block', 'blocks'));
     }
-    function getEdit()
+    function getEdit(Request $request)
     {
-        return view('office.level.edit');
+        $level = \App\Models\Level::find($request->id);
+
+        return view('office.level.edit', compact('level'));
     }
     function postEdit(Request $request)
     {
+        $level = \App\Models\Level::find($request->id);
+        $level->name = $request->name;
+        $level->map_path = $request->file('map_path')->store('map_path', 'public');
+        $level->save();
 
         return back()->with('success', 'Success');
     }

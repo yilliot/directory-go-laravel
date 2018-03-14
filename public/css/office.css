@@ -20,6 +20,10 @@
   clear: both;
 }
 
+.hide {
+  display: none;
+}
+
 .no-corner {
   border-radius: 0 !important;
 }

@@ -26,6 +26,7 @@
       @endforeach
     </table>
     <button class="ui red button pulled right">Save</button>
+    <a href="/back-office/level/list/{{$block->id}}" class="ui basic button pulled right">Cancel</a>
     <div class="clear"></div>
   </form>
 </div>
