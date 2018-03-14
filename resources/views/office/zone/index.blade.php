@@ -1,6 +1,6 @@
 @extends('office.layout')
 @php
-  $title = 'Area'
+  $title = 'Zone'
 @endphp
 @section('content')
 

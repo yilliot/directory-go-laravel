@@ -27,9 +27,4 @@ class CategoryController extends Controller
 
         return back()->with('success', 'Success');
     }
-    function postEdit(Request $request)
-    {
-
-        return back()->with('success', 'Success');
-    }
 }
