@@ -14,8 +14,9 @@ class LevelController extends Controller
     }
     function getList(Request $request)
     {
-
-        return view('office.level.list');
+        $block = \App\Models\Block::find($request->block_id);
+        $blocks = \App\Models\Block::all();
+        return view('office.level.list', compact('block', 'blocks'));
     }
     function postCreate(Request $request)
     {

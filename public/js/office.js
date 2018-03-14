@@ -81,6 +81,14 @@ __webpack_require__(3);
 
 // import './../../../semantic/dist/semantic.css';
 
+$(function () {
+  init_semantic();
+});
+
+function init_semantic() {
+  $('.ui.dropdown').dropdown();
+}
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
