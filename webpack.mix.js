@@ -11,7 +11,5 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/office.js', 'public/js')
-  .sass('resources/assets/sass/office.scss', 'public/css')
-  .copy('semantic/dist', 'public/semantic', false)
-;
+mix.react('resources/assets/js/app.js', 'public/js')
+   .sass('resources/assets/sass/app.scss', 'public/css');
