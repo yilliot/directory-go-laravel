@@ -28,7 +28,7 @@ export default class Floor extends Component {
                     key={i}
                     activateFloor={this.props.activateFloor.bind(this, value)}
                     isActive={this.isActive}
-                    color={block.color}
+                    color={block.colour}
                 />);
         });
 
@@ -38,7 +38,7 @@ export default class Floor extends Component {
                     {floor_button}
                 </div>
                 <FloorDisplay name={this.props.active_floor.name}/>
-                <Category color={this.props.block.color}/>
+                <Category color={this.props.block.colour}/>
             </div>
         );
     }

@@ -60,7 +60,7 @@ function BlockButton(props) {
         <button 
             className={props.isActive(props.block.name)} 
             onClick={props.activateBlock.bind(this, props.block)} 
-            style={{"backgroundColor": props.block.color}}
+            style={{"backgroundColor": props.block.colour}}
         >
             {props.block.name}
         </button>
@@ -69,7 +69,7 @@ function BlockButton(props) {
 
 function BlockDisplay(props) {
     return (
-        <div className="display" style={{"backgroundColor": props.block.color}}>
+        <div className="display" style={{"backgroundColor": props.block.colour}}>
             {props.block.name}
         </div>
     );

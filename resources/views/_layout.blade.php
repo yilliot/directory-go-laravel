@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Kiosk</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('script')
 </head>
