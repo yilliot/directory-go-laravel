@@ -1,5 +1,7 @@
 <?php
 
+Route::get('/{id?}', 'KioskController@index');
+
 Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     Route::group(['prefix' => 'block'], function(){
         Route::get('/edit/{id}', 'BlockController@getEdit');
