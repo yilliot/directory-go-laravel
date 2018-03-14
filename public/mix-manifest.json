@@ -1,7 +1,9 @@
 {
+    "/js/ui.js": "/js/ui.js",
+    "/js/app.js": "/js/app.js",
     "/js/office.js": "/js/office.js",
+    "/css/app.css": "/css/app.css",
     "/css/office.css": "/css/office.css",
-    "/js/drawing_tool.js": "/js/drawing_tool.js",
     "/storage/app/public/map_path/_0000_80 L9.jpg": "/storage/app/public/map_path/_0000_80 L9.jpg",
     "/storage/app/public/map_path/_0001_80 L8.jpg": "/storage/app/public/map_path/_0001_80 L8.jpg",
     "/storage/app/public/map_path/_0002_80 L7.jpg": "/storage/app/public/map_path/_0002_80 L7.jpg",

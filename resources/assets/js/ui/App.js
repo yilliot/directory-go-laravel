@@ -8,7 +8,8 @@ import './App.css';
 import Block from './Block';
 import Index from './Index';
 
-import { block_data } from './block_data';
+// import { block_data } from './block_data';
+let block_data = blocks;
 
 export default class App extends Component {
 
