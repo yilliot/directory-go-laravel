@@ -22,8 +22,20 @@
       <tr>
         <td>{{$loop->index+1}}</td>
         <td>{{$category->name}}</td>
-        <td>0</td>
+        <td>{{$category->counter}}</td>
         <td class="right aligned">
+          <form action="/back-office/category/order/{{$category->id}}" class="d-inline" method="POST">
+            @csrf
+            <input type="hidden" class="order-direction" name="direction" value="up">
+            <div class="ui icon mini buttons">
+              <button class="ui order-up button">
+                <i class="caret up icon"></i>
+              </button>
+              <button class="ui order-down button">
+                <i class="caret down icon"></i>
+              </button>
+            </div>
+          </form>
           <button 
             class="ui red button edit_category modalcaller"
             data-category_edit_id="{{$category->id}}"
@@ -99,6 +111,13 @@
     });
     $('#edit_category_button').click(function(){
       $('#category_edit_action').val('edit');
+    });
+
+    $('.order-down.button').click(function(){
+      $(this).closest('form').find('.order-direction').val('down');
+    });
+    $('.order-up.button').click(function(){
+      $(this).closest('form').find('.order-direction').val('up');
     });
 
   });

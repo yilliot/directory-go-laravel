@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     function getList(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('order', 'asc')->get();
 
         return view('office.category.list', compact('categories'));
     }
@@ -40,8 +40,25 @@ class CategoryController extends Controller
 
         return back()->with('success', 'Success');
     }
-    function postDelete(Request $request)
+    function postOrder(Request $request)
     {
+        $category = Category::find($request->id);
+        $max = Category::max('order');
+
+        if ($request->direction == 'up' && $category->order > 1) {
+            $category->order -= 1;
+            $categoryPrev = Category::where('order', $category->order)->first();
+            $categoryPrev->order += 1;
+            $categoryPrev->save();
+            $category->save();
+        }
+        if ($request->direction == 'down' && $category->order < $max) {
+            $category->order += 1;
+            $categoryPrev = Category::where('order', $category->order)->first();
+            $categoryPrev->order -= 1;
+            $categoryPrev->save();
+            $category->save();
+        }
 
         return back()->with('success', 'Success');
     }

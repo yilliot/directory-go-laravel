@@ -16,6 +16,7 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
         Route::post('/create', 'CategoryController@postCreate');
         Route::post('/edit', 'CategoryController@postEdit');
         Route::post('/delete', 'CategoryController@postDelete');
+        Route::post('/order/{id}', 'CategoryController@postOrder');
     });
     Route::group(['prefix' => 'zone'], function(){
         Route::get('/', 'ZoneController@index');

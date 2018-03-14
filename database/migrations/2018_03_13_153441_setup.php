@@ -59,6 +59,7 @@ class Setup extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('order')->unsigned();
+            $table->integer('counter')->unsigned()->default(0);
             $table->timestamps();
         });
 

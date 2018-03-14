@@ -24,6 +24,10 @@
   display: none;
 }
 
+.d-inline {
+  display: inline;
+}
+
 .no-corner {
   border-radius: 0 !important;
 }
