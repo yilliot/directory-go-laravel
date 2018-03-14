@@ -18,17 +18,11 @@ class LevelController extends Controller
         $blocks = \App\Models\Block::all();
         return view('office.level.list', compact('block', 'blocks'));
     }
-    function postCreate(Request $request)
+    function getEdit()
     {
-
-        return back()->with('success', 'Success');
+        return view('office.level.edit');
     }
     function postEdit(Request $request)
-    {
-
-        return back()->with('success', 'Success');
-    }
-    function postDelete(Request $request)
     {
 
         return back()->with('success', 'Success');

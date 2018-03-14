@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level extends Model
 {
+    // scope
+    function scopeIsActivated()
+    {
+        return $this->where('is_activated', true);
+    }
     // relationship
     function areas()
     {

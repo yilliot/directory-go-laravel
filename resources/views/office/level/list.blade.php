@@ -3,24 +3,21 @@
   $title = 'Levels list'
 @endphp
 @section('content')
-<div class="ui segment bg-grey text container pl-5">
+<div class="ui segment bg-grey text container px-5">
   <h2>Manage Floor Plan of Block {{$block->name}}</h2>
   <div class="ui form">
     <div class="two fields">
       <div class="two fields">
         <div class="field">
-          <select name="block" id="block" class="ui fluid dropdown">
+          <select name="block" id="select-block" class="ui fluid dropdown">
             @foreach ($blocks as $blockLoop)
-              <option value="{{$blockLoop->id}}">Block {{$blockLoop->name}}</option>
+              <option {{$blockLoop->id == $block->id ? 'selected' : ''}} value="{{$blockLoop->id}}">Block {{$blockLoop->name}}</option>
             @endforeach
           </select>
         </div>
         <div class="field">
-          <button class="ui red button">Edit Block</button>
+          <a href="/back-office/block/edit/{{$block->id}}" class="ui red button">Edit Block</a>
         </div>
-      </div>
-      <div class="right aligned field">
-        <a href="/back-office/level/create" class="ui red button">New floor</a>
       </div>
     </div>
   </div> {{-- ui form --}}
@@ -34,7 +31,7 @@
         <th class="right aligned">Action</th>
       </tr>
     </thead>
-    @foreach ($block->levels as $level)
+    @foreach ($block->levels->where('is_activated', true) as $level)
     <tr>
       <td>{{$loop->index+1}}</td>
       <td>{{$level->level_order}}</td>
@@ -44,4 +41,12 @@
     @endforeach
   </table>
 </div>
+@endsection
+
+@section('script')
+<script>
+  $('#select-block').change(function(){
+    location.href = '/back-office/level/list/' + $(this).val();
+  });
+</script>
 @endsection

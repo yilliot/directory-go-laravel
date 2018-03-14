@@ -44,5 +44,6 @@
   <link rel="stylesheet" href="/semantic/semantic.min.css">
   <link rel="stylesheet" href="/css/office.css">
   <script src="/js/office.js"></script>
+  @yield('script')
 </body>
 </html>

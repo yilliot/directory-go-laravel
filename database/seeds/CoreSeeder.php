@@ -79,6 +79,62 @@ class CoreSeeder extends Seeder
             'map_path' => 'images/levels/_0009_60 L6.jpg',
             'is_activated' => true,
         ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 7,
+            'name' => 'L7',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 8,
+            'name' => 'L8',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 9,
+            'name' => 'L9',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 10,
+            'name' => 'L10',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 11,
+            'name' => 'L11',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 12,
+            'name' => 'L12',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 13,
+            'name' => 'L13',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '1',
+            'level_order' => 14,
+            'name' => 'L14',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
 
         DB::table('levels')->insert([
             'block_id' => '2',
@@ -122,7 +178,77 @@ class CoreSeeder extends Seeder
             'map_path' => 'images/levels/_0003_70 L8.jpg',
             'is_activated' => true,
         ]);
+        DB::table('levels')->insert([
+            'block_id' => '2',
+            'level_order' => 9,
+            'name' => 'L9',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '2',
+            'level_order' => 10,
+            'name' => 'L10',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '2',
+            'level_order' => 11,
+            'name' => 'L11',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '2',
+            'level_order' => 12,
+            'name' => 'L12',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '2',
+            'level_order' => 13,
+            'name' => 'L13',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '2',
+            'level_order' => 14,
+            'name' => 'L14',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
 
+        DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 3,
+            'name' => 'L3',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+         DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 4,
+            'name' => 'L4',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+         DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 5,
+            'name' => 'L5',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+         DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 6,
+            'name' => 'L6',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
         DB::table('levels')->insert([
             'block_id' => '3',
             'level_order' => 7,
@@ -143,6 +269,42 @@ class CoreSeeder extends Seeder
             'name' => 'L9',
             'map_path' => 'images/levels/_0000_80 L9.jpg',
             'is_activated' => true,
+        ]);
+
+        DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 10,
+            'name' => 'L10',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 11,
+            'name' => 'L11',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 12,
+            'name' => 'L12',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 13,
+            'name' => 'L13',
+            'map_path' => null,
+            'is_activated' => false,
+        ]);
+        DB::table('levels')->insert([
+            'block_id' => '3',
+            'level_order' => 14,
+            'name' => 'L14',
+            'map_path' => null,
+            'is_activated' => false,
         ]);
     }
 

@@ -13,4 +13,8 @@ function init_semantic()
   $('.ui.dropdown')
     .dropdown()
   ;
+
+  $('.ui.checkbox')
+    .checkbox();
+
 }

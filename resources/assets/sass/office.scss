@@ -11,14 +11,13 @@ $go-red: #db4437;
   color: #000;
 }
 
+.pulled.right { float: right;}
 .right.aligned { text-align: right;}
+.clear { clear:both;}
 
-.no-corner {
-  border-radius: 0 !important;
-}
-.mb-0 {
-  margin-bottom: 0 !important;
-}
+.no-corner { border-radius: 0 !important;}
+
+.mb-0 { margin-bottom: 0 !important;}
 .mt-0 { margin-top: 0 !important;}
 .mt-1 { margin-top: 2px !important;}
 .mt-2 { margin-top: 5px !important;}
@@ -39,5 +38,7 @@ $go-red: #db4437;
 .pt-3 { padding-top: 13px !important;}
 .pt-4 { padding-top: 20px !important;}
 .pt-5 { padding-top: 30px !important;}
+
+.px-5 { padding-left: 30px !important; padding-right: 30px !important;}
 
 // @import './../../../semantic/dist/semantic.min.css';
