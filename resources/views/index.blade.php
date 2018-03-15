@@ -6,7 +6,7 @@
 </head>
 <body>
   <script>
-    let blocks = {!!$blocks!!};
+    let blocks = {!!$blocks->toJson()!!};
     console.log(blocks);
     
   </script>
