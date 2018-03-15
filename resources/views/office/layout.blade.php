@@ -5,9 +5,13 @@
   <title> {{$title or ''}} | Majulah Interactive CMS</title>
 </head>
 <body>
-  <div class="ui bg-red no-corner mb-0 menu">
-    <h1>Interactive CMS</h1>
+  <div class="ui bg-red no-corner mb-0 pl-5 inverted menu">
+    <h1 class="pt-3">Interactive CMS</h1>
     <div class="right menu">
+      <div class="item">
+        <i class="upload icon"></i>
+        Publish to kiosk
+      </div>
       <div class="ui simple dropdown item">
         <i class="circular white inverted user icon"></i>
         {{ Auth::user() }}
@@ -27,18 +31,19 @@
   </div>
   <div class="ui inverted no-corner mt-0 menu">
     <div class="ui text container">
-      <a href="/back-office/level" class="active item">Manage Floor Plans</a>
-      <a href="/back-office/category/list" class="item">Manage Categories</a>
-      <a href="/back-office/zone" class="item">Manage Zones</a>
-      <a href="/back-office/area" class="item">Manage Areas</a>
+      <a href="/back-office/level/list/1" class="{{Request::is('back-office/level*')?'active':''}} item">Manage Floor Plans</a>
+      <a href="/back-office/category/list" class="{{Request::is('back-office/category*')?'active':''}} item">Manage Categories</a>
+      <a href="/back-office/zone" class="{{Request::is('back-office/zone*')?'active':''}} item">Manage Zones</a>
+      <a href="/back-office/area" class="{{Request::is('back-office/area*')?'active':''}} item">Manage Areas</a>
     </div>
   </div>
   <div id="content-body">
     @section('content')
     @show
   </div>
-  <script src="/js/office.js"></script>
   <link rel="stylesheet" href="/semantic/semantic.min.css">
   <link rel="stylesheet" href="/css/office.css">
+  <script src="/js/office.js"></script>
+  @yield('script')
 </body>
 </html>

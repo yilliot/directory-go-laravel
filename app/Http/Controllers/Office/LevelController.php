@@ -9,26 +9,27 @@ class LevelController extends Controller
 {
     function index(Request $request)
     {
-
-        return view('office.level.index');
+        $levels = \App\Models\Level::all();
+        return view('office.level.index', compact('levels'));
     }
     function getList(Request $request)
     {
-
-        return view('office.level.list');
+        $block = \App\Models\Block::find($request->block_id);
+        $blocks = \App\Models\Block::all();
+        return view('office.level.list', compact('block', 'blocks'));
     }
-    function postCreate(Request $request)
+    function getEdit(Request $request)
     {
+        $level = \App\Models\Level::find($request->id);
 
-        return back()->with('success', 'Success');
+        return view('office.level.edit', compact('level'));
     }
     function postEdit(Request $request)
     {
-
-        return back()->with('success', 'Success');
-    }
-    function postDelete(Request $request)
-    {
+        $level = \App\Models\Level::find($request->id);
+        $level->name = $request->name;
+        $level->map_path = $request->file('map_path')->store('map_path', 'public');
+        $level->save();
 
         return back()->with('success', 'Success');
     }

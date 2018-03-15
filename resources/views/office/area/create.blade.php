@@ -1,6 +1,6 @@
 @extends('office.layout')
 @php
-  $title = 'Level list'
+  $title = 'Create Area'
 @endphp
 @section('content')
 

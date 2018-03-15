@@ -1,4 +1,20 @@
 {
+    "/js/ui.js": "/js/ui.js",
+    "/js/app.js": "/js/app.js",
     "/js/office.js": "/js/office.js",
-    "/css/office.css": "/css/office.css"
+    "/css/app.css": "/css/app.css",
+    "/css/office.css": "/css/office.css",
+    "/storage/app/public/map_path/_0000_80 L9.jpg": "/storage/app/public/map_path/_0000_80 L9.jpg",
+    "/storage/app/public/map_path/_0001_80 L8.jpg": "/storage/app/public/map_path/_0001_80 L8.jpg",
+    "/storage/app/public/map_path/_0002_80 L7.jpg": "/storage/app/public/map_path/_0002_80 L7.jpg",
+    "/storage/app/public/map_path/_0003_70 L8.jpg": "/storage/app/public/map_path/_0003_70 L8.jpg",
+    "/storage/app/public/map_path/_0004_70 L7.jpg": "/storage/app/public/map_path/_0004_70 L7.jpg",
+    "/storage/app/public/map_path/_0005_70 L6.jpg": "/storage/app/public/map_path/_0005_70 L6.jpg",
+    "/storage/app/public/map_path/_0006_70 L5.jpg": "/storage/app/public/map_path/_0006_70 L5.jpg",
+    "/storage/app/public/map_path/_0007_70 L4.jpg": "/storage/app/public/map_path/_0007_70 L4.jpg",
+    "/storage/app/public/map_path/_0008_70 L3.jpg": "/storage/app/public/map_path/_0008_70 L3.jpg",
+    "/storage/app/public/map_path/_0009_60 L6.jpg": "/storage/app/public/map_path/_0009_60 L6.jpg",
+    "/storage/app/public/map_path/_0010_60 L5.jpg": "/storage/app/public/map_path/_0010_60 L5.jpg",
+    "/storage/app/public/map_path/_0011_60 L4.jpg": "/storage/app/public/map_path/_0011_60 L4.jpg",
+    "/storage/app/public/map_path/_0012_60 L3.jpg": "/storage/app/public/map_path/_0012_60 L3.jpg"
 }
