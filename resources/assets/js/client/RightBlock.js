@@ -69,8 +69,17 @@ function Level(props) {
     ? props.style.style
     : {...props.style.style, backgroundColor: '#666666'};
     
+    let category;
+    let zone_categories = props.level.zone_categories;
+    let area_categories = props.level.area_categories;
+    if(zone_categories) {
+        category = zone_categories[Object.keys(zone_categories)[0]];
+    }else if(area_categories) {
+        category = area_categories[Object.keys(area_categories)[0]];
+    }
+    
     let update = props.level.is_activated
-    ? props.update.bind(this, {level: props.level})
+    ? props.update.bind(this, {level: props.level, category: category})
     : null;
 
     return (
@@ -84,21 +93,47 @@ function Level(props) {
 }
 
 function Categorys(props) {
-    let content;
-    if(props.level.categorys){
-        content = [];
-        props.level.categorys.forEach((value, i) => {
+    let content = [];
+    console.log(props, props.level);
+    let zone_categories = props.level.zone_categories;
+    let area_categories = props.level.area_categories;
+    if(zone_categories) {
+        content.push(
             <Category
-                category={value}
+                category={zone_categories[Object.keys(zone_categories)[0]]}
                 update={props.update}
                 style={props.style.category}
-                active_category={props.category}
-                key={i}
-            />
-        });
-    } else {
-        content = "Category based on level";
+                active_category={props.category}            
+                key="zone"
+            />);
     }
+    if(area_categories) {
+        for(let x in area_categories){
+            content.push(
+                <Category
+                    category={area_categories[x]}
+                    update={props.update}
+                    style={props.style.category}
+                    active_category={props.category}            
+                    key={x}
+                />);
+        }
+    }
+    // let content;
+    // if(props.level.categorys){
+    //     content = [];
+    //     props.level.categorys.forEach((value, i) => {
+    //         <Category
+    //             category={value}
+    //             update={props.update}
+    //             style={props.style.category}
+    //             active_category={props.category}
+    //             key={i}
+    //         />
+    //     });
+    // } else {
+    //     content = "Category based on level";
+    // }
     return (
         <div style={{...props.style.style, backgroundColor: props.block.colour}}>
             {content}
@@ -115,8 +150,11 @@ function IndexCategorys(props) {
 
 function Category(props) {
     return (
-        <div style={props.style.style}>
-
+        <div
+            style={props.style.style}
+            onClick={props.update.bind(this, {category: props.category})}
+        >
+            {props.category.name}
         </div>
     );
 }

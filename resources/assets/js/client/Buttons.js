@@ -17,6 +17,7 @@ export default function Buttons(props) {
                 key={i}
                 style={props.style.button}
                 update={props.update}
+                active_category={props.category}
             />);
     });
     return (
@@ -34,9 +35,21 @@ function BlockButton(props) {
             first = 0;
         }
     });
+    let category = props.active_category;
+    for(let y in props.block.levels) {
+        let zone_categories = props.block.levels[y].is_activated ? props.block.levels[y].zone_categories: null;
+        let area_categories = props.block.levels[y].is_activated ? props.block.levels[y].area_categories: null;
+        if(zone_categories) {
+            category = zone_categories[Object.keys(zone_categories)[0]];
+            break;
+        }else if(area_categories) {
+            category = area_categories[Object.keys(area_categories)[0]];
+            break;
+        }
+    }
 
     let update = props.active_block !== props.block
-    ? props.update.bind(this, {block: props.block, type: 1, level: first_active_level})
+    ? props.update.bind(this, {block: props.block, type: 1, level: first_active_level, category: category})
     : null;
     return (
         <div

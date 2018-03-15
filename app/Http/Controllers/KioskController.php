@@ -64,7 +64,7 @@ class KioskController extends Controller
         $blocks = $blocks->map(function($block) use ($areasByCategories, $zonesByCategories) {
 
             $levels = $block->levels->map(function($level) use ($areasByCategories, $zonesByCategories) {
-                $level = $level->only(['id', 'name', 'map_path', 'level_order']);
+                $level = $level->only(['id', 'name', 'map_path', 'level_order', 'is_activated']);
                 if (isset($areasByCategories[$level['id']])) {
                     $level['area_categories'] = $areasByCategories[$level['id']];
                 }

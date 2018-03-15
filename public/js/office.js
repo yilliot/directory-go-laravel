@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1:
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10437,22 +10437,22 @@ return jQuery;
 
 /***/ }),
 
-/***/ 42:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(43);
-__webpack_require__(45);
-module.exports = __webpack_require__(49);
+__webpack_require__(58);
+__webpack_require__(60);
+module.exports = __webpack_require__(64);
 
 
 /***/ }),
 
-/***/ 43:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
-window.$ = window.jQuery = __webpack_require__(1);
+window.$ = window.jQuery = __webpack_require__(4);
 
-__webpack_require__(44);
+__webpack_require__(59);
 
 // import './../../../semantic/dist/semantic.css';
 
@@ -10494,7 +10494,7 @@ function init_semantic() {
 
 /***/ }),
 
-/***/ 44:
+/***/ 59:
 /***/ (function(module, exports) {
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -20321,14 +20321,14 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 /***/ }),
 
-/***/ 45:
+/***/ 60:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 49:
+/***/ 64:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
