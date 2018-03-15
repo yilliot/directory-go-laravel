@@ -53586,9 +53586,542 @@ module.exports = camelize;
 
 /***/ }),
 /* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
+/* 66 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(68);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	if (style.parentNode === null) return false;
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
 /* 69 */,
 /* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -53599,6 +54132,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_css__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__App_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__App_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__StyleConfiguration__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Buttons__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__RightBlock__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Display__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Heading__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Subheading__ = __webpack_require__(78);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () {
@@ -53632,33 +54173,540 @@ function _inherits(subClass, superClass) {
 
 
 
-var Example = function (_Component) {
-    _inherits(Example, _Component);
 
-    function Example() {
-        _classCallCheck(this, Example);
 
-        return _possibleConstructorReturn(this, (Example.__proto__ || Object.getPrototypeOf(Example)).apply(this, arguments));
+
+
+
+
+
+
+
+
+var App = function (_Component) {
+    _inherits(App, _Component);
+
+    function App(props) {
+        _classCallCheck(this, App);
+
+        // this.myfunction = this.myfunction.bind(this);
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+        _this.update = _this.update.bind(_this);
+        _this.state = {
+            type: 1,
+            block: blocks[0],
+            level: blocks[0].levels[0],
+            category: blocks[0].levels[0], //.category[0],
+            blocks: blocks
+        };
+        return _this;
     }
 
-    _createClass(Example, [{
+    _createClass(App, [{
+        key: 'update',
+        value: function update(data) {
+            this.setState(data);
+        }
+    }, {
         key: 'render',
         value: function render() {
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'container' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'row justify-content-center' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'col-md-8' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'card' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'card-header' }, 'Example Component'), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'card-body' }, 'I\'m an example component!')))));
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'container' }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Buttons__["a" /* default */], {
+                blocks: this.state.blocks,
+                block: this.state.block,
+                style: __WEBPACK_IMPORTED_MODULE_3__StyleConfiguration__["a" /* default */]['buttons'],
+                update: this.update
+            }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__RightBlock__["a" /* default */], {
+                type: this.state.type,
+                block: this.state.block,
+                level: this.state.level,
+                category: this.state.category,
+                style: __WEBPACK_IMPORTED_MODULE_3__StyleConfiguration__["a" /* default */]['rightblock'],
+                update: this.update
+            }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Subheading__["a" /* default */], {
+                text: this.state.category.name,
+                style: __WEBPACK_IMPORTED_MODULE_3__StyleConfiguration__["a" /* default */]['subheading']
+            }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Heading__["a" /* default */], {
+                type: this.state.type,
+                style: __WEBPACK_IMPORTED_MODULE_3__StyleConfiguration__["a" /* default */]['heading'],
+                level: this.state.level,
+                block: this.state.block
+            }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Display__["a" /* default */], {
+                style: __WEBPACK_IMPORTED_MODULE_3__StyleConfiguration__["a" /* default */]['display'],
+                level: this.state.level,
+                category: this.state.categry
+            }));
         }
     }]);
 
-    return Example;
+    return App;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Example);
+/* harmony default export */ __webpack_exports__["default"] = (App);
 
 window.onload = function () {
 
-    if (document.getElementById('example')) {
-        __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Example, null), document.getElementById('example'));
+    if (document.getElementById('root')) {
+        __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(App, null), document.getElementById('root'));
     }
 };
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(72);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(67)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../node_modules/css-loader/index.js!./App.css", function() {
+			var newContent = require("!!../../../../node_modules/css-loader/index.js!./App.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(66)(false);
+// imports
+
+
+// module
+exports.push([module.i, "#container{\n    position: absolute;\n    left: 0px;\n    top: 0px;\n    width: 1920px;\n    height: 1080px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var BUTTONS_BOTTOM_POSITION = '40px';
+var BUTTONS_RIGHT_POSITION = '40px';
+var HEADING_LEFT_POSITION = '40px';
+var HEADING_TOP_POSITION = '40px';
+var BUTTON_WIDTH = '80px';
+var BUTTON_HEIGHT = '60px';
+var BUTTON_MARGIN = '3px';
+var CATEGORY_HEIGHT = '80px';
+var HEADING_LOCATION_WIDTH = '80px';
+var HEADING_INDEX_WIDTH = '110px';
+var HEADING_HEIGHT = '60px';
+var SUBHEADING_LEFT_POSITION = '250px';
+var SUBHEADING_TOP_POSITION = '50px';
+var SUBHEADING_WIDTH = '300px';
+var SUBHEADING_HEIGHT = '100px';
+var NUMBER_OF_BLOCK = 3;
+var DEVICE_WIDTH = '1920px';
+var DEVICE_HEIGHT = '1080px';
+var DISPLAY_LEFT_POSITION = '0px';
+var DISPLAY_TOP_POSITION = '50px';
+
+var Style = {
+    buttons: {
+        style: {
+            position: 'absolute',
+            display: 'flex',
+            bottom: BUTTONS_BOTTOM_POSITION,
+            right: BUTTONS_RIGHT_POSITION,
+            zIndex: '4'
+        },
+        button: {
+            style: {
+                position: 'relative',
+                width: BUTTON_WIDTH,
+                height: BUTTON_HEIGHT,
+                margin: BUTTON_MARGIN
+            }
+        }
+    },
+    rightblock: {
+        style: {
+            position: 'absolute',
+            right: BUTTONS_RIGHT_POSITION,
+            bottom: parseInt(BUTTONS_BOTTOM_POSITION) + parseInt(BUTTON_HEIGHT) + parseInt(BUTTON_MARGIN) * 3 + 'px',
+            width: parseInt(BUTTON_WIDTH) * (NUMBER_OF_BLOCK + 1) + parseInt(BUTTON_MARGIN) * 6 + 'px',
+            height: parseInt(DEVICE_HEIGHT) - parseInt(BUTTONS_BOTTOM_POSITION) * 2 - parseInt(BUTTON_WIDTH) - parseInt(BUTTON_MARGIN) * 4,
+            margin: '0px ' + BUTTON_MARGIN,
+            zIndex: '3'
+        },
+        levels: {
+            style: {
+                width: BUTTON_WIDTH,
+                display: 'flex',
+                flexDirection: 'column-reverse',
+                position: 'absolute',
+                height: '100%',
+                bottom: '0px'
+            },
+            level: {
+                style: {
+                    backgroundColor: '#a3a3a3',
+                    color: '#666666',
+                    width: BUTTON_WIDTH,
+                    height: BUTTON_HEIGHT
+                }
+            }
+        },
+        categorys: {
+            style: {
+                width: parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK + parseInt(BUTTON_MARGIN) * 4 + 'px',
+                position: 'absolute',
+                height: '100%',
+                bottom: '0px',
+                right: '0px'
+            },
+            category: {
+                style: {
+                    width: parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK + 'px',
+                    height: CATEGORY_HEIGHT
+                }
+            }
+        },
+        indexs: {
+            style: {
+                width: parseInt(BUTTON_WIDTH) * (NUMBER_OF_BLOCK + 1) + parseInt(BUTTON_MARGIN) * 6 + 'px',
+                position: 'absolute',
+                height: '100%',
+                bottom: '0px',
+                right: '0px',
+                backgroundColor: '#666666'
+            },
+            category: {
+                style: {
+                    width: parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK + 'px',
+                    height: CATEGORY_HEIGHT
+                }
+            }
+        }
+    },
+    heading: {
+        style: {
+            zIndex: 3,
+            position: 'absolute',
+            left: HEADING_LEFT_POSITION,
+            top: HEADING_TOP_POSITION
+        },
+        block: {
+            style: {
+                width: HEADING_LOCATION_WIDTH,
+                height: HEADING_HEIGHT
+            }
+        },
+        level: {
+            style: {
+                width: HEADING_LOCATION_WIDTH,
+                height: HEADING_HEIGHT
+            }
+        },
+        index: {
+            style: {
+                width: HEADING_INDEX_WIDTH,
+                height: HEADING_HEIGHT,
+                backgroundColor: '#666666'
+            }
+        }
+    },
+    subheading: {
+        style: {
+            zIndex: 3,
+            position: 'absolute',
+            left: SUBHEADING_LEFT_POSITION,
+            top: SUBHEADING_TOP_POSITION,
+            width: SUBHEADING_WIDTH,
+            height: SUBHEADING_HEIGHT
+        }
+    },
+    display: {
+        style: {
+            width: parseInt(DEVICE_WIDTH) - parseInt(BUTTONS_RIGHT_POSITION) - parseInt(BUTTON_MARGIN * 8) - parseInt(BUTTON_WIDTH * 4) - parseInt(DISPLAY_LEFT_POSITION) + 'px',
+            zIndex: 0,
+            position: 'absolute',
+            left: DISPLAY_LEFT_POSITION,
+            top: DISPLAY_TOP_POSITION
+        }
+    }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Style);
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = Buttons;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+
+
+
+function Buttons(props) {
+    var buttons = [];
+    buttons.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(IndexButton, {
+        key: 'index',
+        style: props.style.button,
+        update: props.update
+    }));
+    props.blocks.forEach(function (value, i) {
+        buttons.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(BlockButton, {
+            block: value,
+            active_block: props.block,
+            key: i,
+            style: props.style.button,
+            update: props.update
+        }));
+    });
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, buttons);
+}
+
+function BlockButton(props) {
+    var first_active_level = void 0,
+        first = 1;
+    props.block.levels.forEach(function (value) {
+        if (value.is_activated && first) {
+            first_active_level = value;
+            first = 0;
+        }
+    });
+
+    var update = props.active_block !== props.block ? props.update.bind(this, { block: props.block, type: 1, level: first_active_level }) : null;
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
+        style: _extends({ backgroundColor: props.block.colour }, props.style.style),
+        onClick: update
+    }, props.block.name);
+}
+
+function IndexButton(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
+        style: _extends({ backgroundColor: '#666666' }, props.style.style),
+        onClick: props.update.bind(this, { type: 0, block: null })
+    }, 'Index');
+}
+
+/***/ }),
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = RightBlock;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+
+
+
+function RightBlock(props) {
+    var content = void 0;
+    if (props.type) {
+        content = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Levels, {
+            block: props.block,
+            active_level: props.level,
+            style: props.style.levels,
+            update: props.update
+        }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Categorys, {
+            block: props.block,
+            level: props.level,
+            style: props.style.categorys,
+            update: props.update,
+            active_category: props.category
+        }));
+    } else {
+        content = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', null, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(IndexCategorys
+        // categorys={props.categorys}
+        , { style: props.style.indexs,
+            update: props.update,
+            active_category: props.category
+        }));
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, content);
+}
+
+function Levels(props) {
+    var levels = [];
+    props.block.levels.forEach(function (value, i) {
+        levels.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Level, {
+            level: value,
+            active_color: props.block.colour,
+            active_level: props.active_level,
+            style: props.style.level,
+            update: props.update,
+            key: i
+        }));
+    });
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, levels);
+}
+
+function Level(props) {
+    var color = void 0;
+    color = props.active_level === props.level ? _extends({}, props.style.style, { backgroundColor: props.active_color, color: '#a3a3a3' }) : props.style.style;
+
+    var update = props.level.is_activated ? props.update.bind(this, { level: props.level }) : null;
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', {
+        style: color,
+        onClick: update
+    }, props.level.name);
+}
+
+function Categorys(props) {
+    var content = void 0;
+    if (props.level.categorys) {
+        content = [];
+        props.level.categorys.forEach(function (value, i) {
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Category, {
+                category: value,
+                update: props.update,
+                style: props.style.category,
+                active_category: props.category,
+                key: i
+            });
+        });
+    } else {
+        content = "Category based on level";
+    }
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: _extends({}, props.style.style, { backgroundColor: props.block.colour }) }, content);
+}
+
+function IndexCategorys(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style });
+}
+
+function Category(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style });
+}
+
+/***/ }),
+/* 76 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = Display;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+
+
+
+function Display(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Map, {
+        src: props.level.map_path
+    }));
+}
+
+function Map(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { style: { width: '90%' }, src: '/storage/' + props.src });
+}
+
+function Overlays(props) {}
+
+/***/ }),
+/* 77 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = Heading;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+            }
+        }
+    }return target;
+};
+
+
+
+
+function Heading(props) {
+    var content = props.type ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: { display: 'flex' } }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(HeaderBlock, {
+        style: props.style.block,
+        text: props.block.name,
+        color: props.block.colour
+    }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(HeaderBlock, {
+        style: props.style.level,
+        text: props.level.name
+    })) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(HeaderBlock, {
+        style: props.style.index,
+        text: 'Index'
+    });
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, content);
+}
+
+function HeaderBlock(props) {
+    if (props.color) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: _extends({}, props.style.style, { backgroundColor: props.color }) }, props.text);
+    } else {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, props.text);
+    }
+}
+
+/***/ }),
+/* 78 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = Subheading;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+
+
+
+function Subheading(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: props.style.style }, props.text);
+}
 
 /***/ })
 /******/ ]);
