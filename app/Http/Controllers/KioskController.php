@@ -87,4 +87,8 @@ class KioskController extends Controller
     {
         return view('part.drawing');
     }
+
+    public function drawing() {
+        return view('drawing');
+    }
 }

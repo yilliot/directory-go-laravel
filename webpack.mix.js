@@ -13,6 +13,7 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/office.js', 'public/js')
   .js('resources/assets/js/drawing_tool.js', 'public/js')
+  .react('resources/assets/js/drawing.js', 'public/js')
   .sass('resources/assets/sass/office.scss', 'public/css')
   .copy('semantic/dist', 'public/semantic', false)
   .copy('resources/assets/map_path/*', 'storage/app/public/map_path', false)
