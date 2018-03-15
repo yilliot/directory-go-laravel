@@ -17,11 +17,25 @@ export default class App extends Component {
         super(props);
         // this.myfunction = this.myfunction.bind(this);
         this.update = this.update.bind(this);
+        let category;
+        for(let x in blocks) {
+            for(let y in blocks[x].levels) {
+                let zone_categories = blocks[x].levels[y].zone_categories;
+                let area_categories = blocks[x].levels[y].area_categories;
+                if(zone_categories) {
+                    category = zone_categories[Object.keys(zone_categories)[0]];
+                    break;
+                }else if(area_categories) {
+                    category = area_categories[Object.keys(area_categories)[0]];
+                    break;
+                }
+            }
+        }
         this.state = {
             type: 1,
             block: blocks[0],
             level: blocks[0].levels[0],
-            category: blocks[0].levels[0],//.category[0],
+            category: blocks[0].levels[0].zone_categories[1],
             blocks: blocks
         };
     }
@@ -40,6 +54,7 @@ export default class App extends Component {
                 <Buttons 
                     blocks={this.state.blocks}
                     block={this.state.block}
+                    category={this.state.category}
                     style={Style['buttons']}
                     update={this.update}
                 />
