@@ -19,11 +19,11 @@ class KioskController extends Controller
             ->map(function($items, $levelId){
                 return $items->groupBy('category_id')
                     ->map(function($items, $id){
-                        return collect([
+                        return [
                             'id' => $id,
                             'name' => $items->first()->category_name,
                             'areas' => $items,
-                        ]);
+                        ];
                     });
             });
 
@@ -35,22 +35,31 @@ class KioskController extends Controller
             ->map(function($items, $levelId){
                 return $items->groupBy('zone_category_id')
                     ->map(function($items, $id){
-                        return collect([
+                        return [
                             'id' => $id,
                             'name' => $items->first()->category_name,
                             'zones' => $items,
-                        ]);
+                        ];
                     });
             });
 
         $blocks = $blocks->map(function($block) use ($areasByCategories, $zonesByCategories) {
 
-            return $block->levels->map(function($level) use ($areasByCategories, $zonesByCategories) {
+            $levels = $block->levels->map(function($level) use ($areasByCategories, $zonesByCategories) {
                 $level = $level->toArray();
-                $level['area_categories'] = $areasByCategories->get($level['id']);
-                $level['zone_categories'] = $zonesByCategories->get($level['id']);
+                if ($areasByCategories->get($level['id'])) {
+                    $level['area_categories'] = $areasByCategories->get($level['id'])->toArray();
+                }
+                if ($zonesByCategories->get($level['id'])) {
+                    $level['zone_categories'] = $zonesByCategories->get($level['id'])->toArray();
+                }
                 return $level;
             });
+
+            $block = $block->toArray();
+            $block['levels'] = $levels->toArray();
+
+            return $block;
         });
 
         return view('index', compact('blocks'));
