@@ -65,7 +65,9 @@ function Level(props) {
     let color;
     color = props.active_level === props.level 
     ? {...props.style.style, backgroundColor: props.active_color, color: '#a3a3a3'}
-    : props.style.style;
+    : props.level.is_activated
+    ? props.style.style
+    : {...props.style.style, backgroundColor: '#666666'};
     
     let update = props.level.is_activated
     ? props.update.bind(this, {level: props.level})
