@@ -64,4 +64,8 @@ class KioskController extends Controller
 
         return view('index', compact('blocks'));
     }
+
+    public function drawing() {
+        return view('drawing');
+    }
 }
