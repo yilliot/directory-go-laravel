@@ -11,9 +11,12 @@ class AreaController extends Controller
     {
         return view('office.area.index');
     }
-    function getList()
+    function getList(Request $request)
     {
-        return view('office.area.list');
+        $level = \App\Models\Level::with('areas')
+            ->find($request->level_id);
+
+        return view('office.area.list', compact('level'));
     }
     function getCreate()
     {

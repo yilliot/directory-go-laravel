@@ -11,9 +11,12 @@ class ZoneController extends Controller
     {
         return view('office.zone.index');
     }
-    function getList()
+    function getList(Request $request)
     {
-        return view('office.zone.list');
+        $level = \App\Models\Level::with('zones')
+            ->find($request->level_id);
+
+        return view('office.zone.list', compact('level'));
     }
     function getCreate()
     {

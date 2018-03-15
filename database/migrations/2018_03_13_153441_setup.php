@@ -50,6 +50,7 @@ class Setup extends Migration
             $table->integer('block_id')->unsigned()->index();
             $table->integer('level_id')->unsigned()->index();
             $table->string('name');
+            $table->string('name_display');
             $table->string('text_size');
             $table->text('area_json');
             $table->timestamps();
