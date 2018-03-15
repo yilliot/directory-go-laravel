@@ -10,5 +10,7 @@
     console.log(blocks);
     
   </script>
+  <script src="./js/app.js"></script>
+  <div id="root"></div>
 </body>
 </html>
