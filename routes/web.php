@@ -23,7 +23,7 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     Route::group(['prefix' => 'zone'], function(){
         Route::get('/', 'ZoneController@index');
         Route::get('/list/{level_id}', 'ZoneController@getList');
-        Route::get('/create', 'ZoneController@getCreate');
+        Route::get('/create/{level_id}', 'ZoneController@getCreate');
         Route::get('/edit/{id}', 'ZoneController@getEdit');
         Route::post('/create', 'ZoneController@postCreate');
         Route::post('/edit', 'ZoneController@postEdit');

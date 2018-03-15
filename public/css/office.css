@@ -1,3 +1,45 @@
+.colour-box {
+  width: 60px;
+  height: 25px;
+  border: 1px solid #CCC;
+}
+
+.colour-box.active {
+  width: 60px;
+  height: 25px;
+  border: 2px solid #000;
+}
+
+.bg-zone-grey {
+  background-color: #d6d7d9 !important;
+  color: #FFF;
+}
+
+.bg-zone-tiffany {
+  background-color: #91cdc6 !important;
+  color: #FFF;
+}
+
+.bg-zone-red {
+  background-color: #d4441f !important;
+  color: #FFF;
+}
+
+.bg-zone-blue {
+  background-color: #3f78be !important;
+  color: #FFF;
+}
+
+.bg-zone-yellow {
+  background-color: #ffc727 !important;
+  color: #000;
+}
+
+.bg-zone-green {
+  background-color: #01937c !important;
+  color: #FFF;
+}
+
 .bg-red {
   background-color: #db4437 !important;
   color: #FFF;
