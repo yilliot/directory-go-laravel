@@ -312,38 +312,60 @@ class CoreSeeder extends Seeder
     private function runCategory()
     {
         DB::table('categories')->truncate();
-        DB::table('categories')->insert([
-            'name' => 'Meeting Rooms',
-            'order' => 1,
-        ]);
-        DB::table('categories')->insert([
-            'name' => 'Phone Rooms',
-            'order' => 2,
-        ]);
-        DB::table('categories')->insert([
-            'name' => 'Training spaces',
-            'order' => 3,
-        ]);
-        DB::table('categories')->insert([
-            'name' => 'Inovation spaces',
-            'order' => 4,
-        ]);
+
+        $order = 1;
+        $list = [
+            'Kampongs & Micro Kitchens',
+            'Meeting Rooms',
+            'Phone Rooms',
+            'Training Spaces',
+            'Innovation Spaces',
+            'Utilities & Lockers',
+            'Quiet Spaces',
+            'Wellness Centre',
+            'Music Room',
+            'Youtube Studio',
+            'Music Room & Youtube Studio',
+            'Makerspace',
+            'Reflection Corner',
+            'First Aid',
+            'Mother\'s Room',
+            'Music Nook',
+            'Energy Lab',
+            'Shiok!',
+            'Games Area',
+            'Tech Stop',
+            'Trattoria',
+            'Reception',
+            'Facilities Index',
+        ];
+
+        foreach ($list as $categoryName) {
+
+            DB::table('categories')->insert([
+                'name' => $categoryName,
+                'order' => $order++,
+            ]);
+        }
     }
 
     private function runZoneCategory()
     {
         DB::table('zone_categories')->truncate();
-        DB::table('zone_categories')->insert([
-            'name' => 'Kampong',
-            'order' => 1,
-        ]);
-        DB::table('zone_categories')->insert([
-            'name' => 'Micro Kitchen',
-            'order' => 2,
-        ]);
-        DB::table('zone_categories')->insert([
-            'name' => 'Building Core',
-            'order' => 3,
-        ]);
+
+        $order = 1;
+        $list = [
+            'Kampong',
+            'Micro Kitchen',
+            'Building Core',
+        ];
+
+        foreach ($list as $categoryName) {
+
+            DB::table('zone_categories')->insert([
+                'name' => $categoryName,
+                'order' => $order++,
+            ]);
+        }
     }
 }

@@ -33,8 +33,8 @@
     <div class="ui text container">
       <a href="/back-office/level/list/1" class="{{Request::is('back-office/level*')?'active':''}} item">Manage Floor Plans</a>
       <a href="/back-office/category/list" class="{{Request::is('back-office/category*')?'active':''}} item">Manage Categories</a>
-      <a href="/back-office/zone" class="{{Request::is('back-office/zone*')?'active':''}} item">Manage Zones</a>
-      <a href="/back-office/area" class="{{Request::is('back-office/area*')?'active':''}} item">Manage Areas</a>
+      <a href="/back-office/zone/list/1" class="{{Request::is('back-office/zone*')?'active':''}} item">Manage Zones</a>
+      <a href="/back-office/area/list/1" class="{{Request::is('back-office/area*')?'active':''}} item">Manage Areas</a>
     </div>
   </div>
   <div id="content-body">

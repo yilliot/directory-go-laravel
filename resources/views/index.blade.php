@@ -7,8 +7,9 @@
 </head>
 <body>
   <script>
-    let blocks = {!!$blocks!!};
-    // console.log(blocks);
+    let blocks = {!!$blocks->toJson()!!};
+    console.log(blocks);
+    
   </script>
   <script src="./js/app.js"></script>
   <div id="root"></div>
