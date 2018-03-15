@@ -30,6 +30,10 @@ export default class App extends Component {
         this.setState(data);
     }
 
+    activate(block, level, category) {
+        this.setState({block: block, level:level, category: category});
+    }
+
     render() {
         return (
             <div id="container">
