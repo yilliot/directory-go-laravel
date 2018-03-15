@@ -21,6 +21,10 @@ export default class Example extends Component {
     }
 }
 
-if (document.getElementById('example')) {
-    ReactDOM.render(<Example />, document.getElementById('example'));
+window.onload = function() {
+
+    if (document.getElementById('example')) {
+        ReactDOM.render(<Example />, document.getElementById('example'));
+    }
+
 }
