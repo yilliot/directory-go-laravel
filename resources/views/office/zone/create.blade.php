@@ -4,8 +4,9 @@
 @endphp
 @section('content')
 <div class="ui container">
+  <h2 class="ui header">Add Zone</h2>
   <div class="ui grid">
-    <div class="four wide column">
+    <div class="five wide column">
       <div class="ui bg-grey segment">
         <form action="/back-office/zone/create" class="ui form" method="POST">
           @csrf
@@ -27,47 +28,39 @@
             </select>
           </div>
           <div class="field">
-            <label>Zone Colour</label>
-            <div class="three fields">
-              <div class="field">
-                <label class="colour-box bg-zone-green">
-                  <input type="radio" class="hide" name="bg_colour" checked="checked" value="#d6d7d9">
-                </label>
-              </div>
-              <div class="field">
-                <label class="colour-box bg-zone-yellow">
-                  <input type="radio" class="hide" name="bg_colour" value="#91cdc6">
-                </label>
-              </div>
-              <div class="field">
-                <label class="colour-box bg-zone-blue">
-                  <input type="radio" class="hide" name="bg_colour" value="#d4441f">
-                </label>
-              </div> {{-- field --}}
-            </div> {{-- three fields --}}
-            <div class="three fields">
-              <div class="field">
-                <label class="colour-box bg-zone-red">
-                  <input type="radio" class="hide" name="bg_colour" value="#3f78be">
-                </label>
-              </div>
-              <div class="field">
-                <label class="colour-box bg-zone-tiffany">
-                  <input type="radio" class="hide" name="bg_colour" value="#ffc727">
-                </label>
-              </div>
-              <div class="field">
-                <label class="colour-box bg-zone-grey">
-                  <input type="radio" class="hide" name="bg_colour" value="#01937c">
-                </label>
-              </div> {{-- field --}}
-            </div> {{-- three fields --}}
-          </div> {{-- field --}}
+          <label>Zone Colour</label>
+          <div class='flex-space-around'>
+            <label class="colour-box bg-zone-green active">
+              <input type="radio" class="hide" name="bg_colour" checked="checked" value="#d6d7d9">
+            </label>
+            <label class="colour-box bg-zone-yellow">
+              <input type="radio" class="hide" name="bg_colour" value="#91cdc6">
+            </label>
+            <label class="colour-box bg-zone-blue">
+               <input type="radio" class="hide" name="bg_colour" value="#d4441f">
+             </label> {{-- field --}}
+          </div> {{-- flex-space-around --}}
+          <div class='flex-space-around'>
+            <label class="colour-box bg-zone-red">
+              <input type="radio" class="hide" name="bg_colour" value="#3f78be">
+            </label>
+            <label class="colour-box bg-zone-tiffany">
+              <input type="radio" class="hide" name="bg_colour" value="#ffc727">
+            </label>
+            <label class="colour-box bg-zone-grey">
+               <input type="radio" class="hide" name="bg_colour" value="#01937c">
+             </label> {{-- field --}}
+          </div> {{-- flex-space-around --}}
+        </div> {{-- field --}}
           <button class="ui red fluid button">Create New Zone</button>
         </form>
       </div>
     </div>
-    <div class="twelve wide column">
+    <div class="eleven wide column">
+      <div class="field">
+        <label for="">Floor plan preview of level {{$level->name}}</label>
+        <img src="/storage/{{$level->map_path}}" alt="" class="ui image">
+      </div>
     </div>
   </div>
 </div>
@@ -78,6 +71,6 @@
   $('.colour-box').click(function(){
     $('.colour-box').removeClass('active');
     $(this).addClass('active');
-  })
+  });
 </script>
 @endsection
