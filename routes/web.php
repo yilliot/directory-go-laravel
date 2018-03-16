@@ -1,5 +1,6 @@
 <?php
 
+Route::get('/drawing', 'KioskController@drawing');
 Route::get('/{id?}', 'KioskController@index');
 
 Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
