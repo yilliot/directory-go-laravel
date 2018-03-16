@@ -5,7 +5,7 @@
 @section('content')
 <div class="ui bg-grey container segment">
   <h2 class="ui header">Edit Zone</h2>
-  <form action="/back-office/zone/create" class="ui form" method="POST">
+  <form action="/back-office/zone/edit" class="ui form" method="POST">
     @csrf
     <input type="hidden" name="id" value="{{$zone->id}}">
     <div class="ui grid">
@@ -90,7 +90,7 @@
           <label for="">Font Size</label>
           <select name="text_size" id="select_text_size" class="ui fluid dropdown">
             @foreach (['14px', '15px', '16px'] as $element)
-              <option value="{{$element}}">{{$element}}</option>
+              <option value="{{$element}}" {{$zone->text_size == $element ? 'selected' : ''}}>{{$element}}</option>
             @endforeach
           </select>
         </div> {{-- field --}}
@@ -114,6 +114,11 @@
   });
   $('.colour-box').each(function(){
     var checked = $('#bg_colour_temp').val() == $(this).children('input').val();
+    if (checked) {
+     $(this).addClass('active'); 
+     $(this).children('input').attr('checked', 'checked')
+    }
+    var checked = $('#text_colour_temp').val() == $(this).children('input').val();
     if (checked) {
      $(this).addClass('active'); 
      $(this).children('input').attr('checked', 'checked')

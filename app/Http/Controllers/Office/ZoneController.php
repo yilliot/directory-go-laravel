@@ -38,15 +38,26 @@ class ZoneController extends Controller
         $zone->name = $request->name;
         $zone->name_display = $request->name_display;
         $zone->bg_colour = $request->bg_colour;
-        $zone->text_size = '18px';
-        $zone->text_colour = '#000';
+        $zone->text_size = $request->text_size;
+        $zone->text_colour = $request->text_colour;
         $zone->zone_category_id = $request->zone_category_id;
         $zone->area_json = json_encode([]);
         $zone->save();
+
         return redirect('/back-office/zone/edit/'.$zone->id)->with('success', 'Success');
     }
-    function postEdit()
+    function postEdit(Request $request)
     {
+        $zone = \App\Models\Zone::find($request->id);
+        $zone->name = $request->name;
+        $zone->name_display = $request->name_display;
+        $zone->bg_colour = $request->bg_colour;
+        $zone->text_size = $request->text_size;
+        $zone->text_colour = $request->text_colour;
+        $zone->zone_category_id = $request->zone_category_id;
+        $zone->area_json = json_encode([]);
+        $zone->save();
+
         return back()->with('success', 'Success');
     }
     function postDelete()
