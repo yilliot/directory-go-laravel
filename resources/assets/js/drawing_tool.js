@@ -129,12 +129,15 @@ window.onload = function() {
     // Toggle tool
     DrawingSet.togglePoligon = function() {
         this.activeTool= this.activeTool == 'poligon'? null: 'poligon';
+        this.canvas.style.cursor = this.activeTool == 'poligon'? 'crosshair': 'default';
     }
     DrawingSet.toggleZoom = function() {
         this.activeTool= this.activeTool == 'zoom'? null: 'zoom';
+        this.canvas.style.cursor = this.activeTool == 'zoom'? 'zoom-in': 'default';
     }
     DrawingSet.toggleDrag = function() {
         this.activeTool= this.activeTool == 'drag'? null: 'drag';
+        this.canvas.style.cursor = this.activeTool == 'drag'? '-webkit-grab': 'default';
     }
 
     // Register function
@@ -152,6 +155,20 @@ window.onload = function() {
     }
     DrawingSet.textWhite.onclick = function() {
         DrawingSet.textColorChange('white');
+    }
+    DrawingSet.canvas.onmousedown = function() {
+        switch(DrawingSet.activeTool) {
+            case 'drag':
+                DrawingSet.canvas.style.cursor = '-webkit-grabbing';
+                break;
+        }
+    }
+    DrawingSet.canvas.onmouseup = function() {
+        switch(DrawingSet.activeTool) {
+            case 'drag':
+                DrawingSet.canvas.style.cursor = '-webkit-grab';
+                break;
+        }
     }
     DrawingSet.canvas.onmousemove = function(event) {
         switch(DrawingSet.activeTool) {
