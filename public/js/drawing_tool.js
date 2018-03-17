@@ -126,10 +126,14 @@ window.onload = function () {
                 this.textInput.value = this.history[0].text.text;
                 this.data = this.history[0];
                 break;
+            case 'helper':
+                break;
             default:
+                this.future = [];
                 this.history.unshift(JSON.parse(JSON.stringify(this.data)));
 
         }
+        // console.log(this.history[0].geometry.points);
         this.ctx.scale(1, 1);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -142,6 +146,7 @@ window.onload = function () {
             this.ctx.fill();
         }
         if (this.history[0].geometry.points.length) {
+            console.log(this.history[0].geometry.points);
             this.ctx.scale(this.history[0].scale, this.history[0].scale);
             this.ctx.beginPath();
             this.ctx.fillStyle = this.history[0].geometry.color;
@@ -183,12 +188,12 @@ window.onload = function () {
         if (this.helper.activated) {
             this.helper.x = x;
             this.helper.y = y;
-            this.render();
+            this.render('helper');
         }
     };
     DrawingSet.completeDrawing = function () {
         this.helper.activated = 0;
-        this.data.geometry.points.push({ x: this.data.geometry.points[0].x, y: this.data.geometry.points[0].y });
+        // this.data.geometry.points.push({x: this.data.geometry.points[0].x, y: this.data.geometry.points[0].y});
         this.render();
     };
     DrawingSet.geometryColorChange = function (color) {
