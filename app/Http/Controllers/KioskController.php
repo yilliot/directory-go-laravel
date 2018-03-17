@@ -86,9 +86,6 @@ class KioskController extends Controller
     public function drawing()
     {
         return view('part.drawing');
-    }
-
-    public function drawing() {
         return view('drawing');
     }
 }
