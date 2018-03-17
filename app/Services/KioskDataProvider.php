@@ -1,26 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
-use Illuminate\Http\Request;
-
-class KioskController extends Controller
+class KioskDataProvider
 {
-    function published()
+    function getLatestData()
     {
-        // cached from publishes table
-        $blocks = app(\App\Services\KioskDataProvider::class)->getLatestData()->data;
-        return view('index', compact('blocks'));
+        return \App\Models\Publish::latest()->first();
     }
 
-    function preview()
+    function generateData()
     {
-        // realtime from db
-        $blocks = app(\App\Services\KioskDataProvider::class)->generateData();
-        return view('index', compact('blocks'));
+        $blocks = $this->generateBlock();
+
+        return collect(compact('blocks'));
     }
 
-    function index()
+    function generateBlock()
     {
         $blocks = \App\Models\Block::with('levels')->get();
 
@@ -94,12 +90,7 @@ class KioskController extends Controller
             return $block;
         });
 
-        return view('index', compact('blocks'));
-    }
+        return $blocks;
 
-    public function drawing()
-    {
-        return view('part.drawing');
-        return view('drawing');
     }
 }
