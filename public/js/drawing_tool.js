@@ -102,11 +102,11 @@ window.onload = function () {
     // Data initialize
     DrawingSet.data = new Object();
     // Zoom
-    DrawingSet.data.scale = 1;
+    DrawingSet.scale = [1, 1];
     DrawingSet.data.offset = { x: 0, y: 0 };
     // Geometry
     DrawingSet.data.geometry = { points: [], color: 'green', completed: 0 };
-    DrawingSet.helper = { activated: 0, x: 0, y: 0
+    DrawingSet.data.helper = { activated: 0, x: 0, y: 0
         // Text
     };DrawingSet.data.text = { text: null, color: 'black', size: '100px', x: 100, y: 100 };
     // History
@@ -117,31 +117,38 @@ window.onload = function () {
     DrawingSet.render = function (type) {
         switch (type) {
             case 'undo':
-                if (this.history[0].geometry.completed == 1) {
-                    this.history.shift();
-                    this.history.shift();
-                }
                 if (this.history.length > 1) this.future.unshift(this.history.shift());
                 this.textInput.value = this.history[0].text.text;
-                this.data = this.history[0];
+                this.data = JSON.parse(JSON.stringify(this.history[0]));
                 break;
             case 'redo':
                 if (this.future.length > 0) this.history.unshift(this.future.shift());
                 this.textInput.value = this.history[0].text.text;
-                this.data = this.history[0];
+                this.data = JSON.parse(JSON.stringify(this.history[0]));
                 break;
             case 'helper':
-                // case 'zoom':
+            case 'drag':
+            case 'zoom':
                 break;
             default:
                 this.future = [];
+                if (this.data.geometry.completed == 1) {
+                    this.history.shift();
+                    this.history.shift();
+                }
                 this.history.unshift(JSON.parse(JSON.stringify(this.data)));
 
         }
+        // if(type != 'zoom')this.scale = [1, 1];
         // console.log(this.history[0].geometry.points);
-        if (this.history[1]) this.ctx.scale(1 / this.history[1].scale, 1 / this.history[1].scale);
+        if (type == 'zoom') this.ctx.scale(1 / this.scale[1], 1 / this.scale[1]);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.scale(this.history[0].scale, this.history[0].scale);
+        if (type == 'zoom') this.ctx.scale(this.scale[0], this.scale[0]);
+
+        // map
+        this.ctx.drawImage(this.map, 0, 0, this.canvas.width, this.canvas.height);
+
+        // text displaying
         if (this.history[0].text.text) {
             this.ctx.beginPath();
             this.ctx.font = this.history[0].text.size + ' Georgia';
@@ -149,9 +156,11 @@ window.onload = function () {
             this.ctx.fillText(this.history[0].text.text, this.history[0].text.x, this.history[0].text.y);
             this.ctx.fill();
         }
+        // drawing displaying
         if (this.history[0].geometry.points.length) {
             // console.log(this.history[0].geometry.points);
             this.ctx.beginPath();
+            this.ctx.globalAlpha = 0.5;
             this.ctx.fillStyle = this.history[0].geometry.color;
             this.ctx.strokeStyle = this.history[0].geometry.color;
             var points = this.history[0].geometry.points;
@@ -159,11 +168,12 @@ window.onload = function () {
                 if (x == 0) this.ctx.moveTo(points[x].x, points[x].y);else this.ctx.lineTo(points[x].x, points[x].y);
             }
             if (type != 'undo' && type != 'redo') {
-                this.ctx.lineTo(this.helper.x, this.helper.y);
+                this.ctx.lineTo(this.data.helper.x, this.data.helper.y);
                 if (points.length > 1) this.ctx.fill();else this.ctx.stroke();
             } else {
                 if (points.length > 2) this.ctx.fill();else this.ctx.stroke();
             }
+            this.ctx.globalAlpha = 1;
         }
     };
     DrawingSet.textChange = function (text) {
@@ -182,24 +192,26 @@ window.onload = function () {
     };
     // Poligon tool
     DrawingSet.createPoint = function (x, y) {
-        if (!this.helper.activated) {
-            this.helper.activated = 1;
-            this.helper.x = x / this.history[0].scale;
-            this.helper.y = y / this.history[0].scale;
-            this.data.geometry.points = [];
+        if (!this.data.geometry.completed) {
+            if (!this.data.helper.activated) {
+                this.data.helper.activated = 1;
+                this.data.helper.x = x / this.scale[0];
+                this.data.helper.y = y / this.scale[0];
+                this.data.geometry.points = [];
+            }
+            this.data.geometry.points.push({ x: x / this.scale[0], y: y / this.scale[0] });
+            this.render('create-point');
         }
-        this.data.geometry.points.push({ x: x / this.history[0].scale, y: y / this.history[0].scale });
-        this.render('create-point');
     };
     DrawingSet.showLine = function (x, y) {
-        if (this.helper.activated) {
-            this.helper.x = x / this.history[0].scale;
-            this.helper.y = y / this.history[0].scale;
+        if (this.data.helper.activated) {
+            this.data.helper.x = x / this.scale[0];
+            this.data.helper.y = y / this.scale[0];
             this.render('helper');
         }
     };
     DrawingSet.completeDrawing = function () {
-        this.helper.activated = 0;
+        this.data.helper.activated = 0;
         this.data.geometry.completed = 1;
         this.render();
     };
@@ -209,9 +221,14 @@ window.onload = function () {
     };
     // Zoom tool
     DrawingSet.zoom = function () {
-        this.data.scale = this.data.scale == 1 ? 2 : 1;
-        this.canvas.style.cursor = this.data.scale == 1 ? 'zoom-in' : 'zoom-out';
+        this.scale[0] = this.scale[0] == 1 ? 2 : 1;
+        this.scale[1] = this.scale[0] == 1 ? 2 : 1;
+        // console.log(this.scale);
+        this.canvas.style.cursor = this.scale[0] == 1 ? 'zoom-in' : 'zoom-out';
         this.render('zoom');
+    };
+    DrawingSet.drag = function () {
+        this.render('drag');
     };
 
     // Toggle tool
@@ -226,6 +243,11 @@ window.onload = function () {
     DrawingSet.toggleDrag = function () {
         this.activeTool = this.activeTool == 'drag' ? null : 'drag';
         this.canvas.style.cursor = this.activeTool == 'drag' ? '-webkit-grab' : 'default';
+    };
+    DrawingSet.clear = function () {
+        this.data.geometry.points = [];
+        this.data.geometry.completed = 0;
+        this.render();
     };
 
     // Register function
