@@ -105,7 +105,7 @@ window.onload = function () {
     DrawingSet.data.scale = 1;
     DrawingSet.data.offset = { x: 0, y: 0 };
     // Geometry
-    DrawingSet.data.geometry = { points: [], color: 'green' };
+    DrawingSet.data.geometry = { points: [], color: 'green', completed: 0 };
     DrawingSet.helper = { activated: 0, x: 0, y: 0
         // Text
     };DrawingSet.data.text = { text: null, color: 'black', size: '100px', x: 100, y: 100 };
@@ -117,6 +117,10 @@ window.onload = function () {
     DrawingSet.render = function (type) {
         switch (type) {
             case 'undo':
+                if (this.history[0].geometry.completed == 1) {
+                    this.history.shift();
+                    this.history.shift();
+                }
                 if (this.history.length > 1) this.future.unshift(this.history.shift());
                 this.textInput.value = this.history[0].text.text;
                 this.data = this.history[0];
@@ -127,6 +131,7 @@ window.onload = function () {
                 this.data = this.history[0];
                 break;
             case 'helper':
+                // case 'zoom':
                 break;
             default:
                 this.future = [];
@@ -134,11 +139,10 @@ window.onload = function () {
 
         }
         // console.log(this.history[0].geometry.points);
-        this.ctx.scale(1, 1);
+        if (this.history[1]) this.ctx.scale(1 / this.history[1].scale, 1 / this.history[1].scale);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        this.ctx.scale(this.history[0].scale, this.history[0].scale);
         if (this.history[0].text.text) {
-            this.ctx.scale(this.history[0].scale, this.history[0].scale);
             this.ctx.beginPath();
             this.ctx.font = this.history[0].text.size + ' Georgia';
             this.ctx.fillStyle = this.history[0].text.color;
@@ -146,8 +150,7 @@ window.onload = function () {
             this.ctx.fill();
         }
         if (this.history[0].geometry.points.length) {
-            console.log(this.history[0].geometry.points);
-            this.ctx.scale(this.history[0].scale, this.history[0].scale);
+            // console.log(this.history[0].geometry.points);
             this.ctx.beginPath();
             this.ctx.fillStyle = this.history[0].geometry.color;
             this.ctx.strokeStyle = this.history[0].geometry.color;
@@ -155,8 +158,12 @@ window.onload = function () {
             for (var x in points) {
                 if (x == 0) this.ctx.moveTo(points[x].x, points[x].y);else this.ctx.lineTo(points[x].x, points[x].y);
             }
-            this.ctx.lineTo(this.helper.x, this.helper.y);
-            if (points.length > 1) this.ctx.fill();else this.ctx.stroke();
+            if (type != 'undo' && type != 'redo') {
+                this.ctx.lineTo(this.helper.x, this.helper.y);
+                if (points.length > 1) this.ctx.fill();else this.ctx.stroke();
+            } else {
+                if (points.length > 2) this.ctx.fill();else this.ctx.stroke();
+            }
         }
     };
     DrawingSet.textChange = function (text) {
@@ -177,23 +184,23 @@ window.onload = function () {
     DrawingSet.createPoint = function (x, y) {
         if (!this.helper.activated) {
             this.helper.activated = 1;
-            this.helper.x = x;
-            this.helper.y = y;
+            this.helper.x = x / this.history[0].scale;
+            this.helper.y = y / this.history[0].scale;
             this.data.geometry.points = [];
         }
-        this.data.geometry.points.push({ x: x, y: y });
-        this.render();
+        this.data.geometry.points.push({ x: x / this.history[0].scale, y: y / this.history[0].scale });
+        this.render('create-point');
     };
     DrawingSet.showLine = function (x, y) {
         if (this.helper.activated) {
-            this.helper.x = x;
-            this.helper.y = y;
+            this.helper.x = x / this.history[0].scale;
+            this.helper.y = y / this.history[0].scale;
             this.render('helper');
         }
     };
     DrawingSet.completeDrawing = function () {
         this.helper.activated = 0;
-        // this.data.geometry.points.push({x: this.data.geometry.points[0].x, y: this.data.geometry.points[0].y});
+        this.data.geometry.completed = 1;
         this.render();
     };
     DrawingSet.geometryColorChange = function (color) {
@@ -201,9 +208,10 @@ window.onload = function () {
         this.render();
     };
     // Zoom tool
-    DrawingSet.zoomIn = function () {
-        this.data.scale = this.data.scale == 1 ? 2 : 0.5;
-        this.render();
+    DrawingSet.zoom = function () {
+        this.data.scale = this.data.scale == 1 ? 2 : 1;
+        this.canvas.style.cursor = this.data.scale == 1 ? 'zoom-in' : 'zoom-out';
+        this.render('zoom');
     };
 
     // Toggle tool
@@ -240,6 +248,7 @@ window.onload = function () {
         switch (DrawingSet.activeTool) {
             case 'drag':
                 DrawingSet.canvas.style.cursor = '-webkit-grabbing';
+                DrawingSet.drag = true;
                 break;
         }
     };
@@ -247,6 +256,7 @@ window.onload = function () {
         switch (DrawingSet.activeTool) {
             case 'drag':
                 DrawingSet.canvas.style.cursor = '-webkit-grab';
+                DrawingSet.drag = false;
                 break;
         }
     };
@@ -263,7 +273,7 @@ window.onload = function () {
                 DrawingSet.createPoint(event.offsetX, event.offsetY);
                 break;
             case 'zoom':
-                DrawingSet.zoomIn();
+                DrawingSet.zoom();
                 break;
         }
     };
