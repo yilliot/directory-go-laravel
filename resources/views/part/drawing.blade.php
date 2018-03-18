@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <img src="/storage/map_path/_0012_60 L3.jpg" style="display: none;" alt="" id="map">
+        <input type="hidden" value="/storage/map_path/_0012_60 L3.jpg" id="map">
         <canvas width="1000px" height="700px" id="canvas"></canvas>
         <div style="position:fixed; top: 10px; left: 10px">
             <input type="text" id="text">
@@ -20,6 +20,7 @@
             <button id="poligon-tool">Poligon</button>
             <button id="zoom-tool">Zoom</button>
             <button id="drag-tool">Drag</button>
+            <button id="clear">Clear</button>
         </div>
     </div>
 </body>
