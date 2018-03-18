@@ -44,6 +44,8 @@ window.onload = function() {
     DrawingSet.offsetBufferText = {x: 0, y: 0};     // Animated rendering according to offset buffer for text
     DrawingSet.offset = {x: 0, y: 0};               // Offset for overall
     
+    // Reference
+    DrawingSet.data.canvasSize = {w: DrawingSet.canvas.width, h: DrawingSet.canvas.height};
     // Geometry
     DrawingSet.data.geometry = {points:[], color: DrawingSet.poligonColor.value, completed: 0, x: 0, y: 0};
     DrawingSet.helper = {activated: 0, x: 0, y:0}
