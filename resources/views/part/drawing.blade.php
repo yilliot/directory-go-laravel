@@ -21,6 +21,8 @@
             <button id="zoom-tool">Zoom</button>
             <button id="drag-tool">Drag</button>
             <button id="clear">Clear</button>
+            <input type="number" id="font-size">
+            <input type="text" id="font-color">
         </div>
     </div>
 </body>

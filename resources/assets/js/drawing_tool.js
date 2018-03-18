@@ -14,6 +14,8 @@ window.onload = function() {
     DrawingSet.zoomTool = document.getElementById('zoom-tool');
     DrawingSet.dragTool = document.getElementById('drag-tool');
     DrawingSet.clearButton = document.getElementById('clear');
+    DrawingSet.fontSize = document.getElementById('font-size');
+    DrawingSet.fontColor = document.getElementById('font-color');
 
     // Canvas context
     DrawingSet.ctx = this.canvas.getContext('2d');
@@ -135,6 +137,7 @@ window.onload = function() {
         else this.ctx.translate(-this.offset.x, -this.offset.y);
 
     }
+    // Text
     DrawingSet.textChange = function(text) {
         this.data.text.text = text;
         this.render();
@@ -143,6 +146,12 @@ window.onload = function() {
         this.data.text.color = color;
         this.render();
     }
+    DrawingSet.sizeChange = function(size) {
+        this.data.text.size = size + 'px';
+        this.render();
+    }
+
+    // History
     DrawingSet.undo = function() {
         this.render('undo');
     }
@@ -174,6 +183,10 @@ window.onload = function() {
     DrawingSet.completeDrawing = function() {
         this.data.helper.activated = 0;
         this.data.geometry.completed = 1;
+        this.render();
+    }
+    DrawingSet.poligonColorChange = function(color) {
+        this.data.geometry.color = color;
         this.render();
     }
     DrawingSet.geometryColorChange = function(color) {
@@ -264,6 +277,12 @@ window.onload = function() {
     // Register function
     DrawingSet.textInput.onkeyup = function() {
         DrawingSet.textChange(this.value);
+    }
+    DrawingSet.fontSize.onchagne = function() {
+        DrawingSet.sizeChange(this.value);
+    }
+    DrawingSet.fontColor.onchange = function() {
+        DrawingSet.poligonColorChange(this.value);
     }
     DrawingSet.undoButton.onclick = function() {
         DrawingSet.undo();
