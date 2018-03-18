@@ -7,6 +7,8 @@
   <h2 class="ui header">Edit Zone</h2>
   <form action="/back-office/zone/edit" class="ui form" method="POST">
     @csrf
+    <input type="hidden" id="map" value="/storage/{{$zone->level->map_path}}">
+    <input type="hidden" id="data" value="{{$zone->area_json}}">
     <input type="hidden" name="id" value="{{$zone->id}}">
     <div class="ui grid">
       <div class="four wide column">
@@ -16,7 +18,7 @@
         </div>
         <div class="field">
           <label for="name">Name Display</label>
-          <input type="text" name="name_display" value="{{old('name_display', $zone->name_display)}}">
+          <input type="text" name="name_display" id="text" value="{{old('name_display', $zone->name_display)}}">
         </div>
         <div class="field">
           <label for="zone_category_id">Zone Category</label>
@@ -61,19 +63,24 @@
       <div class="ten wide column">
         <div class="field">
           <label for="">Draw area</label>
-          <img src="/storage/{{$zone->level->map_path}}" alt="" class="ui image">
+          @include('part.drawingboard', ['width' => 675, 'height' => 477])
+          {{-- <img src="/storage/{{$zone->level->map_path}}" alt="" class="ui image"> --}}
         </div>
       </div>
       <div class="two wide column">
         <div class="field">
           <label for="">Draw tools</label>
           <div class="ui icon buttons">
-            <label class="ui large button"><i class="mouse pointer icon"></i></label>
-            <label class="ui large button"><i class="object ungroup outline icon"></i></label>
+            <label id="undo" class="ui large button"><i class="undo icon"></i></label>
+            <label id="redo" class="ui large button"><i class="redo icon"></i></label>
           </div>
           <div class="ui icon buttons">
-            <label class="ui large button"><i class="trash icon"></i></label>
-            <label class="ui large button"><i class="i cursor icon"></i></label>
+            <label id="poligon-tool" class="ui large button"><i class="pencil icon"></i></label>
+            <label id="zoom-tool" class="ui large button"><i class="search icon"></i></label>
+          </div>
+          <div class="ui icon buttons">
+            <label id="clear" class="ui large button"><i class="trash icon"></i></label>
+            <label id="drag-tool" class="ui large button"><i class="expand arrows alternate icon"></i></label>
           </div>
         </div> {{-- field --}}
         <div class="field">

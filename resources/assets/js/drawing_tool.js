@@ -8,14 +8,15 @@ window.onload = function() {
     DrawingSet.textInput = document.getElementById('text');
     DrawingSet.undoButton = document.getElementById('undo');
     DrawingSet.redoButton = document.getElementById('redo');
-    DrawingSet.textBlack = document.getElementById('text-black');
-    DrawingSet.textWhite = document.getElementById('text-white');
     DrawingSet.poligonTool = document.getElementById('poligon-tool');
     DrawingSet.zoomTool = document.getElementById('zoom-tool');
     DrawingSet.dragTool = document.getElementById('drag-tool');
     DrawingSet.clearButton = document.getElementById('clear');
-    DrawingSet.fontSize = document.getElementById('font-size');
-    DrawingSet.fontColor = document.getElementById('font-color');
+    DrawingSet.fontSize = document.getElementById('select_text_size');
+    DrawingSet.fontColor = document.getElementById('text_colour_temp');
+    DrawingSet.poligonColor = document.getElementById('bg_colour_temp');
+    DrawingSet.dataInput = document.getElementById('data');
+    console.log(DrawingSet.zoomTool);
 
     // Canvas context
     DrawingSet.ctx = this.canvas.getContext('2d');
@@ -23,7 +24,8 @@ window.onload = function() {
     DrawingSet.map = new Image();
     DrawingSet.map.src = DrawingSet.mapSrc.value;
     DrawingSet.map.onload = () => {
-        DrawingSet.ctx.drawImage(DrawingSet.map, 0, 0, DrawingSet.canvas.width, DrawingSet.canvas.height);
+        // DrawingSet.ctx.drawImage(DrawingSet.map, 0, 0, DrawingSet.canvas.width, DrawingSet.canvas.height);
+        DrawingSet.render();
     };
     
     // Tool status
@@ -48,7 +50,7 @@ window.onload = function() {
     DrawingSet.data.helper = {activated: 0, x: 0, y:0}
     
     // Text
-    DrawingSet.data.text = {text: null, color: 'black', size: '100px', x: 100, y: 100};
+    DrawingSet.data.text = {text: DrawingSet.textInput.value, color: DrawingSet.fontColor.value, size: '100px', x: 100, y: 100};
     
     // History
     DrawingSet.history = [];
@@ -145,6 +147,8 @@ window.onload = function() {
         if(this.dragging) this.ctx.translate(-this.offsetBuffer.x, -this.offsetBuffer.y);
         else this.ctx.translate(-this.offset.x, -this.offset.y);
 
+        // Register data into input
+        this.dataInput.value = JSON.stringify(this.history[0]);
     }
     // Text
     DrawingSet.textChange = function(text) {
@@ -287,10 +291,13 @@ window.onload = function() {
     DrawingSet.textInput.onkeyup = function() {
         DrawingSet.textChange(this.value);
     }
-    DrawingSet.fontSize.onchagne = function() {
+    DrawingSet.fontSize.onchage = function() {
         DrawingSet.sizeChange(this.value);
     }
     DrawingSet.fontColor.onchange = function() {
+        DrawingSet.textColorChange(this.value);
+    }
+    DrawingSet.poligonColor.onchange = function() {
         DrawingSet.poligonColorChange(this.value);
     }
     DrawingSet.undoButton.onclick = function() {
@@ -298,12 +305,6 @@ window.onload = function() {
     }
     DrawingSet.redoButton.onclick = function() {
         DrawingSet.redo();
-    }
-    DrawingSet.textBlack.onclick = function() {
-        DrawingSet.textColorChange('black');
-    }
-    DrawingSet.textWhite.onclick = function() {
-        DrawingSet.textColorChange('white');
     }
     DrawingSet.canvas.onmousedown = function() {
         switch(DrawingSet.activeTool) {

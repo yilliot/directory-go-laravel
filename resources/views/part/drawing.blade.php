@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,10 +23,8 @@
             <button id="clear">Clear</button>
             <input type="number" id="font-size">
             <input type="text" id="font-color">
+            <input type="text" id="data">
         </div>
     </div>
 </body>
-</html> --}}
-
-<script src="/js/drawing_tool.js"></script>
-<canvas width="1000px" height="700px" id="canvas"></canvas>
+</html>
