@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,4 +26,7 @@
         </div>
     </div>
 </body>
-</html>
+</html> --}}
+
+<script src="/js/drawing_tool.js"></script>
+<canvas width="1000px" height="700px" id="canvas"></canvas>
