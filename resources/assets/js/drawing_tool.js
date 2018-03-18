@@ -387,15 +387,6 @@ window.onload = function() {
         DrawingSet.toggleText();
     }
 
-    // If the zone change, update color too
-    // if(document.getElementById('select_zone_category_id')) {
-    //     DrawingSet.zoneInput = document.getElementById('select_zone_category_id');
-    //     DrawingSet.zoneInput.onchange = function() {
-    //         DrawingSet.poligonColorChange(DrawingSet.poligonColor.value);
-    //     }
-    // }
-
-
     // Start display
     DrawingSet.render();
 }

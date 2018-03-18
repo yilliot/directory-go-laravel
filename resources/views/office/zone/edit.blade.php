@@ -71,19 +71,19 @@
         <div class="field">
           <label for="">Draw tools</label>
           <div class="ui icon buttons">
-            <label id="undo" class="ui large button"><i class="undo icon"></i></label>
-            <label id="redo" class="ui large button"><i class="redo icon"></i></label>
+            <label id="undo" class="ui large button tool"><i class="undo icon"></i></label>
+            <label id="redo" class="ui large button tool"><i class="redo icon"></i></label>
           </div>
           <div class="ui icon buttons">
-            <label id="poligon-tool" class="ui large button"><i class="pencil icon"></i></label>
-            <label id="text-tool" class="ui large button"><i class="mouse pointer icon"></i></label>
+            <label id="poligon-tool" class="ui large button tool"><i class="pencil icon"></i></label>
+            <label id="text-tool" class="ui large button tool"><i class="mouse pointer icon"></i></label>
           </div>
           <div class="ui icon buttons">
-            <label id="zoom-tool" class="ui large button"><i class="search icon"></i></label>
-            <label id="drag-tool" class="ui large button"><i class="expand arrows alternate icon"></i></label>
+            <label id="zoom-tool" class="ui large button tool"><i class="search icon"></i></label>
+            <label id="drag-tool" class="ui large button tool"><i class="expand arrows alternate icon"></i></label>
           </div>
           <div class="ui icon buttons">
-            <label id="clear" class="ui large button"><i class="trash icon"></i></label>
+            <label id="clear" class="ui large button tool"><i class="trash icon"></i></label>
           </div>
         </div> {{-- field --}}
         <div class="field">
@@ -134,7 +134,7 @@
   $('.fc').click(function(){
     $('#text_colour_temp').val($(this).children('input').val());
     $('#text_colour_temp').trigger('change');
-  })
+  });
   $('.colour-box').each(function(){
     var checked = $('#bg_colour_temp').val() == $(this).children('input').val();
     if (checked) {
@@ -146,6 +146,11 @@
      $(this).addClass('active'); 
      $(this).children('input').attr('checked', 'checked')
     }
+  });
+  $('.tool').click(function(){
+    var is_active = $(this).hasClass('active');
+    $('.tool').removeClass('active');
+    if(!is_active)$(this).addClass('active');
   });
 
   function update_colour_box()
