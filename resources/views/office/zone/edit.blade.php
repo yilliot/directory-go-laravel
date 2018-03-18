@@ -76,11 +76,14 @@
           </div>
           <div class="ui icon buttons">
             <label id="poligon-tool" class="ui large button"><i class="pencil icon"></i></label>
+            <label id="text-tool" class="ui large button"><i class="mouse pointer icon"></i></label>
+          </div>
+          <div class="ui icon buttons">
             <label id="zoom-tool" class="ui large button"><i class="search icon"></i></label>
+            <label id="drag-tool" class="ui large button"><i class="expand arrows alternate icon"></i></label>
           </div>
           <div class="ui icon buttons">
             <label id="clear" class="ui large button"><i class="trash icon"></i></label>
-            <label id="drag-tool" class="ui large button"><i class="expand arrows alternate icon"></i></label>
           </div>
         </div> {{-- field --}}
         <div class="field">
