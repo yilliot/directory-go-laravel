@@ -94,7 +94,6 @@ window.onload = function () {
     DrawingSet.fontColor = document.getElementById('text_colour_temp');
     DrawingSet.poligonColor = document.getElementById('bg_colour_temp');
     DrawingSet.dataInput = document.getElementById('data');
-    console.log(DrawingSet.zoomTool);
 
     // Canvas context
     DrawingSet.ctx = this.canvas.getContext('2d');
@@ -127,7 +126,7 @@ window.onload = function () {
     DrawingSet.data.helper = { activated: 0, x: 0, y: 0
 
         // Text
-    };DrawingSet.data.text = { text: DrawingSet.textInput.value, color: DrawingSet.fontColor.value, size: '100px', x: 100, y: 100 };
+    };DrawingSet.data.text = { text: DrawingSet.textInput.value, color: DrawingSet.fontColor.value, size: DrawingSet.fontSize.value + 'px', x: 100, y: 100 };
 
     // History
     DrawingSet.history = [];
@@ -454,6 +453,15 @@ window.onload = function () {
     DrawingSet.textInput.onclick = function () {
         DrawingSet.activeText();
     };
+
+    // If the zone change, update color too
+    // if(document.getElementById('select_zone_category_id')) {
+    //     DrawingSet.zoneInput = document.getElementById('select_zone_category_id');
+    //     DrawingSet.zoneInput.onchange = function() {
+    //         DrawingSet.poligonColorChange(DrawingSet.poligonColor.value);
+    //     }
+    // }
+
 
     // Start display
     DrawingSet.render();

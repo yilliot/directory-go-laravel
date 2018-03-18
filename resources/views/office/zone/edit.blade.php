@@ -35,27 +35,27 @@
           <label>Zone Colour</label>
           <input type="hidden" id="bg_colour_temp" value="{{$zone->bg_colour}}">
           <div class='flex-space-around'>
-            <label class="colour-box bg-zone-green">
-              <input type="radio" class="hide" name="bg_colour" value="#d6d7d9">
+            <label class="colour-box bg bg-zone-green">
+              <input type="radio" class="hide" name="bg_colour" value="#01937c">
             </label>
-            <label class="colour-box bg-zone-yellow">
-              <input type="radio" class="hide" name="bg_colour" value="#91cdc6">
+            <label class="colour-box bg bg-zone-yellow">
+              <input type="radio" class="hide" name="bg_colour" value="#ffc727">
             </label>
           </div> {{-- flex-space-around --}}
           <div class='flex-space-around'>
-            <label class="colour-box bg-zone-blue">
-               <input type="radio" class="hide" name="bg_colour" value="#d4441f">
+            <label class="colour-box bg bg-zone-blue">
+               <input type="radio" class="hide" name="bg_colour" value="#3f78be">
              </label> {{-- field --}}
-            <label class="colour-box bg-zone-red">
-              <input type="radio" class="hide" name="bg_colour" value="#3f78be">
+            <label class="colour-box bg bg-zone-red">
+              <input type="radio" class="hide" name="bg_colour" value="#d4441f">
             </label>
           </div>
           <div class="flex-space-around">
-            <label id="mk-choice" class="colour-box bg-zone-tiffany">
-              <input type="radio" class="hide" name="bg_colour" value="#ffc727">
+            <label id="mk-choice" class="colour-box bg bg-zone-tiffany">
+              <input type="radio" class="hide" name="bg_colour" value="#91cdc6">
             </label>
-            <label id="bc-choice" class="colour-box bg-zone-grey">
-               <input type="radio" class="hide" name="bg_colour" value="#01937c">
+            <label id="bc-choice" class="colour-box bg bg-zone-grey">
+               <input type="radio" class="hide" name="bg_colour" value="#d6d7d9">
              </label> {{-- field --}}
           </div> {{-- flex-space-around --}}
         </div> {{-- field --}}
@@ -87,10 +87,10 @@
           <label for="">Font Colour</label>
           <input type="hidden" id="text_colour_temp" value="{{$zone->text_colour}}">
           <div class='flex-start'>
-            <label class="colour-box bg-text-white" style="width:40px; height: 40px; display: block">
+            <label class="colour-box fc bg-text-white" style="width:40px; height: 40px; display: block">
               <input type="radio" class="hide" name="text_colour" value="#FFF">
             </label>
-            <label class="colour-box bg-text-black" style="width:40px; height: 40px; display: block">
+            <label class="colour-box fc bg-text-black" style="width:40px; height: 40px; display: block">
               <input type="radio" class="hide" name="text_colour" value="#000">
             </label>
           </div> {{-- flex-start --}}
@@ -124,6 +124,14 @@
     $(this).closest('.field').find('.colour-box').removeClass('active');
     $(this).addClass('active');
   });
+  $('.bg').click(function(){
+    $('#bg_colour_temp').val($(this).children('input').val());
+    $('#bg_colour_temp').trigger('change');
+  });
+  $('.fc').click(function(){
+    $('#text_colour_temp').val($(this).children('input').val());
+    $('#text_colour_temp').trigger('change');
+  })
   $('.colour-box').each(function(){
     var checked = $('#bg_colour_temp').val() == $(this).children('input').val();
     if (checked) {
