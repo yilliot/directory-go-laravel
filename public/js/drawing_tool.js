@@ -187,11 +187,9 @@ window.onload = function () {
         // text displaying
         if (this.history[0].text.text) {
             this.ctx.beginPath();
-            if (this.dragging) this.ctx.translate(this.offsetBufferText.x, this.offsetBufferText.y);else this.ctx.translate(this.history[0].text.x, this.history[0].text.y);
             this.ctx.font = this.history[0].text.size + ' Georgia';
             this.ctx.fillStyle = this.history[0].text.color;
-            this.ctx.fillText(this.history[0].text.text, 0, 0);
-            if (this.dragging) this.ctx.translate(-this.offsetBufferText.x, -this.offsetBufferText.y);else this.ctx.translate(-this.history[0].text.x, -this.history[0].text.y);
+            if (this.dragging) this.ctx.fillText(this.history[0].text.text, this.offsetBufferText.x, this.offsetBufferText.y);else this.ctx.fillText(this.history[0].text.text, this.history[0].text.x, this.history[0].text.y);
             this.ctx.fill();
         }
         // drawing displaying
@@ -280,8 +278,8 @@ window.onload = function () {
         this.render('zoom');
     };
     DrawingSet.drag = function (x, y) {
-        this.offsetBuffer.x = this.offset.x + x - this.dragStart.x;
-        this.offsetBuffer.y = this.offset.y + y - this.dragStart.y;
+        this.offsetBuffer.x = this.offset.x + (x - this.dragStart.x) / this.scale[0];
+        this.offsetBuffer.y = this.offset.y + (y - this.dragStart.y) / this.scale[0];
         this.render('drag');
     };
 
@@ -309,8 +307,8 @@ window.onload = function () {
     };
     // Drag Poligon
     DrawingSet.dragPoligon = function (x, y) {
-        this.offsetBufferPoligon.x = this.data.geometry.x + x - this.dragStart.x;
-        this.offsetBufferPoligon.y = this.data.geometry.y + y - this.dragStart.y;
+        this.offsetBufferPoligon.x = this.data.geometry.x + (x - this.dragStart.x) / this.scale[0];
+        this.offsetBufferPoligon.y = this.data.geometry.y + (y - this.dragStart.y) / this.scale[0];
         this.render('drag');
     };
     DrawingSet.dragPoligonEnd = function () {
@@ -322,8 +320,8 @@ window.onload = function () {
     };
     // Drag Text
     DrawingSet.dragText = function (x, y) {
-        this.offsetBufferText.x = this.data.text.x + x - this.dragStart.x;
-        this.offsetBufferText.y = this.data.text.y + y - this.dragStart.y;
+        this.offsetBufferText.x = this.data.text.x + (x - this.dragStart.x) / this.scale[0];
+        this.offsetBufferText.y = this.data.text.y + (y - this.dragStart.y) / this.scale[0];
         this.render('drag');
     };
     DrawingSet.dragTextEnd = function () {
