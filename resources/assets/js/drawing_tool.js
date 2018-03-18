@@ -291,8 +291,8 @@ window.onload = function() {
     DrawingSet.textInput.onkeyup = function() {
         DrawingSet.textChange(this.value);
     }
-    DrawingSet.fontSize.onchage = function() {
-        DrawingSet.sizeChange(this.value);
+    DrawingSet.fontSize.onchange = function() {
+        DrawingSet.sizeChange(parseInt(this.value));
     }
     DrawingSet.fontColor.onchange = function() {
         DrawingSet.textColorChange(this.value);
