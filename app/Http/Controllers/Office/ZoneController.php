@@ -55,7 +55,7 @@ class ZoneController extends Controller
         $zone->text_size = $request->text_size;
         $zone->text_colour = $request->text_colour;
         $zone->zone_category_id = $request->zone_category_id;
-        $zone->area_json = json_encode([]);
+        $zone->area_json = $request->area_json;
         $zone->save();
 
         return back()->with('success', 'Success');
