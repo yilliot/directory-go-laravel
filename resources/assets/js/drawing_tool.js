@@ -110,7 +110,8 @@ window.onload = function() {
         // drawing displaying
         if(this.history[0].geometry.points.length) {
             this.ctx.beginPath();
-            this.ctx.globalAlpha = 0.5;
+            this.ctx.globalAlpha = 1;
+            this.ctx.lineWidth = 2;
             this.ctx.fillStyle = this.history[0].geometry.color;
             this.ctx.strokeStyle = this.history[0].geometry.color;
             let points = this.history[0].geometry.points;
@@ -122,10 +123,16 @@ window.onload = function() {
             }
             if(type != 'undo' && type != 'redo') {
                 this.ctx.lineTo(this.data.helper.x, this.data.helper.y);
-                if(points.length > 1)this.ctx.fill();
+                if(points.length > 1) {
+                    this.ctx.globalAlpha = 0.6;
+                    this.ctx.fill();
+                }
                 else this.ctx.stroke();
             } else {
-                if(points.length > 2)this.ctx.fill();
+                if(points.length > 2) {
+                    this.ctx.globalAlpha = 0.6;
+                    this.ctx.fill();
+                }
                 else this.ctx.stroke();
             }
             this.ctx.globalAlpha = 1;
