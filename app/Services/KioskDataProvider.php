@@ -12,8 +12,28 @@ class KioskDataProvider
     function generateData()
     {
         $blocks = $this->generateBlock();
+        $zoneCategories = $this->generateZoneCategories();
+        $areaCategories = $this->generateAreaCategories();
 
-        return collect(compact('blocks'));
+        return collect(compact('blocks', 'zoneCategories', 'areaCategories'));
+    }
+
+    function generateAreaCategories()
+    {
+        $areaCategories = \App\Models\Category::with('areas')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return $areaCategories;
+    }
+
+    function generateZoneCategories()
+    {
+        $zoneCategories = \App\Models\ZoneCategory::with('zones')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return $zoneCategories;
     }
 
     function generateBlock()
