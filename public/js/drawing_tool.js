@@ -102,7 +102,6 @@ window.onload = function () {
     DrawingSet.map = new Image();
     DrawingSet.map.src = DrawingSet.mapSrc.value;
     DrawingSet.map.onload = function () {
-        // DrawingSet.ctx.drawImage(DrawingSet.map, 0, 0, DrawingSet.canvas.width, DrawingSet.canvas.height);
         DrawingSet.render();
     };
 
@@ -124,7 +123,7 @@ window.onload = function () {
     DrawingSet.offset = { x: 0, y: 0 }; // Offset for overall
 
     // Geometry
-    DrawingSet.data.geometry = { points: [], color: '', completed: 0, x: 0, y: 0 };
+    DrawingSet.data.geometry = { points: [], color: DrawingSet.poligonColor.value, completed: 0, x: 0, y: 0 };
     DrawingSet.data.helper = { activated: 0, x: 0, y: 0
 
         // Text
@@ -185,15 +184,6 @@ window.onload = function () {
 
         // map
         this.ctx.drawImage(this.map, 0, 0, this.canvas.width, this.canvas.height);
-
-        // text displaying
-        if (this.history[0].text.text) {
-            this.ctx.beginPath();
-            this.ctx.font = this.history[0].text.size + ' Georgia';
-            this.ctx.fillStyle = this.history[0].text.color;
-            if (this.dragging) this.ctx.fillText(this.history[0].text.text, this.offsetBufferText.x, this.offsetBufferText.y);else this.ctx.fillText(this.history[0].text.text, this.history[0].text.x, this.history[0].text.y);
-            this.ctx.fill();
-        }
         // drawing displaying
         if (this.history[0].geometry.points.length) {
             this.ctx.beginPath();
@@ -213,6 +203,15 @@ window.onload = function () {
             }
             this.ctx.globalAlpha = 1;
             if (this.dragging) this.ctx.translate(-this.offsetBufferPoligon.x, -this.offsetBufferPoligon.y);else this.ctx.translate(-this.history[0].geometry.x, -this.history[0].geometry.y);
+        }
+
+        // text displaying
+        if (this.history[0].text.text) {
+            this.ctx.beginPath();
+            this.ctx.font = this.history[0].text.size + ' Georgia';
+            this.ctx.fillStyle = this.history[0].text.color;
+            if (this.dragging && this.activeTool == 'text') this.ctx.fillText(this.history[0].text.text, this.offsetBufferText.x, this.offsetBufferText.y);else this.ctx.fillText(this.history[0].text.text, this.history[0].text.x, this.history[0].text.y);
+            this.ctx.fill();
         }
         if (this.dragging) this.ctx.translate(-this.offsetBuffer.x, -this.offsetBuffer.y);else this.ctx.translate(-this.offset.x, -this.offset.y);
 
