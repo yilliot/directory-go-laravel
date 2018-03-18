@@ -16,6 +16,7 @@ window.onload = function() {
     DrawingSet.fontColor = document.getElementById('text_colour_temp');
     DrawingSet.poligonColor = document.getElementById('bg_colour_temp');
     DrawingSet.dataInput = document.getElementById('data');
+    DrawingSet.textButton = document.getElementById('text-tool');
 
     // Canvas context
     DrawingSet.ctx = this.canvas.getContext('2d');
@@ -279,9 +280,9 @@ window.onload = function() {
         this.activeTool = this.activeTool == 'drag'? null: 'drag';
         this.canvas.style.cursor = this.activeTool == 'drag'? '-webkit-grab': 'default';
     }
-    DrawingSet.activeText = function() {
-        this.activeTool = this.activeTool = 'text';
-        this.canvas.style.cursor = '-webkit-grab';
+    DrawingSet.toggleText = function() {
+        this.activeTool = this.activeTool == 'text'? null: 'text';
+        this.canvas.style.cursor = this.activeTool == 'text'? '-webkit-grab': 'default';
     }
 
     // Register function
@@ -382,8 +383,8 @@ window.onload = function() {
     DrawingSet.clearButton.onclick = function() {
         DrawingSet.clear();
     }
-    DrawingSet.textInput.onclick = function() {
-        DrawingSet.activeText();
+    DrawingSet.textButton.onclick = function() {
+        DrawingSet.toggleText();
     }
 
     // If the zone change, update color too

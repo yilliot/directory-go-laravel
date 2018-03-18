@@ -1,85 +1,64 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+// Css
 import './App.css';
 
-import Style from './StyleConfiguration';
+// Components
+import Block from './Block';
+import Index from './Index';
 
-import Buttons from './Buttons';
-import RightBlock from './RightBlock';
-import Display from './Display';
-import Heading from './Heading';
-import Subheading from './Subheading';
+// import { block_data } from './block_data';
+let block_data = blocks;
 
 export default class App extends Component {
 
     constructor(props) {
         super(props);
-        // this.myfunction = this.myfunction.bind(this);
-        this.update = this.update.bind(this);
-        let category;
-        for(let x in blocks) {
-            for(let y in blocks[x].levels) {
-                let zone_categories = blocks[x].levels[y].zone_categories;
-                let area_categories = blocks[x].levels[y].area_categories;
-                if(zone_categories) {
-                    category = zone_categories[Object.keys(zone_categories)[0]];
-                    break;
-                }else if(area_categories) {
-                    category = area_categories[Object.keys(area_categories)[0]];
-                    break;
-                }
-            }
-        }
+        this.isActive = this.isActive.bind(this);
+        this.activate = this.activate.bind(this);
+        this.activateBlock = this.activateBlock.bind(this);
+        this.activateFloor = this.activateFloor.bind(this);
         this.state = {
-            type: 1,
-            block: blocks[0],
-            level: blocks[0].levels[0],
-            category: blocks[0].levels[0].zone_categories[1],
-            blocks: blocks
-        };
+            active: 'block',
+            block_data: block_data,
+            active_block: block_data[0],
+            active_floor: block_data[0].levels[0]
+        }
     }
 
-    update(data) {
-        this.setState(data);
+    activate(value) {
+        this.setState({active: value});
     }
 
-    activate(block, level, category) {
-        this.setState({block: block, level:level, category: category});
+    isActive(value) {
+        return this.state.active === value ? 1 : 0;
+    }
+
+    activateBlock(block) {
+        this.setState({active_block: block, active_floor: block.levels[0]});
+        this.activate('block');
+    }
+
+    activateFloor(floor) {
+        this.setState({active_floor: floor});
     }
 
     render() {
         return (
-            <div id="container">
-                <Buttons 
-                    blocks={this.state.blocks}
-                    block={this.state.block}
-                    category={this.state.category}
-                    style={Style['buttons']}
-                    update={this.update}
+            <div className="container">
+                <Index
+                    isActive={this.isActive}
+                    activate={this.activate}
                 />
-                <RightBlock
-                    type={this.state.type}
-                    block={this.state.block}
-                    level={this.state.level}
-                    category={this.state.category}
-                    style={Style['rightblock']}
-                    update={this.update}
-                />
-                <Subheading
-                    text={this.state.category.name}
-                    style={Style['subheading']}
-                />
-                <Heading
-                    type={this.state.type}
-                    style={Style['heading']}
-                    level={this.state.level}
-                    block={this.state.block}
-                />
-                <Display
-                    style={Style['display']}
-                    level={this.state.level}
-                    category={this.state.categry}
+                <Block
+                    active_block={this.state.active_block}
+                    activateBlock={this.activateBlock}
+                    active_floor={this.state.active_floor}
+                    activateFloor={this.activateFloor}
+                    block_data={this.state.block_data}
+                    isActive={this.isActive}
+                    activate={this.activate}
                 />
             </div>
         );
@@ -89,7 +68,7 @@ export default class App extends Component {
 window.onload = function() {
 
     if (document.getElementById('root')) {
-        ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(<App />, document.getElementById('root'));
     }
 
-}
+};
