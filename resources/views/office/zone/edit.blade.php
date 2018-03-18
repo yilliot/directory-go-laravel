@@ -8,7 +8,7 @@
   <form action="/back-office/zone/edit" class="ui form" method="POST">
     @csrf
     <input type="hidden" id="map" value="/storage/{{$zone->level->map_path}}">
-    <input type="hidden" id="data" value="{{$zone->area_json}}">
+    <input type="hidden" id="data" name="area_json" value="{{$zone->area_json}}">
     <input type="hidden" name="id" value="{{$zone->id}}">
     <div class="ui grid">
       <div class="four wide column">
