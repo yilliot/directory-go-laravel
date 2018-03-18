@@ -6,6 +6,20 @@ use Illuminate\Http\Request;
 
 class KioskController extends Controller
 {
+    function published()
+    {
+        // cached from publishes table
+        $blocks = app(\App\Services\KioskDataProvider::class)->getLatestData()->data;
+        return view('index', compact('blocks'));
+    }
+
+    function preview()
+    {
+        // realtime from db
+        $blocks = app(\App\Services\KioskDataProvider::class)->generateData();
+        return view('index', compact('blocks'));
+    }
+
     function index()
     {
         $blocks = \App\Models\Block::with('levels')->get();
@@ -64,7 +78,7 @@ class KioskController extends Controller
         $blocks = $blocks->map(function($block) use ($areasByCategories, $zonesByCategories) {
 
             $levels = $block->levels->map(function($level) use ($areasByCategories, $zonesByCategories) {
-                $level = $level->only(['id', 'name', 'map_path', 'level_order']);
+                $level = $level->only(['id', 'name', 'map_path', 'level_order', 'is_activated']);
                 if (isset($areasByCategories[$level['id']])) {
                     $level['area_categories'] = $areasByCategories[$level['id']];
                 }
@@ -86,5 +100,6 @@ class KioskController extends Controller
     public function drawing()
     {
         return view('part.drawing');
+        return view('drawing');
     }
 }

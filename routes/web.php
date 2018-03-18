@@ -3,7 +3,21 @@
 Route::get('/drawing', 'KioskController@drawing');
 Route::get('/{id?}', 'KioskController@index');
 
+Route::group(['prefix' => 'kiosk'], function(){
+    Route::get('/published/{id?}', 'KioskController@published');
+    Route::get('/preview/{id?}', 'KioskController@preview');
+});
+
+Route::group(['prefix' => 'publish'], function(){
+    Route::get('/version', 'PublishController@getVersion');
+    Route::get('/data', 'PublishController@getData');
+});
+
 Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
+    Route::group(['prefix' => 'publish'], function(){
+        Route::post('/create', 'PublishController@postCreate');
+    });
+
     Route::group(['prefix' => 'block'], function(){
         Route::get('/edit/{id}', 'BlockController@getEdit');
         Route::post('/edit/{id}', 'BlockController@postEdit');

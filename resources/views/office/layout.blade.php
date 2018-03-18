@@ -8,9 +8,9 @@
   <div class="ui bg-red no-corner mb-0 pl-5 inverted menu">
     <h1 class="pt-3">Interactive CMS</h1>
     <div class="right menu">
-      <div class="item">
+      <div class="item modalcaller" data-modal-id='create_publish'>
         <i class="upload icon"></i>
-        Publish to kiosk
+        Publish
       </div>
       <div class="ui simple dropdown item">
         <i class="circular white inverted user icon"></i>
@@ -41,6 +41,23 @@
     @section('content')
     @show
   </div>
+
+  {!! Form::open(['url' => '/back-office/publish/create', 'class' => 'ui small create_publish modal']) !!}
+    <div class="header capitalized">
+      Publish content
+    </div>
+    <div class="center aligned content">
+      Updated data will be published to kiosk within 24 hrs after action.
+    </div>
+    <div class="actions">
+      <div class="ui cancel basic button">
+        Cancel
+      </div>
+      <button id="edit_category_button" class="ui negative right labeled icon button">
+        Publish <i class="checkmark icon"></i>
+      </button>
+    </div>
+  {!! Form::close() !!}
   <link rel="stylesheet" href="/semantic/semantic.min.css">
   <link rel="stylesheet" href="/css/office.css">
   <script src="/js/office.js"></script>
