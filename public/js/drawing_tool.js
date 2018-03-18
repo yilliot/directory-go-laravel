@@ -136,6 +136,18 @@ window.onload = function () {
 
     // Methods
     DrawingSet.render = function (type) {
+        // Offset validation here
+        this.offsetBuffer.x = this.offsetBuffer.x < 0 ? this.offsetBuffer.x : 0;
+        this.offsetBuffer.y = this.offsetBuffer.y < 0 ? this.offsetBuffer.y : 0;
+        this.offsetBuffer.x = this.offsetBuffer.x > -this.canvas.width * (1 - 1 / this.scale[0]) ? this.offsetBuffer.x : -this.canvas.width * (1 - 1 / this.scale[0]);
+        this.offsetBuffer.y = this.offsetBuffer.y > -this.canvas.height * (1 - 1 / this.scale[0]) ? this.offsetBuffer.y : -this.canvas.height * (1 - 1 / this.scale[0]);
+
+        this.offset.x = this.offset.x < 0 ? this.offset.x : 0;
+        this.offset.y = this.offset.y < 0 ? this.offset.y : 0;
+        this.offset.x = this.offset.x > -this.canvas.width * (1 - 1 / this.scale[0]) ? this.offset.x : -this.canvas.width * (1 - 1 / this.scale[0]);
+        this.offset.y = this.offset.y > -this.canvas.height * (1 - 1 / this.scale[0]) ? this.offset.y : -this.canvas.height * (1 - 1 / this.scale[0]);
+
+        // record history
         switch (type) {
             case 'undo':
                 if (this.history.length > 1) this.future.unshift(this.history.shift());
