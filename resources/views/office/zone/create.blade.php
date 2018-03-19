@@ -21,37 +21,39 @@
           </div>
           <div class="field">
             <label for="zone_category_id">Zone Category</label>
-            <select name="zone_category_id" id="" class="ui dropdown">
+            <select name="zone_category_id" id="select_zone_category_id" class="ui dropdown">
               @foreach (\App\Models\ZoneCategory::all() as $zoneCategory)
                 <option value="{{$zoneCategory->id}}">{{$zoneCategory->name}}</option>
               @endforeach
             </select>
           </div>
           <div class="field">
-          <label>Zone Colour</label>
-          <div class='flex-space-around'>
-            <label class="colour-box bg-zone-green active">
-              <input type="radio" class="hide" name="bg_colour" checked="checked" value="#d6d7d9">
-            </label>
-            <label class="colour-box bg-zone-yellow">
-              <input type="radio" class="hide" name="bg_colour" value="#91cdc6">
-            </label>
-            <label class="colour-box bg-zone-blue">
-               <input type="radio" class="hide" name="bg_colour" value="#d4441f">
-             </label> {{-- field --}}
-          </div> {{-- flex-space-around --}}
-          <div class='flex-space-around'>
-            <label class="colour-box bg-zone-red">
-              <input type="radio" class="hide" name="bg_colour" value="#3f78be">
-            </label>
-            <label class="colour-box bg-zone-tiffany">
-              <input type="radio" class="hide" name="bg_colour" value="#ffc727">
-            </label>
-            <label class="colour-box bg-zone-grey">
-               <input type="radio" class="hide" name="bg_colour" value="#01937c">
-             </label> {{-- field --}}
-          </div> {{-- flex-space-around --}}
-        </div> {{-- field --}}
+            <label>Zone Colour</label>
+            <div class='flex-space-around'>
+              <label class="colour-box bg bg-zone-green">
+                <input type="radio" class="hide" name="bg_colour" value="#01937c">
+              </label>
+              <label class="colour-box bg bg-zone-yellow">
+                <input type="radio" class="hide" name="bg_colour" value="#ffc727">
+              </label>
+            </div> {{-- flex-space-around --}}
+            <div class='flex-space-around'>
+              <label class="colour-box bg bg-zone-blue">
+                 <input type="radio" class="hide" name="bg_colour" value="#3f78be">
+               </label> {{-- field --}}
+              <label class="colour-box bg bg-zone-red">
+                <input type="radio" class="hide" name="bg_colour" value="#d4441f">
+              </label>
+            </div>
+            <div class="flex-space-around">
+              <label id="mk-choice" class="colour-box bg bg-zone-tiffany">
+                <input type="radio" class="hide" name="bg_colour" value="#91cdc6">
+              </label>
+              <label id="bc-choice" class="colour-box bg bg-zone-grey">
+                 <input type="radio" class="hide" name="bg_colour" value="#d6d7d9">
+               </label> {{-- field --}}
+            </div> {{-- flex-space-around --}}
+          </div> {{-- field --}}
           <button class="ui red fluid button">Create New Zone</button>
         </form>
       </div>
@@ -68,9 +70,41 @@
 
 @section('script')
 <script>
+  $('#select_zone_category_id').change(function(){
+    update_colour_box();
+  });
   $('.colour-box').click(function(){
-    $('.colour-box').removeClass('active');
+    $(this).closest('.field').find('.colour-box').removeClass('active');
     $(this).addClass('active');
   });
+
+
+  function update_colour_box()
+  {
+    let zone_category_id = $('#select_zone_category_id');
+    if (zone_category_id.val() == '1') {
+      let colour_box = $('#mk-choice').closest('.field').find('.colour-box');
+      colour_box.show();
+      $('#bc-choice').hide();
+      $('#mk-choice').hide();
+      colour_box.first().click();
+    }
+    if (zone_category_id.val() == '2') {
+      let colour_box = $('#mk-choice').closest('.field').find('.colour-box');
+      colour_box.show();
+      colour_box.not('#mk-choice').hide();
+      $('#mk-choice').click();
+    }
+    if (zone_category_id.val() == '3') {
+      let colour_box = $('#bc-choice').closest('.field').find('.colour-box');
+      colour_box.show();
+      colour_box.not('#bc-choice').hide();
+      $('#bc-choice').click();
+    }
+  }
+  $(function(){
+    update_colour_box();
+  });
+
 </script>
 @endsection
