@@ -47,7 +47,7 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
     Route::group(['prefix' => 'area'], function(){
         Route::get('/', 'AreaController@index');
         Route::get('/list/{level_id}', 'AreaController@getList');
-        Route::get('/create', 'AreaController@getCreate');
+        Route::get('/create/{level_id}', 'AreaController@getCreate');
         Route::get('/edit/{id}', 'AreaController@getEdit');
         Route::post('/create', 'AreaController@postCreate');
         Route::post('/edit', 'AreaController@postEdit');

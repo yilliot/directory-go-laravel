@@ -21,7 +21,7 @@
               </select>
             </div>
             <div class="field">
-              <a href="/back-office/area/create" class="ui red pulled right button">New area</a>
+              <a href="/back-office/area/create/{{$level->id}}" class="ui red pulled right button">New area</a>
             </div>
           </div>
         </div> {{-- ui form --}}
