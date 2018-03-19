@@ -33,17 +33,20 @@ class CoreSeeder extends Seeder
         DB::table('blocks')->truncate();
         DB::table('blocks')->insert([
             'name' => '60',
-            'colour' => '#ffc529',
+            'bg_colour' => '#ffc529',
+            'text_colour' => '#000',
             'order' => 1,
         ]);
         DB::table('blocks')->insert([
             'name' => '70',
-            'colour' => '#ec677e',
+            'bg_colour' => '#ec677e',
+            'text_colour' => '#000',
             'order' => 2,
         ]);
         DB::table('blocks')->insert([
             'name' => '80',
-            'colour' => '#00a6c7',
+            'bg_colour' => '#00a6c7',
+            'text_colour' => '#000',
             'order' => 3,
         ]);
     }

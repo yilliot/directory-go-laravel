@@ -16,7 +16,8 @@ class Setup extends Migration
         Schema::create('blocks', function(Blueprint $table){
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('colour');
+            $table->string('bg_colour');
+            $table->string('text_colour');
             $table->integer('order')->unsigned();
             $table->timestamps();
         });

@@ -18,45 +18,47 @@ class AreaController extends Controller
 
         return view('office.area.list', compact('level'));
     }
-    function getCreate()
+    function getCreate(Request $request)
     {
         $level = \App\Models\Level::find($request->level_id);
 
-        return view('office.area.create');
+        return view('office.area.create', compact('level'));
     }
-    function getEdit()
+    function getEdit(Request $request)
     {
         $area = \App\Models\Area::find($request->id);
 
         return view('office.area.edit', compact('area'));
     }
-    function postCreate()
+    function postCreate(Request $request)
     {
         $area = new \App\Models\Area();
         $area->level_id = $request->level_id;
         $area->block_id = \App\Models\Area::find($request->level_id)->block_id;
         $area->name = $request->name;
         $area->name_display = $request->name_display;
-        $area->text_size = $request->text_size;
-        $area->categories()->sync([$request->category_ids]);
+        $area->text_size = '16px';
         $area->area_json = json_encode([]);
         $area->save();
 
-        return back()->with('success', 'Success');
+        $area->categories()->sync($request->area_category_ids);
+
+        return redirect('/back-office/area/edit/'.$area->id)->with('success', 'Success');
     }
-    function postEdit()
+    function postEdit(Request $request)
     {
         $area = \App\Models\Area::find($request->id);
         $area->name = $request->name;
         $area->name_display = $request->name_display;
         $area->text_size = $request->text_size;
-        $area->categories()->sync([$request->category_ids]);
         $area->area_json = $request->area_json;
         $area->save();
 
+        $area->categories()->sync($request->area_category_ids);
+
         return back()->with('success', 'Success');
     }
-    function postDelete()
+    function postDelete(Request $request)
     {
         $area = \App\Models\Area::find($request->id);
         $levelId = $area->level_id;
