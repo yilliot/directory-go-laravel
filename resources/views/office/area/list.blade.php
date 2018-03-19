@@ -71,3 +71,4 @@
     location.href = '/back-office/area/list/' + $(this).val();
   });
 </script>
+@endsection
