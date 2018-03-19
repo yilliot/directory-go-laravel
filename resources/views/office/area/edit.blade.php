@@ -10,6 +10,8 @@
     <input type="hidden" id="map" value="/storage/{{$area->level->map_path}}">
     <input type="hidden" id="data" name="area_json" value="{{$area->area_json}}">
     <input type="hidden" name="id" value="{{$area->id}}">
+    <input type="hidden" id="bg_colour_temp" value="{{$area->block->bg_colour}}">
+    <input type="hidden" id="text_colour_temp" value="{{$area->block->text_colour}}">
     <div class="ui grid">
       <div class="four wide column">
         <div class="field">
