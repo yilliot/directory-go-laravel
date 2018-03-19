@@ -71,7 +71,7 @@
       </div> {{-- two wide column --}}
       <div class="sixteen wide column">
         <div class="ui divider"></div>
-        <button class="ui red button">Cancel</button>
+        <a href="/back-office/area/list/{{$area->level_id}}" class="ui red button">Cancel</a>
         <button class="ui red pulled right button">Save</button>
         <button type="button" class="ui red pulled right modalcaller button" data-modal-id='delete_area'>Delete</button>
       </div>
