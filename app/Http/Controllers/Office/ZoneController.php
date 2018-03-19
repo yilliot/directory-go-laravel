@@ -60,8 +60,12 @@ class ZoneController extends Controller
 
         return back()->with('success', 'Success');
     }
-    function postDelete()
+    function postDelete(Request $request)
     {
-        return back()->with('success', 'Success');
+        $zone = \App\Models\Zone::find($request->id);
+        $levelId = $zone->level_id;
+        $zone->delete();
+
+        return redirect('/back-office/zone/list/' . $levelId)->with('success', 'Success');
     }
 }
