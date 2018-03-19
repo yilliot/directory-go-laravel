@@ -8,6 +8,7 @@ export default function Buttons(props) {
             key="index"
             style={props.style.button}
             update={props.update}
+            index={props.index}
         />);
     props.blocks.forEach((value, i) => {
         buttons.push(
@@ -65,7 +66,7 @@ function IndexButton(props) {
     return (
         <div
             style={{backgroundColor: '#666666', ...props.style.style}}
-            onClick={props.update.bind(this, {type: 0, block: null})}
+            onClick={props.update.bind(this, {type: 0, block: props.index})}
         >
             Index
         </div>

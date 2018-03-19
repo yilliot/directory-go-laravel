@@ -37,7 +37,8 @@ export default class App extends Component {
             level: blocks.blocks[0].levels[0],
             category: blocks.blocks[0].levels[0].zone_categories[1],
             blocks: blocks.blocks,
-            direction: direction
+            direction: direction,
+            index: blocks.blocks[0]
         };
     }
 
@@ -55,6 +56,7 @@ export default class App extends Component {
                 <Buttons 
                     blocks={this.state.blocks}
                     block={this.state.block}
+                    index={this.state.index}
                     category={this.state.category}
                     style={Style['buttons']}
                     update={this.update}
