@@ -12,10 +12,127 @@ class KioskDataProvider
     function generateData()
     {
         $blocks = $this->generateBlock();
-        $zoneCategories = $this->generateZoneCategories();
-        $areaCategories = $this->generateAreaCategories();
+        // $zoneCategories = $this->generateZoneCategories();
+        // $areaCategories = $this->generateAreaCategories();
 
-        return collect(compact('blocks', 'zoneCategories', 'areaCategories'));
+        // kampong index
+        $kampongIndex = $this->generateKampongIndex();
+
+        // facilities index
+        $facilitiesIndex = $this->generateFacilitiesIndex();
+
+        // meeting room index A-G
+        // meeting room index H-O
+        // meeting room index P-Z
+        $meetingRoomIndex = $this->generateMeetingRoomIndex();
+
+        return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex'));
+    }
+
+    function generateMeetingRoomIndex() {
+        $meetingRooms = \App\Models\Category::with('areas', 'areas.level', 'areas.level.block')
+            ->where('id', 2)
+            ->first()
+            ->areas
+            ->groupBy(function($item){
+                $firstChar = strtoupper($item->name[0]);
+                if (in_array($firstChar, range('A', 'G'))) {
+                    return 'A-G';
+                } else if (in_array($firstChar, range('H', 'O'))) {
+                    return 'H-O';
+                } else {
+                    return 'P-Z';
+                }
+            })
+            ->map(function($group) {
+                return $group->map(function($item){
+                    return [
+                        'name' => $item->name,
+                        'name_display' => $item->name_display,
+                        'text_size' => $item->text_size,
+                        'area_json' => $item->area_json,
+                    ];
+                });
+            })
+            ->toArray();
+        return $meetingRooms;
+    }
+
+    function generateKampongIndex() {
+        $kampongs = \App\Models\ZoneCategory::with('zones', 'zones.level', 'zones.level.block')
+            ->where('id', 1)
+            ->first()
+            ->zones
+            ->groupBy('block_id')
+            ->map(function($item) {
+                return [
+                    'id' => $item->first()->level->block->id,
+                    'name' => $item->first()->level->block->name,
+                    'bg_colour' => $item->first()->level->block->bg_colour,
+                    'text_colour' => $item->first()->level->block->text_colour,
+                    'order' => $item->first()->level->block->order,
+                    'levels' => $item
+                        ->groupBy('level_id')
+                        ->map(function($item_level){
+                            return [
+                                'name' => $item_level->first()->level->name,
+                                'level_order' => $item_level->first()->level->level_order,
+                                'is_activated' => $item_level->first()->level->is_activated,
+                                'zones' => $item_level
+                                    ->map(function($item_area){
+                                        return [
+                                            'name' => $item_area->name,
+                                            'name_display' => $item_area->name_display,
+                                            'text_size' => $item_area->text_size,
+                                            'area_json' => $item_area->area_json,
+                                        ];
+                                    }),
+                            ];
+                        }),
+                ];
+            })
+            ->toArray();
+
+        return $kampongs;
+    }
+
+    function generateFacilitiesIndex()
+    {
+        $facilities = \App\Models\Category::with('areas', 'areas.level', 'areas.level.block')
+            ->where('id', 23)
+            ->first()
+            ->areas
+            ->groupBy('block_id')
+            ->map(function($item) {
+                return [
+                    'id' => $item->first()->level->block->id,
+                    'name' => $item->first()->level->block->name,
+                    'bg_colour' => $item->first()->level->block->bg_colour,
+                    'text_colour' => $item->first()->level->block->text_colour,
+                    'order' => $item->first()->level->block->order,
+                    'levels' => $item
+                        ->groupBy('level_id')
+                        ->map(function($item_level){
+                            return [
+                                'name' => $item_level->first()->level->name,
+                                'level_order' => $item_level->first()->level->level_order,
+                                'is_activated' => $item_level->first()->level->is_activated,
+                                'areas' => $item_level
+                                    ->map(function($item_area){
+                                        return [
+                                            'name' => $item_area->name,
+                                            'name_display' => $item_area->name_display,
+                                            'text_size' => $item_area->text_size,
+                                            'area_json' => $item_area->area_json,
+                                        ];
+                                    }),
+                            ];
+                        }),
+                ];
+            })
+            ->toArray();
+
+        return $facilities;
     }
 
     function generateAreaCategories()
