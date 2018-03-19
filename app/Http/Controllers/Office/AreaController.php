@@ -20,22 +20,48 @@ class AreaController extends Controller
     }
     function getCreate()
     {
+        $level = \App\Models\Level::find($request->level_id);
+
         return view('office.area.create');
     }
     function getEdit()
     {
-        return view('office.area.edit');
+        $area = \App\Models\Area::find($request->id);
+
+        return view('office.area.edit', compact('area'));
     }
     function postCreate()
     {
+        $area = new \App\Models\Area();
+        $area->level_id = $request->level_id;
+        $area->block_id = \App\Models\Area::find($request->level_id)->block_id;
+        $area->name = $request->name;
+        $area->name_display = $request->name_display;
+        $area->text_size = $request->text_size;
+        $area->categories()->sync([$request->category_ids]);
+        $area->area_json = json_encode([]);
+        $area->save();
+
         return back()->with('success', 'Success');
     }
     function postEdit()
     {
+        $area = \App\Models\Area::find($request->id);
+        $area->name = $request->name;
+        $area->name_display = $request->name_display;
+        $area->text_size = $request->text_size;
+        $area->categories()->sync([$request->category_ids]);
+        $area->area_json = $request->area_json;
+        $area->save();
+
         return back()->with('success', 'Success');
     }
     function postDelete()
     {
-        return back()->with('success', 'Success');
+        $area = \App\Models\Area::find($request->id);
+        $levelId = $area->level_id;
+        $area->delete();
+
+        return redirect('/back-office/area/list/' . $levelId)->with('success', 'Success');
     }
 }
