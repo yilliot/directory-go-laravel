@@ -12,11 +12,11 @@ class KioskDataProvider
     function generateData()
     {
         $blocks = $this->generateBlock();
-        $zoneCategories = $this->generateZoneCategories();
-        $areaCategories = $this->generateAreaCategories();
+        // $zoneCategories = $this->generateZoneCategories();
+        // $areaCategories = $this->generateAreaCategories();
 
         // kampong index
-        $facilitiesIndex = $this->generateKampongIndex();
+        $kampongIndex = $this->generateKampongIndex();
 
         // facilities index
         $facilitiesIndex = $this->generateFacilitiesIndex();
@@ -26,14 +26,48 @@ class KioskDataProvider
         // meeting room index P-Z
         $meetingRoomIndex = $this->generateMeetingRoomIndex();
 
-        return collect(compact('blocks', 'zoneCategories', 'areaCategories'));
+        return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex'));
     }
 
     function generateMeetingRoomIndex() {
     }
 
     function generateKampongIndex() {
+        $kampongs = \App\Models\ZoneCategory::with('zones', 'zones.level', 'zones.level.block')
+            ->where('id', 1)
+            ->first()
+            ->zones
+            ->groupBy('block_id')
+            ->map(function($item) {
+                return [
+                    'id' => $item->first()->level->block->id,
+                    'name' => $item->first()->level->block->name,
+                    'bg_colour' => $item->first()->level->block->bg_colour,
+                    'text_colour' => $item->first()->level->block->text_colour,
+                    'order' => $item->first()->level->block->order,
+                    'levels' => $item
+                        ->groupBy('level_id')
+                        ->map(function($item_level){
+                            return [
+                                'name' => $item_level->first()->level->name,
+                                'level_order' => $item_level->first()->level->level_order,
+                                'is_activated' => $item_level->first()->level->is_activated,
+                                'zones' => $item_level
+                                    ->map(function($item_area){
+                                        return [
+                                            'name' => $item_area->name,
+                                            'name_display' => $item_area->name_display,
+                                            'text_size' => $item_area->text_size,
+                                            'area_json' => $item_area->area_json,
+                                        ];
+                                    }),
+                            ];
+                        }),
+                ];
+            })
+            ->toArray();
 
+        return $kampongs;
     }
 
     function generateFacilitiesIndex()
