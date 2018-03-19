@@ -36,7 +36,8 @@ export default class App extends Component {
             block: blocks[0],
             level: blocks[0].levels[0],
             category: blocks[0].levels[0].zone_categories[1],
-            blocks: blocks
+            blocks: blocks,
+            direction: 1
         };
     }
 
@@ -79,7 +80,8 @@ export default class App extends Component {
                 <Display
                     style={Style['display']}
                     level={this.state.level}
-                    category={this.state.categry}
+                    category={this.state.category}
+                    direction={this.state.direction}
                 />
             </div>
         );

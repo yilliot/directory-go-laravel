@@ -20,7 +20,7 @@ $factory->define(\App\Models\Zone::class, function (Faker $faker) {
         ]),
         'text_colour' => $faker->randomElement(['#FFF', '#000']),
         'text_size' => rand(12, 18) . 'px',
-        'area_json' => '[{x:1,y:3}]',
+        'area_json' => '[]',
         'created_at' => date("Y-m-d H:i:s"),
         'updated_at' => date("Y-m-d H:i:s"),
     ];

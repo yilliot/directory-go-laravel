@@ -94,7 +94,6 @@ function Level(props) {
 
 function Categorys(props) {
     let content = [];
-    console.log(props, props.level);
     let zone_categories = props.level.zone_categories;
     let area_categories = props.level.area_categories;
     if(zone_categories) {
