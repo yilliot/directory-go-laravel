@@ -121,7 +121,7 @@ window.onload = function() {
             this.ctx.fillStyle = this.history[0].geometry.color;
             this.ctx.strokeStyle = this.history[0].geometry.color;
             let points = this.history[0].geometry.points;
-            if(this.dragging) this.ctx.translate(this.offsetBufferPoligon.x, this.offsetBufferPoligon.y);
+            if(this.dragging && this.activeTool == 'poligon') this.ctx.translate(this.offsetBufferPoligon.x, this.offsetBufferPoligon.y);
             else this.ctx.translate(this.history[0].geometry.x, this.history[0].geometry.y);
             for(let x in points) {
                 if(x == 0)this.ctx.moveTo(points[x].x, points[x].y);
@@ -142,7 +142,7 @@ window.onload = function() {
                 else this.ctx.stroke();
             }
             this.ctx.globalAlpha = 1;
-            if(this.dragging) this.ctx.translate(-this.offsetBufferPoligon.x, -this.offsetBufferPoligon.y);
+            if(this.dragging && this.activeTool == 'poligon') this.ctx.translate(-this.offsetBufferPoligon.x, -this.offsetBufferPoligon.y);
             else this.ctx.translate(-this.history[0].geometry.x, -this.history[0].geometry.y);
         }
 
@@ -283,7 +283,7 @@ window.onload = function() {
     // Toggle tool
     DrawingSet.togglePoligon = function() {
         this.activeTool = this.activeTool == 'poligon'? null: 'poligon';
-        this.canvas.style.cursor = this.activeTool == 'poligon'? 'crosshair': 'default';
+        this.canvas.style.cursor = this.activeTool == 'poligon'? this.data.geometry.completed ? '-webkit-grab': 'crosshair': 'default';
     }
     DrawingSet.toggleZoom = function() {
         this.activeTool = this.activeTool == 'zoom'? null: 'zoom';
