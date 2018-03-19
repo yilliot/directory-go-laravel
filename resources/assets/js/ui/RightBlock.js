@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import './Categorys.css';
+
 export default function RightBlock(props) {
     let content;
     if(props.type){
@@ -134,7 +136,7 @@ function Categorys(props) {
     //     content = "Category based on level";
     // }
     return (
-        <div style={{...props.style.style, backgroundColor: props.block.colour}}>
+        <div className="hide-scrollbar" style={{...props.style.style, backgroundColor: props.block.colour}}>
             {content}
         </div>
     );

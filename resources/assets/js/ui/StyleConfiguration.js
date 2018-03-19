@@ -73,6 +73,7 @@ const Style =
                 height: '100%',
                 bottom: '0px',
                 right: '0px',
+                overflow: 'scroll',
             },
             category:{
                 style:{

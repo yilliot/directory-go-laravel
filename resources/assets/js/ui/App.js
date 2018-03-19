@@ -33,10 +33,10 @@ export default class App extends Component {
         }
         this.state = {
             type: 1,
-            block: blocks[0],
-            level: blocks[0].levels[0],
-            category: blocks[0].levels[0].zone_categories[1],
-            blocks: blocks,
+            block: blocks.blocks[0],
+            level: blocks.blocks[0].levels[0],
+            category: blocks.blocks[0].levels[0].zone_categories[1],
+            blocks: blocks.blocks,
             direction: direction
         };
     }
