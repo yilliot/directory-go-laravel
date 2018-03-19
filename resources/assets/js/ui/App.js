@@ -37,7 +37,7 @@ export default class App extends Component {
             level: blocks[0].levels[0],
             category: blocks[0].levels[0].zone_categories[1],
             blocks: blocks,
-            direction: 1
+            direction: direction
         };
     }
 

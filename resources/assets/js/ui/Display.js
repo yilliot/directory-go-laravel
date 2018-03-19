@@ -54,11 +54,10 @@ class Canvas extends Component {
             }
             else ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // rotation (optional)
             if(this.props.areas) {
                 this.props.areas.forEach((area, index) => {
                     // console.log(area);
-                    drawArea(ctx, area, canvas.width, canvas.height);
+                    drawArea(ctx, area, canvas.width, canvas.height, this.props.direction);
                 });
             }
             if(this.props.direction) {
@@ -74,7 +73,7 @@ class Canvas extends Component {
     }
 }
 
-function drawArea(ctx, area, width, height) {
+function drawArea(ctx, area, width, height, direction) {
     // Check if it is assigned
     if(!Array.isArray(JSON.parse(area.area_json))) {
         let area_json = JSON.parse(area.area_json);
@@ -97,6 +96,10 @@ function drawArea(ctx, area, width, height) {
 
         let text = area_json.text.text;
         if(text) {
+            if(direction) {
+                ctx.rotate(Math.PI);
+                ctx.translate(-width, -height);
+            }
             let text_color = area_json.text.color;
             let text_size = area_json.text.size;
             let x = area_json.text.x;
@@ -106,8 +109,13 @@ function drawArea(ctx, area, width, height) {
             // console.log(text);
             ctx.font = text_size + ' Georgia';
             ctx.fillStyle = text_color;
-            ctx.fillText(text, x / c.w * width , y / c.h * height);
+            if(direction) ctx.fillText(text, width - ctx.measureText(text).width - x / c.w * width , height - (y / c.h * height));
+            else ctx.fillText(text, x / c.w * width , y / c.h * height);
             ctx.fill();
+            if(direction) {
+                ctx.rotate(Math.PI);
+                ctx.translate(-width, -height);
+            }
         }
         return true;
     } else return false;
