@@ -111,11 +111,29 @@
         <div class="ui divider"></div>
         <button class="ui red button">Cancel</button>
         <button class="ui red pulled right button">Save</button>
-        <button class="ui red pulled right button">Delete</button>
+        <button type="button" class="ui red pulled right modalcaller button" data-modal-id='delete_zone'>Delete</button>
       </div>
     </div>
   </form>
 </div>
+
+{!! Form::open(['url' => '/back-office/zone/delete', 'class' => 'ui small delete_zone modal']) !!}
+  <input type="hidden" name="id" value="{{$zone->id}}">
+  <div class="header capitalized">
+    Delete zone {{$zone->name}}
+  </div>
+  <div class="center aligned content">
+    Cofirm delete zone?
+  </div>
+  <div class="actions">
+    <div class="ui cancel basic button">
+      Cancel
+    </div>
+    <button class="ui red right labeled icon button">
+      Delete <i class="trash icon"></i>
+    </button>
+  </div>
+{!! Form::close() !!}
 @endsection
 
 @section('script')
@@ -161,7 +179,11 @@
       colour_box.show();
       $('#bc-choice').hide();
       $('#mk-choice').hide();
-      colour_box.first().click();
+      colour_box.each(function(){
+        if($(this).val() == $('#bg_colour_temp').val())
+          $(this).click();
+      });
+      // TODO click the correct box
     }
     if (zone_category_id.val() == '2') {
       let colour_box = $('#mk-choice').closest('.field').find('.colour-box');

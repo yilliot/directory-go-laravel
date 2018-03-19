@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Zone::class, function (Faker $faker) {
-    $level = \App\Models\Level::find(rand(1,36));
+    $level = \App\Models\Level::find(rand(1,23));
     return [
         'level_id' => $level->id,
         'block_id' => $level->block_id,

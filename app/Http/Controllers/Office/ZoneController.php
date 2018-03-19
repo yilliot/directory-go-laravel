@@ -38,8 +38,8 @@ class ZoneController extends Controller
         $zone->name = $request->name;
         $zone->name_display = $request->name_display;
         $zone->bg_colour = $request->bg_colour;
-        $zone->text_size = $request->text_size;
-        $zone->text_colour = $request->text_colour;
+        $zone->text_size = '16px';
+        $zone->text_colour = '#000';
         $zone->zone_category_id = $request->zone_category_id;
         $zone->area_json = json_encode([]);
         $zone->save();
@@ -60,8 +60,12 @@ class ZoneController extends Controller
 
         return back()->with('success', 'Success');
     }
-    function postDelete()
+    function postDelete(Request $request)
     {
-        return back()->with('success', 'Success');
+        $zone = \App\Models\Zone::find($request->id);
+        $levelId = $zone->level_id;
+        $zone->delete();
+
+        return redirect('/back-office/zone/list/' . $levelId)->with('success', 'Success');
     }
 }
