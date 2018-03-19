@@ -51,7 +51,9 @@
     <div class="six wide column">
       <div class="ui segment bg-grey">
         <h2 class="ui header">Preview</h2>
-        <img src="/storage/{{$level->map_path}}" alt="" class="ui fluid image">
+        <input type="hidden" id="map" value="/storage/{{$level->map_path}}">
+        @include('part.preview', ['width' => 375, 'height' => 265, 'area_jsons' => $area_jsons]) {{-- Here need to input the array of area_json  --}}
+        {{-- <img src="/storage/{{$level->map_path}}" alt="" class="ui fluid image"> --}}
       </div>
     </div> {{-- six wide column --}}
   </div>

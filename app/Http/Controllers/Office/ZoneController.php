@@ -16,7 +16,9 @@ class ZoneController extends Controller
         $level = \App\Models\Level::with('zones')
             ->find($request->level_id);
 
-        return view('office.zone.list', compact('level'));
+        $area_jsons = $level->zones;
+
+        return view('office.zone.list', compact('level', 'area_jsons'));
     }
     function getCreate(Request $request)
     {
