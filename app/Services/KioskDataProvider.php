@@ -221,7 +221,7 @@ class KioskDataProvider
                 return $level;
             });
 
-            $block = $block->only(['id', 'name', 'colour', 'order']);
+            $block = $block->only(['id', 'name', 'bg_colour', 'text_colour', 'order']);
             $block['levels'] = $levels->toArray();
 
             return $block;
