@@ -24,7 +24,7 @@ window.onload = function() {
     DrawingSet.map = new Image();
     DrawingSet.map.src = DrawingSet.mapSrc.value;
     DrawingSet.map.onload = () => {
-        DrawingSet.render();
+        DrawingSet.render('initialize');
     };
     
     // Tool status
@@ -44,15 +44,20 @@ window.onload = function() {
     DrawingSet.offsetBufferText = {x: 0, y: 0};     // Animated rendering according to offset buffer for text
     DrawingSet.offset = {x: 0, y: 0};               // Offset for overall
     
+    if(DrawingSet.dataInput.value) {
+        DrawingSet.data = JSON.parse(DrawingSet.dataInput.value);
+    }
+    else {
     // Reference
     DrawingSet.data.canvasSize = {w: DrawingSet.canvas.width, h: DrawingSet.canvas.height};
     // Geometry
     DrawingSet.data.geometry = {points:[], color: DrawingSet.poligonColor.value, completed: 0, x: 0, y: 0};
-    DrawingSet.helper = {activated: 0, x: 0, y:0}
-    
     // Text
     DrawingSet.data.text = {text: DrawingSet.textInput.value, color: DrawingSet.fontColor.value, size: DrawingSet.fontSize.value + 'px', x: 100, y: 100};
-    
+    // Drawing helper
+    DrawingSet.data.helper = {activated: 0, x: 0, y:0}
+    }
+
     // History
     DrawingSet.history = [];
     
@@ -124,7 +129,7 @@ window.onload = function() {
                 else this.ctx.lineTo(points[x].x, points[x].y);
             }
             if(type != 'undo' && type != 'redo') {
-                this.ctx.lineTo(this.helper.x, this.helper.y);
+                this.ctx.lineTo(this.data.helper.x, this.data.helper.y);
                 if(points.length > 1) {
                     this.ctx.globalAlpha = 0.6;
                     this.ctx.fill();
@@ -182,10 +187,10 @@ window.onload = function() {
     // Poligon tool
     DrawingSet.createPoint = function(x, y) {
         if(!this.data.geometry.completed) {
-            if(!this.helper.activated){
-                this.helper.activated = 1;
-                this.helper.x = x / this.scale[0] - this.offset.x;
-                this.helper.y = y / this.scale[0] - this.offset.y;
+            if(!this.data.helper.activated){
+                this.data.helper.activated = 1;
+                this.data.helper.x = x / this.scale[0] - this.offset.x;
+                this.data.helper.y = y / this.scale[0] - this.offset.y;
                 this.data.geometry.points = [];
             }
             this.data.geometry.points.push({x: x / this.scale[0] - this.offset.x, y: y / this.scale[0] - this.offset.y});
@@ -194,14 +199,14 @@ window.onload = function() {
             
     }
     DrawingSet.showLine = function(x, y) {
-        if(this.helper.activated) {
-            this.helper.x = x / this.scale[0] - this.offset.x;
-            this.helper.y = y / this.scale[0] - this.offset.y;
+        if(this.data.helper.activated) {
+            this.data.helper.x = x / this.scale[0] - this.offset.x;
+            this.data.helper.y = y / this.scale[0] - this.offset.y;
             this.render('helper');
         }
     }
     DrawingSet.completeDrawing = function() {
-        this.helper.activated = 0;
+        this.data.helper.activated = 0;
         this.data.geometry.completed = 1;
         this.render();
     }
