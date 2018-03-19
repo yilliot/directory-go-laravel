@@ -44,7 +44,7 @@ window.onload = function() {
     DrawingSet.offsetBufferText = {x: 0, y: 0};     // Animated rendering according to offset buffer for text
     DrawingSet.offset = {x: 0, y: 0};               // Offset for overall
     
-    if(JSON.parse(DrawingSet.dataInput.value).length) {
+    if(!Array.isArray(JSON.parse(DrawingSet.dataInput.value))) {
         DrawingSet.data = JSON.parse(DrawingSet.dataInput.value);
     }
     else {
