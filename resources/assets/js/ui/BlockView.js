@@ -81,12 +81,14 @@ function Level(props) {
 function Zones(props) {
     let content = [];
     props.zones.forEach((zone, i) => {
-        content.push(
-            <Zone
-                style={props.style.zone}
-                zone={zone}
-                key={i}
-            />);
+        if(zone.name_display) {
+            content.push(
+                <Zone
+                    style={props.style.zone}
+                    zone={zone}
+                    key={i}
+                />);
+        }
     });
     return (
         <div>
@@ -97,7 +99,7 @@ function Zones(props) {
 
 function Zone(props) {
     return (
-        <div style={props.style.style}>
+        <div style={{backgroundColor: props.zone.bg_colour}}>
             {props.zone.name_display}
         </div>
     );
