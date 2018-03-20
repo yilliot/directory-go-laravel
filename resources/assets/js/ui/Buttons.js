@@ -52,7 +52,7 @@ function BlockButton(props) {
     : null;
     return (
         <div
-            className='block-button'
+            className={'block-button ' + (props.active_block === props.block ? 'active' : '')}
             style={{backgroundColor: props.block.colour}}
             onClick={update}
         >
@@ -64,7 +64,7 @@ function BlockButton(props) {
 function IndexButton(props) {
     return (
         <div
-            className='index-button'
+            className={'index-button ' + (props.active_block === props.block ? 'active' : '')}
             onClick={props.update.bind(this, {type: 0, block: props.index, category: props.index[Object.keys(props.index)[0]]})}
         >
             Index
