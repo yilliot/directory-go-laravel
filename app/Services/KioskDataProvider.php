@@ -56,6 +56,9 @@ class KioskDataProvider
                         'name_display' => $item->name_display,
                         'text_size' => $item->text_size,
                         'area_json' => $item->area_json,
+                        'category' => $item_area->zoneCategory->name,
+                        'level' => $item_area->level->name,
+                        'block' => $item_area->block->name,
                     ];
                 });
             })
