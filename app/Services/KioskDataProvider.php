@@ -67,42 +67,6 @@ class KioskDataProvider
     }
 
     function generateKampongIndex() {
-        // $kampongs = \App\Models\ZoneCategory::with('zones', 'zones.level', 'zones.level.block')
-        //     ->where('id', 1)
-        //     ->first()
-        //     ->zones
-        //     ->groupBy('block_id')
-        //     ->map(function($item) {
-        //         return [
-        //             'id' => $item->first()->level->block->id,
-        //             'name' => $item->first()->level->block->name,
-        //             'bg_colour' => $item->first()->level->block->bg_colour,
-        //             'text_colour' => $item->first()->level->block->text_colour,
-        //             'order' => $item->first()->level->block->order,
-        //             'levels' => $item
-        //                 ->groupBy('level_id')
-        //                 ->map(function($item_level){
-        //                     return [
-        //                         'name' => $item_level->first()->level->name,
-        //                         'level_order' => $item_level->first()->level->level_order,
-        //                         'is_activated' => $item_level->first()->level->is_activated,
-        //                         'zones' => $item_level
-        //                             ->map(function($item_area){
-        //                                 return [
-        //                                     'name' => $item_area->name,
-        //                                     'name_display' => $item_area->name_display,
-        //                                     'text_size' => $item_area->text_size,
-        //                                     'area_json' => $item_area->area_json,
-        //                                     'category' => $item_area->zoneCategory->name,
-        //                                     'level' => $item_area->level->name,
-        //                                     'block' => $item_area->block->name,
-        //                                 ];
-        //                             }),
-        //                     ];
-        //                 }),
-        //         ];
-        //     })
-        //     ->toArray();
         $kampongs = \App\Models\Block::with('levels', 'levels.zones', 'levels.zones.zoneCategory')
             ->get()
             ->map(function($block) {
@@ -142,44 +106,43 @@ class KioskDataProvider
             })
             ->toArray();
 
-        // dd($kampongs);
-
         return $kampongs;
     }
 
     function generateFacilitiesIndex()
     {
-        $facilities = \App\Models\Category::with('areas', 'areas.level', 'areas.level.block')
-            ->where('id', 23)
-            ->first()
-            ->areas
-            ->groupBy('block_id')
-            ->map(function($item) {
+        $facilities = \App\Models\Block::with('levels', 'levels.areas', 'levels.areas.categories')
+            ->get()
+            ->map(function($block) {
                 return [
-                    'id' => $item->first()->level->block->id,
-                    'name' => $item->first()->level->block->name,
-                    'bg_colour' => $item->first()->level->block->bg_colour,
-                    'text_colour' => $item->first()->level->block->text_colour,
-                    'order' => $item->first()->level->block->order,
-                    'levels' => $item
-                        ->groupBy('level_id')
-                        ->map(function($item_level){
+                    'id' => $block->id,
+                    'name' => $block->name,
+                    'bg_colour' => $block->bg_colour,
+                    'text_colour' => $block->text_colour,
+                    'order' => $block->order,
+                    'levels' => $block
+                        ->levels
+                        ->map(function($level) {
                             return [
-                                'name' => $item_level->first()->level->name,
-                                'level_order' => $item_level->first()->level->level_order,
-                                'is_activated' => $item_level->first()->level->is_activated,
-                                'areas' => $item_level
-                                    ->map(function($item_area){
-                                        return [
-                                            'name' => $item_area->name,
-                                            'name_display' => $item_area->name_display,
-                                            'text_size' => $item_area->text_size,
-                                            'area_json' => $item_area->area_json,
-                                            'category' => $item_area->categories->first()->name,
-                                            'level' => $item_area->level->name,
-                                            'block' => $item_area->block->name,
-
-                                        ];
+                                'name' => $level->name,
+                                'level_order' => $level->level_order,
+                                'is_activated' => $level->is_activated,
+                                'areas' => $level
+                                    ->areas
+                                    ->map(function($area) {
+                                        $result = [];
+                                        if($area->categories->first()->id == 23) {
+                                            $result = [
+                                                'name' => $area->name,
+                                                'name_display' => $area->name_display,
+                                                'text_size' => $area->text_size,
+                                                'area_json' => $area->area_json,
+                                                'category' => $area->categories->first()->name,
+                                                'level' => $area->level->name,
+                                                'block' => $area->block->name,
+                                            ];
+                                        }
+                                        return $result;
                                     }),
                             ];
                         }),
