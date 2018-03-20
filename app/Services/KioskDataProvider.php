@@ -16,7 +16,7 @@ class KioskDataProvider
 
     function generateData()
     {
-        // $blocks = $this->generateBlock();
+        $blocks = $this->generateBlock();
         // $zoneCategories = $this->generateZoneCategories();
         // $areaCategories = $this->generateAreaCategories();
 
@@ -24,18 +24,18 @@ class KioskDataProvider
         $kampongIndex = $this->generateKampongIndex();
 
         // // facilities index
-        // $facilitiesIndex = $this->generateFacilitiesIndex();
+        $facilitiesIndex = $this->generateFacilitiesIndex();
 
         // // meeting room index A-G
         // // meeting room index H-O
         // // meeting room index P-Z
-        // $meetingRoomIndex = $this->generateMeetingRoomIndex();
+        $meetingRoomIndex = $this->generateMeetingRoomIndex();
 
         return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex'));
     }
 
     function generateMeetingRoomIndex() {
-        $meetingRooms = \App\Models\Category::with('areas', 'areas.level', 'areas.level.block')
+        $meetingRooms = \App\Models\Category::with('areas', 'areas.level', 'areas.block', 'areas.categories')
             ->where('id', 2)
             ->first()
             ->areas
@@ -68,7 +68,7 @@ class KioskDataProvider
     }
 
     function generateKampongIndex() {
-        $kampongs = \App\Models\Block::with('levels', 'levels.zones', 'levels.zones.zoneCategory')
+        $kampongs = \App\Models\Block::with('levels', 'levels.zones', 'levels.zones.zoneCategory', 'levels.zones.level', 'levels.zones.block')
             ->get()
             ->map(function($block) {
                 return [
