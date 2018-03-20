@@ -18,6 +18,10 @@ class PlotKioskTable extends Migration
             $table->string('slug');
             $table->integer('level_id')->unsigned()->index();
             $table->string('axis')->nullable();
+
+            // 1 : NORTH
+            // 2 : SOUTH
+            $table->integer('direction')->default(1);
             $table->timestamps();
         });
     }
