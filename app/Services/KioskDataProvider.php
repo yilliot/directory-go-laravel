@@ -59,6 +59,7 @@ class KioskDataProvider
                         'category' => $item->categories->first()->name,
                         'level' => $item->level->name,
                         'block' => $item->block->name,
+                        'bg_colour' => $item->block->bg_colour,
                     ];
                 });
             })
@@ -96,6 +97,7 @@ class KioskDataProvider
                                                 'category' => $zone->zoneCategory->name,
                                                 'level' => $zone->level->name,
                                                 'block' => $zone->block->name,
+                                                'bg_colour' => $zone->block->bg_colour,
                                             ];
                                         }
                                         return $result;
@@ -140,6 +142,7 @@ class KioskDataProvider
                                                 'category' => $area->categories->first()->name,
                                                 'level' => $area->level->name,
                                                 'block' => $area->block->name,
+                                                'bg_colour' => $area->block->bg_colour,
                                             ];
                                         }
                                         return $result;
