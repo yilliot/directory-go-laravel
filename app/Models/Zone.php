@@ -18,6 +18,6 @@ class Zone extends Model
     // relationship
     function zoneCategory()
     {
-        $this->belongsTo(ZoneCategory::class, 'zone_category_id');
+        return $this->belongsTo(ZoneCategory::class, 'zone_category_id');
     }
 }

@@ -90,6 +90,9 @@ class KioskDataProvider
                                             'name_display' => $item_area->name_display,
                                             'text_size' => $item_area->text_size,
                                             'area_json' => $item_area->area_json,
+                                            'category' => $item_area->zoneCategory->name,
+                                            'level' => $item_area->level->name,
+                                            'block' => $item_area->block->name,
                                         ];
                                     }),
                             ];
@@ -129,6 +132,10 @@ class KioskDataProvider
                                             'name_display' => $item_area->name_display,
                                             'text_size' => $item_area->text_size,
                                             'area_json' => $item_area->area_json,
+                                            'category' => $item_area->categories->first()->name,
+                                            'level' => $item_area->level->name,
+                                            'block' => $item_area->block->name,
+
                                         ];
                                     }),
                             ];
