@@ -17,12 +17,20 @@ body{font-family: 'stencil';}
 #right-block{
   z-index: 3;
   position: fixed;
-  right: 24px;
-  bottom: 78px;
+  top: 35px; right: 24px; bottom: 78px;
+
+  #right-block-right{
+    position: fixed;
+    right: 24px; top: 35px; bottom: 78px;
+    overflow: auto;
+  }
+  #right-block-right::-webkit-scrollbar{
+    display: none;
+  }
 
   .block-cell{
     height: 111px;
-    width: 285px;
+    width: 269px;
     font-size: 20px;
     text-transform: uppercase;
     overflow: hidden;
