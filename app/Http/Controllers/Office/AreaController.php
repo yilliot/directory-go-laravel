@@ -34,7 +34,7 @@ class AreaController extends Controller
     {
         $area = new \App\Models\Area();
         $area->level_id = $request->level_id;
-        $area->block_id = \App\Models\Area::find($request->level_id)->block_id;
+        $area->block_id = \App\Models\Level::find($request->level_id)->block_id;
         $area->name = $request->name;
         $area->name_display = $request->name_display;
         $area->text_size = '16px';
