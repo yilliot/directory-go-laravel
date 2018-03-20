@@ -21,7 +21,7 @@
           </div>
           <div class="field">
             <label for="area_category_ids">Area Category</label>
-            <select multiple="multiple" name="area_category_ids[]" id="select_area_category_ids" class="ui dropdown">
+            <select multiple="multiple" name="area_category_ids[]" id="select_area_category_ids" class="" style="height: 420px;">
               @foreach (\App\Models\Category::all() as $areaCategory)
                 <option value="{{$areaCategory->id}}">{{$areaCategory->name}}</option>
               @endforeach
