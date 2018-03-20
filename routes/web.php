@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/drawing', 'KioskController@drawing');
-Route::get('/{id?}', 'KioskController@index');
+Route::get('/', 'KioskController@index');
 
 Route::group(['prefix' => 'kiosk'], function(){
     Route::get('/published/{slug?}', 'KioskController@published');
@@ -14,6 +14,8 @@ Route::group(['prefix' => 'publish'], function(){
 });
 
 Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
+    Route::get('/', 'OfficeController@index');
+
     Route::group(['prefix' => 'publish'], function(){
         Route::post('/create', 'PublishController@postCreate');
     });
@@ -54,3 +56,6 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
         Route::post('/delete', 'AreaController@postDelete');
     });
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

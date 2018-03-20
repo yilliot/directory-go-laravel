@@ -6,7 +6,7 @@
 </head>
 <body>
   <div class="ui bg-red no-corner mb-0 pl-5 inverted menu">
-    <h1 class="pt-3">Interactive CMS</h1>
+    <h1 class="pt-3"><a href="/back-office" class="text-white">Interactive CMS</a></h1>
     <div class="right menu">
       <div class="item modalcaller" data-modal-id='create_publish'>
         <i class="upload icon"></i>
