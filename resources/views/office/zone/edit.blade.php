@@ -83,7 +83,7 @@
             <label id="drag-tool" class="ui large button tool"><i class="expand arrows alternate icon"></i></label>
           </div>
           <div class="ui icon buttons">
-            <label id="clear" class="ui large button tool"><i class="trash icon"></i></label>
+            <label id="clear" class="ui large button"><i class="trash icon"></i></label>
           </div>
         </div> {{-- field --}}
         <div class="field">
