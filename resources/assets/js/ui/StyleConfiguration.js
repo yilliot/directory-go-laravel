@@ -57,13 +57,6 @@ const Style =
         }
     },
     display:{
-        style:{
-            width: parseInt(DEVICE_WIDTH) - parseInt(BUTTONS_RIGHT_POSITION) - parseInt(BUTTON_MARGIN * 8) - parseInt(BUTTON_WIDTH * 4) - parseInt(DISPLAY_LEFT_POSITION) + 'px',
-            zIndex: 0,
-            position: 'absolute',
-            left: DISPLAY_LEFT_POSITION,
-            top: DISPLAY_TOP_POSITION,
-        },
         indexdisplay:{
             blocks: {
                 style:{

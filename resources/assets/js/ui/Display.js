@@ -9,7 +9,7 @@ export default function Display(props) {
         let areas = props.category.zones ? props.category.zones : props.category.areas;
         
         return (
-            <div style={props.style.style}>
+            <div id='display'>
                 <Canvas areas={areas} direction={props.direction} src={props.level.map_path}/>
             </div>
         );
