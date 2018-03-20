@@ -14,23 +14,6 @@ const DISPLAY_TOP_POSITION = '50px';
 
 const Style = 
 {
-    buttons:{
-        style:{
-            position: 'absolute',
-            display: 'flex',
-            bottom: BUTTONS_BOTTOM_POSITION,
-            right: BUTTONS_RIGHT_POSITION,
-            zIndex: '4'
-        },
-        button:{
-            style:{
-                position: 'relative',
-                width: BUTTON_WIDTH,
-                height: BUTTON_HEIGHT,
-                margin: BUTTON_MARGIN
-            }
-        }
-    },
     rightblock:{
         style:{
             position: 'absolute',

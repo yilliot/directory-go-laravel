@@ -64,7 +64,6 @@ export default class App extends Component {
                     block={this.state.block}
                     index={this.state.index}
                     category={this.state.category}
-                    style={Style['buttons']}
                     update={this.update}
                 />
                 <RightBlock

@@ -12,6 +12,42 @@ body{font-family: 'stencil';}
 .text-white{color: #FFF;}
 .text-grey{color: #666;}
 
+
+/** NAV BUTTON **/
+#nav-bottom{
+  position: fixed;
+  right: 24px;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+
+  %block-button {
+    padding-left: 10px;
+    width: 87px;
+    height: 74px;
+    margin-left: 4px;
+    font-size: 55px;
+    line-height: 1em;
+    text-transform: uppercase;
+  }
+  .active{
+    height: 78px;
+  }
+  .block-button{
+    @extend %block-button;
+    color: #FFF;
+  }
+  .index-button{
+    @extend %block-button;
+    padding-left: 4px;
+    line-height: 1.4em;
+    font-size: 30px;
+    color: #CCC;
+    background-color: #666;
+  }
+}
+
 /** HEADINGS **/
 @mixin heading() {
   z-index: 3;
