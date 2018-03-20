@@ -2,40 +2,41 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 export default function Heading(props) {
-    let content = props.type
-    ? <div style={{display: 'flex'}}>
-        <HeaderBlock
-            style={props.style.block}
-            text={props.block.name}
-            color={props.block.colour}
-        />
-        <HeaderBlock
-            style={props.style.level}
-            text={props.level.name}
-        />
-      </div>
-    : <HeaderBlock
-        style={props.style.index}
-        text={'Index'}
-      />
-    ;
-    return (
-        <div style={props.style.style}>
-            {content}
+    return props.type
+    ? <div id="block-heading">
+        <div style={{display: 'flex'}}>
+            <HeaderBlock
+                text={props.block.name}
+                color={props.block.colour}
+                textColor='text-white'
+            />
+            <HeaderBlock
+                text={props.level.name}
+                textColor='text-grey'
+            />
         </div>
-    );
+    </div>
+    :
+    <div id="block-heading-index">
+        <HeaderBlock
+            text='INDEX'
+            textColor='text-white'
+            color='#666'
+        />
+    </div>
+    ;
 }
 
 function HeaderBlock(props) {
     if(props.color){
         return (
-            <div style={{...props.style.style, backgroundColor: props.color}}>
+            <div className={props.textColor + ' heading-font'} style={{backgroundColor: props.color}}>
                 {props.text}
             </div>
         )
     } else {
         return (
-            <div style={props.style.style}>
+            <div className={props.textColor + ' heading-font'}>
                 {props.text}
             </div>
         )

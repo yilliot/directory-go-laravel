@@ -6,9 +6,6 @@ const BUTTON_WIDTH = '80px';
 const BUTTON_HEIGHT = '60px';
 const BUTTON_MARGIN = '3px';
 const CATEGORY_HEIGHT = '80px';
-const HEADING_LOCATION_WIDTH = '80px';
-const HEADING_INDEX_WIDTH = '110px';
-const HEADING_HEIGHT = '60px';
 const SUBHEADING_LEFT_POSITION = '250px';
 const SUBHEADING_TOP_POSITION = '50px';
 const SUBHEADING_WIDTH = '300px';
@@ -97,33 +94,6 @@ const Style =
                     width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + parseInt(BUTTON_MARGIN) * 4 + 'px',
                     height: CATEGORY_HEIGHT
                 }
-            }
-        }
-    },
-    heading:{
-        style:{
-            zIndex: 3,
-            position: 'absolute',
-            left: HEADING_LEFT_POSITION,
-            top: HEADING_TOP_POSITION
-        },
-        block:{
-            style:{
-                width: HEADING_LOCATION_WIDTH,
-                height: HEADING_HEIGHT
-            }
-        },
-        level:{
-            style:{
-                width: HEADING_LOCATION_WIDTH,
-                height: HEADING_HEIGHT
-            }
-        },
-        index:{
-            style:{
-                width: HEADING_INDEX_WIDTH,
-                height: HEADING_HEIGHT,
-                backgroundColor: '#666666'
             }
         }
     },

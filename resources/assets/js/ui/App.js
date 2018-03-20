@@ -82,7 +82,6 @@ export default class App extends Component {
                 />
                 <Heading
                     type={this.state.type}
-                    style={Style['heading']}
                     level={this.state.level}
                     block={this.state.block}
                 />
