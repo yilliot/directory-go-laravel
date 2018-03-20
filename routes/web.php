@@ -4,8 +4,8 @@ Route::get('/drawing', 'KioskController@drawing');
 Route::get('/{id?}', 'KioskController@index');
 
 Route::group(['prefix' => 'kiosk'], function(){
-    Route::get('/published/{id?}', 'KioskController@published');
-    Route::get('/preview/{id?}', 'KioskController@preview');
+    Route::get('/published/{slug?}', 'KioskController@published');
+    Route::get('/preview/{slug?}', 'KioskController@preview');
 });
 
 Route::group(['prefix' => 'publish'], function(){

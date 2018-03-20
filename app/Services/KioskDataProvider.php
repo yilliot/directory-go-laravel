@@ -4,6 +4,11 @@ namespace App\Services;
 
 class KioskDataProvider
 {
+    function getLocationDirection($slug)
+    {
+        return \App\Models\KioskLocation::where('slug', $slug)
+            ->first();
+    }
     function getLatestData()
     {
         return \App\Models\Publish::latest()->first();
