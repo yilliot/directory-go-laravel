@@ -104,7 +104,18 @@ const Style =
                 }
             },
             lists:{
+                style: {
+                    position: 'absolute',
+                    left: '30px',
+                    bottom: '30px',
+                    height: '900px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                },
                 list: {
+                    style: {
+                        width: '300px',
+                    },
                     label: {},
                     row: {
                         blk: {},

@@ -32,7 +32,13 @@ function List(props) {
     }
     return (
         <div style={props.style.style}>
-            <div>BLK LVL RM</div>
+            <div style={{display: "flex", justifyContent: 'flex-end'}}>
+                <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
+                    <div>BLK</div>
+                    <div>LVL</div>
+                    <div>RM</div>
+                </div>
+            </div>
             {content}
         </div>
     )
@@ -41,8 +47,13 @@ function List(props) {
 
 function Row(props) {
     return (
-        <div>
-            {props.area.name_display}
+        <div style={{display: "flex", justifyContent: 'flex-end'}}>
+            {props.area.name}
+            <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
+                    <div style={{backgroundColor: props.area.bg_colour}}>{props.area.block}</div>
+                    <div style={{backgroundColor: props.area.bg_colour}}>{props.area.level}</div>
+                    <div>{props.area.name_display}</div>
+                </div>
         </div>
     );
 }
