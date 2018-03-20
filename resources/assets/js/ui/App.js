@@ -46,7 +46,8 @@ export default class App extends Component {
                 {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
                 {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
             ],
-            directory: []
+            directory: [],
+            pointer: pointer
         };
     }
 
@@ -73,7 +74,6 @@ export default class App extends Component {
                 
             }
         }
-        console.log(directory);
         this.setState({directory: directory});
     }
 
@@ -120,6 +120,7 @@ export default class App extends Component {
                     category={this.state.category}
                     direction={this.state.direction}
                     activate={this.activate}
+                    pointer={this.state.pointer}
                 />
             </div>
         );

@@ -7,10 +7,10 @@ export default function Display(props) {
 
     if(props.type) {
         let areas = props.category.zones ? props.category.zones : props.category.areas;
-        
+        let pointer = props.level.id == props.pointer.level_id ? props.pointer: null;
         return (
             <div id='display'>
-                <Canvas areas={areas} direction={props.direction} src={props.level.map_path}/>
+                <Canvas areas={areas} pointer={props.pointer} direction={props.direction} pointer={pointer} src={props.level.map_path}/>
             </div>
         );
     } else {
@@ -74,6 +74,7 @@ class Canvas extends Component {
                     drawArea(ctx, area, canvas.width, canvas.height, this.props.direction);
                 });
             }
+            if(this.props.pointer) drawPointer(ctx, pointer.json, canvas.width, canvas.height, this.props.direction);
             if(this.props.direction) {
                 ctx.rotate(Math.PI);
                 ctx.translate(-canvas.width, -canvas.height);
@@ -137,4 +138,21 @@ function drawArea(ctx, area, width, height, direction) {
         return true;
     } else return false;
 
+}
+
+function drawPointer(ctx, json, width, height, direction) {
+    let c = json.c;
+    if(direction) {
+        ctx.rotate(Math.PI);
+        ctx.translate(-width, -height);
+    }
+    ctx.beginPath();
+    ctx.fillStyle = 'black';
+    if(direction) ctx.arc(width - json.x / c.x * width, height - json.y / c.y * height, 10, 0, 2* Math.PI, 1);
+    else ctx.arc(json.x / c.x * width, json.y / c.y * height, 10, 0, 2* Math.PI, 1);
+    ctx.fill();
+    if(direction) {
+        ctx.rotate(Math.PI);
+        ctx.translate(-width, -height);
+    }
 }
