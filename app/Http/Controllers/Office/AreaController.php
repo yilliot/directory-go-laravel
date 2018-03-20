@@ -20,7 +20,18 @@ class AreaController extends Controller
             ->where('is_activated', true)
             ->get();
 
-        return view('office.area.list', compact('level', 'levels'));
+        $category_area = \App\Models\Category::with('areas', 'areas.level')
+            ->get()
+            ->map(function($category) use ($request) {
+                return [
+                    'id' => $category->id,
+                    'area_jsons' => $category->areas->map(function($area) use ($request) {
+                        return $area->level_id == $request->level_id ? $area: null;
+                    }),
+                ];
+            });
+
+        return view('office.area.list', compact('level', 'levels', 'category_area'));
     }
     function getCreate(Request $request)
     {

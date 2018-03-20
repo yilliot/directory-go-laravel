@@ -1,4 +1,8 @@
+const $ = require('jquery');
+
 function drawArea(ctx, area, width, height) {
+
+    if(!area){return null}
     // Check if it is assigned
     if(!Array.isArray(JSON.parse(area.area_json))) {
         let area_json = JSON.parse(area.area_json);
@@ -64,5 +68,17 @@ window.onload = function() {
         }
     }
 
+    if(document.getElementById('select_category')) {
+        let category_id = document.getElementById('select_category').value;
+
+        area_jsons = areas_by_category[category_id];
+        Preview.render();
+
+        $('#select_category').on('change', function(event) {
+            category_id = this.value;
+            area_jsons = areas_by_category[category_id];
+            Preview.render();
+        });
+    }
 
 }

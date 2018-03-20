@@ -65,7 +65,10 @@
           @endforeach
         </select>
         <div class="ui divider"></div>
-        <img src="/storage/{{$level->map_path}}" alt="" class="ui fluid image">
+        <input type="hidden" id="map" value="/storage/{{$level->map_path}}">
+        @include('part.preview', ['width' => 375, 'height' => 265]) {{-- Here need to input the array of area_json  --}}
+
+        {{-- <img src="/storage/{{$level->map_path}}" alt="" class="ui fluid image"> --}}
       </div>
     </div> {{-- six wide column --}}
   </div>
