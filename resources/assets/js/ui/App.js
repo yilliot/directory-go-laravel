@@ -38,13 +38,13 @@ export default class App extends Component {
             category: blocks.blocks[0].levels[0].zone_categories[1],
             blocks: blocks.blocks,
             direction: direction,
-            index: {
-                ['Kampongs Index']: {name: 'Kampongs Index', ...blocks.kampongIndex},
-                ['Facilities Index']: {name: 'Facilities Index', ...blocks.facilitiesIndex},
-                ['Meeting Rooms Index<br>[A - G]']: {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
-                ['Meeting Rooms Index<br>[H - O]']: {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
-                ['Meeting Rooms Index<br>[P - Z]']: {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
-            }
+            index: [
+                {name: 'Kampongs Index', ...blocks.kampongIndex},
+                {name: 'Facilities Index', ...blocks.facilitiesIndex},
+                {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
+                {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
+                {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
+            ]
         };
     }
 
@@ -53,6 +53,7 @@ export default class App extends Component {
     }
 
     activate(block, level, category) {
+        // algorithm to find the block, level, and category with the name
         this.setState({block: block, level:level, category: category});
     }
 
@@ -92,6 +93,7 @@ export default class App extends Component {
                     level={this.state.level}
                     category={this.state.category}
                     direction={this.state.direction}
+                    activate={this.activate}
                 />
             </div>
         );

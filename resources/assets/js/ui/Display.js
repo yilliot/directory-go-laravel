@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import IndexDisplay from './IndexDisplay';
+
 export default function Display(props) {
 
     if(props.type) {
@@ -14,7 +16,11 @@ export default function Display(props) {
     } else {
         return (
             <div>
-                Index part
+                <IndexDisplay
+                    style={props.style.indexdisplay}
+                    activate={props.activate}
+                    category={props.category}
+                />
             </div>
         );
     }

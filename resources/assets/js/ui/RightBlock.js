@@ -145,16 +145,16 @@ function Categorys(props) {
 
 function IndexCategorys(props) {
     let content = [];
-    for(let name in props.index){
+    props.index.forEach((category, index) => {
         content.push(
             <IndexCategory
-                name={name}
-                category={props.index[name]}
-                key={name}
+                name={category.name}
+                category={category}
+                key={index}
                 style={props.style.category}
                 update={props.update}
             />);
-    }
+    });
     return (
         <div style={props.style.style}>
             {content}
@@ -167,8 +167,9 @@ function IndexCategory(props) {
         <div
             style={props.style.style}
             onClick={props.update.bind(this, {category: props.category})}
+            dangerouslySetInnerHTML={{__html: props.name}}
         >
-            {props.name}
+            
         </div>
     );
 }

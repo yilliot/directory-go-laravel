@@ -18,6 +18,11 @@ const DEVICE_WIDTH = '1920px';
 const DEVICE_HEIGHT = '1080px';
 const DISPLAY_LEFT_POSITION = '0px';
 const DISPLAY_TOP_POSITION = '50px';
+const INDEX_DISPLAY_POSITION_BOTTOM = '50px';
+const INDEX_DISPLAY_POSITION_LEFT = '30px';
+const INDEX_BLOCK_WIDTH = '350px';
+const INDEX_BLOCK_MARGIN = '5px';
+const INDEX_LEVEL_HEIGHT = '100px';
 
 const Style = 
 {
@@ -78,7 +83,8 @@ const Style =
             category:{
                 style:{
                     width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + parseInt(BUTTON_MARGIN) * 4 + 'px',
-                    height: CATEGORY_HEIGHT
+                    height: CATEGORY_HEIGHT,
+                    wordWrap: 'normal',
                 }
             }
         },
@@ -95,7 +101,8 @@ const Style =
             category:{
                 style:{
                     width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + parseInt(BUTTON_MARGIN) * 4 + 'px',
-                    height: CATEGORY_HEIGHT
+                    height: CATEGORY_HEIGHT,
+                    wordWrap: 'normal',
                 }
             }
         }
@@ -144,6 +151,56 @@ const Style =
             position: 'absolute',
             left: DISPLAY_LEFT_POSITION,
             top: DISPLAY_TOP_POSITION,
+        },
+        indexdisplay:{
+            blocks: {
+                style:{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: INDEX_DISPLAY_POSITION_BOTTOM,
+                    left: INDEX_DISPLAY_POSITION_LEFT,
+                },
+                block:{
+                    style:{
+                        display: 'flex',
+                        flexDirection: 'column-reverse',
+                        width: INDEX_BLOCK_WIDTH,
+                        margin: INDEX_BLOCK_MARGIN
+                    },
+                    label: {
+                    },
+                    level: {
+                        style: {
+                            height: INDEX_LEVEL_HEIGHT,
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                        },
+                        label: {},
+                        zones: {
+                            zone: {},
+                        },
+                    },
+                    roof: {
+                        style: {
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                        },
+                        label: {},
+                        comment: {}
+                    }
+                }
+            },
+            lists:{
+                list: {
+                    label: {},
+                    row: {
+                        blk: {},
+                        lvl: {},
+                        rm: {},
+                    },
+                }
+            }
         }
     }
 }
