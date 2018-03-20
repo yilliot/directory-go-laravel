@@ -11,7 +11,7 @@ class KioskController extends Controller
         // cached from publishes table
         $s = app(\App\Services\KioskDataProvider::class);
         $blocks = $s->getLatestData()->data;
-        $location = $s->getLocationDirection($request->slug);
+        $location = $s->getLocationDirection($request->slug? $request->slug : 'k1');
 
         return view('index', compact('blocks', 'location'));
     }
@@ -21,7 +21,7 @@ class KioskController extends Controller
         // realtime from db
         $s = app(\App\Services\KioskDataProvider::class);
         $blocks = $s->generateData();
-        $location = $s->getLocationDirection($request->slug);
+        $location = $s->getLocationDirection($request->slug? $request->slug : 'k1');
 
         return view('index', compact('blocks', 'location'));
     }
