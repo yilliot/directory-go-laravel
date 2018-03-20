@@ -376,6 +376,7 @@ window.onload = function() {
                 DrawingSet.zoom();
                 break;
         }
+        console.log({x: event.offsetX, y: event.offsetY, c: {x: DrawingSet.canvas.width, y: DrawingSet.canvas.width}})
     }
     DrawingSet.canvas.ondblclick = function() {
         switch(DrawingSet.activeTool) {
