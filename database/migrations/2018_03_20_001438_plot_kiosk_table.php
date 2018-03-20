@@ -15,12 +15,12 @@ class PlotKioskTable extends Migration
     {
         Schema::create('kiosk_locations', function(Blueprint $table){
             $table->increments('id');
-            $table->string('slug');
+            $table->string('slug')->index();
             $table->integer('level_id')->unsigned()->index();
-            $table->string('axis')->nullable();
+            $table->text('position_json')->nullable();
 
+            // 0 : SOUTH
             // 1 : NORTH
-            // 2 : SOUTH
             $table->integer('direction')->default(1);
             $table->timestamps();
         });
