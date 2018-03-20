@@ -17,7 +17,7 @@ export default function BlockView(props) {
                 }
                 j += 6;
                 content.push(
-                    <Block key={i + j} levels={levels} isKampongs={isKampongs} name={block.name} style={props.style.block} />
+                    <Block key={i + j} levels={levels} isKampongs={isKampongs} name={block.name} style={props.style.block} bg_colour={block.bg_colour} />
                 );
             }
         }
@@ -33,7 +33,7 @@ function Block(props) {
     for(let i in props.levels) {
         let level = props.levels[i];
         content.push(
-            <Level level={level} key={i} style={props.style.level} isKampongs={props.isKampongs}/>
+            <Level level={level} key={i} style={props.style.level} bg_colour={props.bg_colour} isKampongs={props.isKampongs}/>
             );
     }
     let roof;
@@ -47,7 +47,7 @@ function Block(props) {
     }
     return (
         <div style={props.style.style}>
-            <div style={props.style.label.style}>{props.name}</div>
+            <div style={{backgroundColor: props.bg_colour}}>{props.name}</div>
             {content}
             {roof}
         </div>
@@ -56,7 +56,7 @@ function Block(props) {
 
 function Roof(props) {
     return (
-        <div style={props.style.style}>
+        <div style={{...props.style.style, backgroundColor: '#e6e5e6'}}>
             <div style={props.style.label.style}>ROOF<br/>GARDEN</div>
             <div style={props.style.comment.style}>ACCESS<br/>FROM {props.comment}</div>
         </div>
@@ -70,10 +70,16 @@ function Level(props) {
     } else {
         content = <Zones style={props.style.zones} zones={props.level.areas}/>
     }
+    // let hexStr = ((parseInt('ffffff', 16) - parseInt(props.bg_colour.slice(1), 16)) / 2 + parseInt(props.bg_colour.slice(1), 16)).toString(16);
+    // while (hexStr.length < 6) { hexStr = '0' + hexStr; } // Zero pad.
+    // if(hexStr.length > 6) { hexStr = 'ffffff'}
+    // let bg_colour = '#' + hexStr;
+    // console.log(bg_colour);
     return (
-        <div style={props.style.style}>
+        <div style={{...props.style.style, position: 'relative'}}>
             {props.level.name}
             {content}
+            <div style={{position: 'absolute', opacity: '0.2', zIndex: '-2', width: "100%", height: '100%', backgroundColor: props.level.is_activated ? props.bg_colour: '#a3a3a3'}} />
         </div>
     );
 }
@@ -99,7 +105,7 @@ function Zones(props) {
 
 function Zone(props) {
     return (
-        <div style={{backgroundColor: props.zone.bg_colour}}>
+        <div style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
             {props.zone.name_display}
         </div>
     );
