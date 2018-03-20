@@ -83,13 +83,6 @@ class CoreSeeder extends Seeder
             'map_path' => 'map_path/_0009_60 L6.jpg',
             'is_activated' => true,
         ]);
-        DB::table('levels')->insert([
-            'block_id' => '1',
-            'level_order' => 7,
-            'name' => 'L7',
-            'map_path' => null,
-            'is_activated' => false,
-        ]);
 
 
         DB::table('levels')->insert([
@@ -133,13 +126,6 @@ class CoreSeeder extends Seeder
             'name' => 'L8',
             'map_path' => 'map_path/_0003_70 L8.jpg',
             'is_activated' => true,
-        ]);
-        DB::table('levels')->insert([
-            'block_id' => '2',
-            'level_order' => 9,
-            'name' => 'L9',
-            'map_path' => null,
-            'is_activated' => false,
         ]);
 
 
