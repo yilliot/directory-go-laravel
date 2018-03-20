@@ -11,7 +11,36 @@ body{font-family: 'stencil';}
 }
 .text-white{color: #FFF;}
 .text-grey{color: #666;}
+.text-greylight{color: #CCC;}
 
+/** NAV RIGHT BLOCK **/
+#right-block{
+  z-index: 3;
+  position: fixed;
+  right: 24px;
+  bottom: 78px;
+
+  .block-cell{
+    height: 111px;
+    width: 285px;
+    font-size: 20px;
+    text-transform: uppercase;
+    overflow: hidden;
+    .text{
+      margin: 7px 8px;
+      width: 70%;
+      line-height: 1.1em;
+    }
+    .divider{
+      margin-left: 4px;
+      margin-right: 4px;
+      height: 4px;
+      background-color: rgba(234, 234, 234, 0.5);
+      border-radius: 2px;
+      width: 277px;
+    }
+  }
+}
 
 /** NAV BUTTON **/
 #nav-bottom{

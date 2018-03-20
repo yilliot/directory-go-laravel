@@ -38,7 +38,7 @@ export default function RightBlock(props) {
     }
 
     return (
-        <div style={props.style.style}>
+        <div id='right-block'>
             {content}
         </div>
     );
@@ -137,7 +137,7 @@ function Categorys(props) {
     //     content = "Category based on level";
     // }
     return (
-        <div className="hide-scrollbar" style={{...props.style.style, backgroundColor: props.block.colour}}>
+        <div className="" style={{backgroundColor: props.block.colour}}>
             {content}
         </div>
     );
@@ -165,6 +165,7 @@ function IndexCategorys(props) {
 function IndexCategory(props) {
     return (
         <div
+            className='block-cell'
             style={props.style.style}
             onClick={props.update.bind(this, {category: props.category})}
             dangerouslySetInnerHTML={{__html: props.name}}
@@ -177,10 +178,11 @@ function IndexCategory(props) {
 function Category(props) {
     return (
         <div
-            style={props.style.style}
+            className='block-cell'
             onClick={props.update.bind(this, {category: props.category})}
         >
-            {props.category.name}
+            <div className='divider'></div>
+            <div className='text text-grey'> {props.category.name} </div>
         </div>
     );
 }
