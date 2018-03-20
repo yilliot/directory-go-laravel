@@ -4,7 +4,7 @@
 @endphp
 @section('content')
 <div class="ui bg-grey container segment">
-  <h2 class="ui header">Edit Zone</h2>
+  <h2 class="ui header">Edit Zone of {{$zone->block->name}}:{{$zone->level->name}} [{{$zone->level_id}}]</h2>
   <form action="/back-office/zone/edit" class="ui form" method="POST">
     @csrf
     <input type="hidden" id="map" value="/storage/{{$zone->level->map_path}}">
