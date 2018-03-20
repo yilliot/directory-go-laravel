@@ -152,6 +152,7 @@ function IndexCategorys(props) {
             <IndexCategory
                 name={category.name}
                 category={category}
+                active_category={props.active_category}
                 key={index}
                 style={props.style.category}
                 update={props.update}
@@ -167,7 +168,7 @@ function IndexCategorys(props) {
 function IndexCategory(props) {
     return (
         <div
-            className={'block-cell-index' + (props.active_category === props.category ? 'active' : '')}
+            className={'block-cell-index' + (props.active_category === props.category ? ' active' : '')}
             style={props.style.style}
             onClick={props.update.bind(this, {category: props.category})}
         >
