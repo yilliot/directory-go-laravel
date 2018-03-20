@@ -14,7 +14,7 @@ export default function MeetingRooms(props) {
         }
         j += 26;
         content.push(
-            <List key={j} list={list} style={props.style.list}/>
+            <List key={j} list={list} style={props.style.list} activate={props.activate}/>
         );
     }
 
@@ -27,7 +27,7 @@ function List(props) {
     let content = [];
     for(let i in props.list) {
         content.push(
-            <Row area={props.list[i]} key={i}/>
+            <Row area={props.list[i]} activate={props.activate} key={i}/>
             );
     }
     return (
@@ -47,7 +47,7 @@ function List(props) {
 
 function Row(props) {
     return (
-        <div style={{display: "flex", justifyContent: 'flex-end'}}>
+        <div onClick={props.activate.bind(this, props.area.block, props.area.level, props.area.category)} style={{display: "flex", justifyContent: 'flex-end'}}>
             {props.area.name}
             <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
                     <div style={{backgroundColor: props.area.bg_colour}}>{props.area.block}</div>

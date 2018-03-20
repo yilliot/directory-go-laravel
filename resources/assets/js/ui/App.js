@@ -17,6 +17,7 @@ export default class App extends Component {
         super(props);
         // this.myfunction = this.myfunction.bind(this);
         this.update = this.update.bind(this);
+        this.activate = this.activate.bind(this);
         let category;
         for(let x in blocks) {
             for(let y in blocks[x].levels) {
@@ -44,7 +45,8 @@ export default class App extends Component {
                 {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
                 {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
                 {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
-            ]
+            ],
+            directory: []
         };
     }
 
@@ -52,9 +54,36 @@ export default class App extends Component {
         this.setState(data);
     }
 
+    componentDidMount() {
+        let directory = new Object;
+        for(let i in this.state.blocks) {
+            let block = this.state.blocks[i];
+            directory[block.name] = block;
+            for(let j in block.levels) {
+                let level = block.levels[j];
+                directory[block.name + '' + level.name] = level;
+                for(let k in level.zone_categories) {
+                    let category = level.zone_categories[k];
+                    directory[block.name + '' + level.name + category.name] = category;
+                }
+                for(let k in level.area_categories) {
+                    let category = level.area_categories[k];
+                    directory[block.name + '' + level.name + category.name] = category;
+                }
+                
+            }
+        }
+        console.log(directory);
+        this.setState({directory: directory});
+    }
+
     activate(block, level, category) {
         // algorithm to find the block, level, and category with the name
-        this.setState({block: block, level:level, category: category});
+        let b, l, c;
+        b = this.state.directory[block];
+        l = this.state.directory[block+''+level];
+        c = this.state.directory[block+''+level+category];
+        this.setState({type: 1, block: b, level:l, category: c});
     }
 
     render() {

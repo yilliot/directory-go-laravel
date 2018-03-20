@@ -17,7 +17,7 @@ export default function BlockView(props) {
                 }
                 j += 6;
                 content.push(
-                    <Block key={i + j} levels={levels} isKampongs={isKampongs} name={block.name} style={props.style.block} bg_colour={block.bg_colour} />
+                    <Block key={i + j} levels={levels} isKampongs={isKampongs} name={block.name} style={props.style.block} bg_colour={block.bg_colour} activate={props.activate}/>
                 );
             }
         }
@@ -33,7 +33,7 @@ function Block(props) {
     for(let i in props.levels) {
         let level = props.levels[i];
         content.push(
-            <Level level={level} key={i} style={props.style.level} bg_colour={props.bg_colour} isKampongs={props.isKampongs}/>
+            <Level level={level} key={i} style={props.style.level} bg_colour={props.bg_colour} isKampongs={props.isKampongs} activate={props.activate}/>
             );
     }
     let roof;
@@ -66,15 +66,10 @@ function Roof(props) {
 function Level(props) {
     let content;
     if(props.isKampongs) {
-        content = <Zones style={props.style.zones} zones={props.level.zones}/>
+        content = <Zones style={props.style.zones} zones={props.level.zones} activate={props.activate}/>
     } else {
-        content = <Zones style={props.style.zones} zones={props.level.areas}/>
+        content = <Zones style={props.style.zones} zones={props.level.areas} activate={props.activate}/>
     }
-    // let hexStr = ((parseInt('ffffff', 16) - parseInt(props.bg_colour.slice(1), 16)) / 2 + parseInt(props.bg_colour.slice(1), 16)).toString(16);
-    // while (hexStr.length < 6) { hexStr = '0' + hexStr; } // Zero pad.
-    // if(hexStr.length > 6) { hexStr = 'ffffff'}
-    // let bg_colour = '#' + hexStr;
-    // console.log(bg_colour);
     return (
         <div style={{...props.style.style, position: 'relative'}}>
             {props.level.name}
@@ -90,6 +85,7 @@ function Zones(props) {
         if(zone.name_display) {
             content.push(
                 <Zone
+                    activate={props.activate}
                     style={props.style.zone}
                     zone={zone}
                     key={i}
@@ -105,7 +101,7 @@ function Zones(props) {
 
 function Zone(props) {
     return (
-        <div style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
+        <div onClick={props.activate.bind(this, props.zone.block, props.zone.level, props.zone.category)} style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
             {props.zone.name_display}
         </div>
     );
