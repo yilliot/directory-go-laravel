@@ -19,7 +19,9 @@ export default function MeetingRooms(props) {
     }
 
     return (
-        <div>{content}</div>
+        <div id="meeting-room">
+            <div className="lists">{content}</div>
+        </div>
     );
 }
 
@@ -30,30 +32,37 @@ function List(props) {
             <Row area={props.list[i]} activate={props.activate} key={i}/>
             );
     }
-    return (
-        <div style={props.style.style}>
-            <div style={{display: "flex", justifyContent: 'flex-end'}}>
-                <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
-                    <div>BLK</div>
-                    <div>LVL</div>
-                    <div>RM</div>
+    if(content.length) {
+        return (
+            <div className="list">
+                <div style={{display: "flex", justifyContent: 'flex-end'}}>
+                    <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
+                        <div className="list-column">BLK</div>
+                        <div className="list-column">LVL</div>
+                        <div className="list-column">RM</div>
+                    </div>
                 </div>
+                {content}
             </div>
-            {content}
-        </div>
-    )
+        );
+    } else {
+        return (
+            <div>
+            </div>
+        );
+    }
 
 }
 
 function Row(props) {
     return (
-        <div onClick={props.activate.bind(this, props.area.block, props.area.level, props.area.category)} style={{display: "flex", justifyContent: 'flex-end'}}>
+        <div className="list-row" onClick={props.activate.bind(this, props.area.block, props.area.level, props.area.category)}>
             {props.area.name}
             <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
-                    <div style={{backgroundColor: props.area.bg_colour}}>{props.area.block}</div>
-                    <div style={{backgroundColor: props.area.bg_colour}}>{props.area.level}</div>
-                    <div>{props.area.name_display}</div>
-                </div>
+                <div className="list-column" style={{backgroundColor: props.area.bg_colour}}>{props.area.block}</div>
+                <div className="list-column" style={{backgroundColor: props.area.bg_colour}}>{props.area.level}</div>
+                <div className="list-column">{props.area.name_display}</div>
+            </div>
         </div>
     );
 }

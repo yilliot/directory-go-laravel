@@ -24,7 +24,7 @@ export default function BlockView(props) {
     }
 
     return (
-        <div style={props.style.style}>{content}</div>
+        <div id="index-display">{content}</div>
     );
 }
 
@@ -46,8 +46,8 @@ function Block(props) {
             break;
     }
     return (
-        <div style={props.style.style}>
-            <div style={{backgroundColor: props.bg_colour}}>{props.name}</div>
+        <div className="block">
+            <div className="label" style={{backgroundColor: props.bg_colour}}>{props.name}</div>
             {content}
             {roof}
         </div>
@@ -56,9 +56,9 @@ function Block(props) {
 
 function Roof(props) {
     return (
-        <div style={{...props.style.style, backgroundColor: '#e6e5e6'}}>
-            <div style={props.style.label.style}>ROOF<br/>GARDEN</div>
-            <div style={props.style.comment.style}>ACCESS<br/>FROM {props.comment}</div>
+        <div className="roof" style={{backgroundColor: '#e6e5e6'}}>
+            <div className="roof-name">ROOF<br/>GARDEN</div>
+            <div className="comment">ACCESS<br/>FROM {props.comment}</div>
         </div>
     );
 }
@@ -71,8 +71,8 @@ function Level(props) {
         content = <Zones style={props.style.zones} zones={props.level.areas} activate={props.activate}/>
     }
     return (
-        <div style={{...props.style.style, position: 'relative'}}>
-            {props.level.name}
+        <div className="level" style={{position: 'relative'}}>
+            <div className="level-name">{props.level.name}</div>
             {content}
             <div style={{position: 'absolute', opacity: '0.2', zIndex: '-2', width: "100%", height: '100%', backgroundColor: props.level.is_activated ? props.bg_colour: '#a3a3a3'}} />
         </div>
@@ -93,7 +93,7 @@ function Zones(props) {
         }
     });
     return (
-        <div>
+        <div className="index-zones">
             {content}
         </div>
     );
@@ -101,7 +101,7 @@ function Zones(props) {
 
 function Zone(props) {
     return (
-        <div onClick={props.activate.bind(this, props.zone.block, props.zone.level, props.zone.category)} style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
+        <div className="index-zone" onClick={props.activate.bind(this, props.zone.block, props.zone.level, props.zone.category)} style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
             {props.zone.name_display}
         </div>
     );
