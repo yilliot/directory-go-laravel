@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom';
 
 export default function Display(props) {
 
-    let areas = props.category.zones ? props.category.zones : props.category.areas;
-    
-    return (
-        <div style={props.style.style}>
-            <Canvas areas={areas} direction={props.direction} src={props.level.map_path}/>
-        </div>
-    );
+    if(props.type) {
+        let areas = props.category.zones ? props.category.zones : props.category.areas;
+        
+        return (
+            <div style={props.style.style}>
+                <Canvas areas={areas} direction={props.direction} src={props.level.map_path}/>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                Index part
+            </div>
+        );
+    }
 }
 
 class Canvas extends Component {

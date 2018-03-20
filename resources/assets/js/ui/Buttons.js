@@ -66,7 +66,7 @@ function IndexButton(props) {
     return (
         <div
             style={{backgroundColor: '#666666', ...props.style.style}}
-            onClick={props.update.bind(this, {type: 0, block: props.index})}
+            onClick={props.update.bind(this, {type: 0, block: props.index, category: props.index[Object.keys(props.index)[0]]})}
         >
             Index
         </div>

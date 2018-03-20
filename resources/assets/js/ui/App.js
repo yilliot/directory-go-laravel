@@ -39,11 +39,11 @@ export default class App extends Component {
             blocks: blocks.blocks,
             direction: direction,
             index: {
-                ['Kampong Index']: blocks.kampongIndex,
-                ['Facilities Index']: blocks.facilitiesIndex,
-                ['Meeting Rooms Index<br>[A - G]']: blocks.meetingRoomIndex['A-G'],
-                ['Meeting Rooms Index<br>[H - O]']: blocks.meetingRoomIndex['H-O'],
-                ['Meeting Rooms Index<br>[P - Z]']: blocks.meetingRoomIndex['P-Z']
+                ['Kampongs Index']: {name: 'Kampongs Index', ...blocks.kampongIndex},
+                ['Facilities Index']: {name: 'Facilities Index', ...blocks.facilitiesIndex},
+                ['Meeting Rooms Index<br>[A - G]']: {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
+                ['Meeting Rooms Index<br>[H - O]']: {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
+                ['Meeting Rooms Index<br>[P - Z]']: {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
             }
         };
     }
@@ -62,7 +62,7 @@ export default class App extends Component {
                 <Buttons 
                     blocks={this.state.blocks}
                     block={this.state.block}
-                    // index={this.state.index}
+                    index={this.state.index}
                     category={this.state.category}
                     style={Style['buttons']}
                     update={this.update}
@@ -87,6 +87,7 @@ export default class App extends Component {
                     block={this.state.block}
                 />
                 <Display
+                    type={this.state.type}
                     style={Style['display']}
                     level={this.state.level}
                     category={this.state.category}
