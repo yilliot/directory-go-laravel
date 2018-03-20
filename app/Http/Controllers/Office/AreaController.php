@@ -13,7 +13,7 @@ class AreaController extends Controller
     }
     function getList(Request $request)
     {
-        $level = \App\Models\Level::with('areas')
+        $level = \App\Models\Level::with('areas', 'areas.categories')
             ->find($request->level_id);
 
         return view('office.area.list', compact('level'));

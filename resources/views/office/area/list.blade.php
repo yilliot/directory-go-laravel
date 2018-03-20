@@ -32,6 +32,7 @@
               <th>No.</th>
               <th>Name</th>
               <th>Display Name</th>
+              <th>Categories</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -40,6 +41,11 @@
             <td>{{$loop->index + 1}}</td>
             <td>{{$area->name}}</td>
             <td>{{$area->name_display}}</td>
+            <td>
+              @foreach ($area->categories as $category)
+                <div class="ui mini label">{{$category->name}}</div>
+              @endforeach
+            </td>
             <td>
               <a href="/back-office/area/edit/{{$area->id}}" class="ui red mini button">EDIT</a>
             </td>
