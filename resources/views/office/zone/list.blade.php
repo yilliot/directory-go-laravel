@@ -13,7 +13,7 @@
           <div class="two fields">
             <div class="field">
               <select name="block" id="select-level" class="ui dropdown">
-                @foreach (\App\Models\Level::isActivated()->get() as $levelLoop)
+                @foreach (\App\Models\Level::with('block')->where('is_activated', true)->get() as $levelLoop)
                   <option {{$levelLoop->id == $level->id ? 'selected' : ''}} value="{{$levelLoop->id}}">
                     Blk:{{$levelLoop->block->name}} Lv:{{$levelLoop->name}}
                   </option>

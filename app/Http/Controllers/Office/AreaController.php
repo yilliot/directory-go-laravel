@@ -16,7 +16,11 @@ class AreaController extends Controller
         $level = \App\Models\Level::with('areas', 'areas.categories')
             ->find($request->level_id);
 
-        return view('office.area.list', compact('level'));
+        $levels = \App\Models\Level::with('block')
+            ->where('is_activated', true)
+            ->get();
+
+        return view('office.area.list', compact('level', 'levels'));
     }
     function getCreate(Request $request)
     {
