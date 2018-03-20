@@ -20,33 +20,6 @@ const INDEX_LEVEL_HEIGHT = '100px';
 const Style = 
 {
     rightblock:{
-        style:{
-            position: 'absolute',
-            right: BUTTONS_RIGHT_POSITION,
-            bottom: parseInt(BUTTONS_BOTTOM_POSITION) + parseInt(BUTTON_HEIGHT) + (parseInt(BUTTON_MARGIN) * 3) + 'px',
-            width: (parseInt(BUTTON_WIDTH) * (NUMBER_OF_BLOCK + 1)) + (parseInt(BUTTON_MARGIN) * 6) + 'px',
-            height: parseInt(DEVICE_HEIGHT) - (parseInt(BUTTONS_BOTTOM_POSITION) * 2) - parseInt(BUTTON_WIDTH) - (parseInt(BUTTON_MARGIN) * 4),
-            margin: '0px ' + BUTTON_MARGIN,
-            zIndex: '3',
-        },
-        levels:{
-            style:{
-                width: BUTTON_WIDTH,
-                display: 'flex',
-                flexDirection: 'column-reverse',
-                position: 'absolute',
-                height: '100%',    
-                bottom: '0px'
-            },
-            level:{
-                style:{
-                    backgroundColor: '#a3a3a3',
-                    color: '#666666',
-                    width: BUTTON_WIDTH,
-                    height: BUTTON_HEIGHT
-                }
-            }
-        },
         categorys:{
             style:{
                 width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + (parseInt(BUTTON_MARGIN) * 4) + 'px',

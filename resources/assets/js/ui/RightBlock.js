@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import './Categorys.css';
-
 export default function RightBlock(props) {
     let content;
     if(props.type){
@@ -11,7 +9,6 @@ export default function RightBlock(props) {
                 <Levels
                     block={props.block}
                     active_level={props.level}
-                    style={props.style.levels}
                     update={props.update}
                 />
                 <Categorys
@@ -52,13 +49,14 @@ function Levels(props) {
                 level={value}
                 active_color={props.block.colour}
                 active_level={props.active_level}
-                style={props.style.level}
                 update={props.update}
                 key={i}
             />);
     });
     return (
-        <div style={props.style.style}>
+        <div
+            id='right-block-left'
+        >
             {levels}
         </div>
     );
@@ -67,10 +65,10 @@ function Levels(props) {
 function Level(props) {
     let color;
     color = props.active_level === props.level 
-    ? {...props.style.style, backgroundColor: props.active_color, color: '#a3a3a3'}
+    ? {backgroundColor: props.active_color, color: '#a3a3a3'}
     : props.level.is_activated
-    ? props.style.style
-    : {...props.style.style, backgroundColor: '#666666'};
+    ? {}
+    : {backgroundColor: '#666666'};
     
     let category;
     let zone_categories = props.level.zone_categories;
@@ -87,10 +85,13 @@ function Level(props) {
 
     return (
         <div
+            className={'block-cell-left' + (props.active_level === props.level ? ' active' : '')}
             style={color}
             onClick={update}
         >
+            <div className='text'>
             {props.level.name}
+            </div>
         </div>
     );
 }
@@ -137,7 +138,7 @@ function Categorys(props) {
     //     content = "Category based on level";
     // }
     return (
-        <div className="" style={{backgroundColor: props.block.colour}}>
+        <div id="right-block-right" style={{backgroundColor: props.block.colour}}>
             {content}
         </div>
     );
