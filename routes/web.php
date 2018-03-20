@@ -13,7 +13,7 @@ Route::group(['prefix' => 'publish'], function(){
     Route::get('/data', 'PublishController@getData');
 });
 
-Route::group(['prefix' => 'back-office', 'namespace' => 'Office'], function(){
+Route::group(['prefix' => 'back-office', 'namespace' => 'Office', 'middleware' => 'auth'], function(){
     Route::get('/', 'OfficeController@index');
 
     Route::group(['prefix' => 'publish'], function(){

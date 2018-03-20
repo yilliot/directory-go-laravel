@@ -6,7 +6,15 @@ require('./../../../semantic/dist/semantic.js');
 
 $(function(){
   init_semantic();
+  init_event();
 })
+
+function init_event()
+{
+  $('.clicksubmit').click(function(){
+    $(this).submit();
+  });
+}
 
 function init_semantic()
 {

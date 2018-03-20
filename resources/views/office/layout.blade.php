@@ -14,7 +14,7 @@
       </div>
       <div class="ui simple dropdown item">
         <i class="circular white inverted user icon"></i>
-        {{ Auth::user() }}
+        {{ Auth::user() ? Auth::user()->name : '' }}
         <i class="dropdown icon"></i>
         <div class="menu">
 {{-- 
@@ -22,7 +22,8 @@
           <div class="divider"></div>
           <a class="item" href="#"><i class="edit icon"></i>Update Profile</a>
  --}}
-          {{ Form::open(['url' => '/auth/logout', 'method' => 'POST', 'class' => "item clicksubmit"]) }}
+          {{ Form::open(['url' => route('logout'), 'method' => 'POST', 'class' => "item clicksubmit"]) }}
+            @csrf
             <i class="sign out icon"></i>Logout
           {{ Form::close() }}
         </div>
