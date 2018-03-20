@@ -9,35 +9,31 @@ body{font-family: 'stencil';}
   line-height: 1.1em;
   padding: 0px 10px;
 }
-.text-white{
-  color: #FFF;
-}
-.text-grey{
-  color: #666;
-}
-#sub-heading{
+.text-white{color: #FFF;}
+.text-grey{color: #666;}
+
+/** HEADINGS **/
+@mixin heading() {
   z-index: 3;
-  font-size: 26px;
-  color: #666;
+  overflow: hidden;
   position: fixed;
-  left: 280px;
-  top: 46px;
   text-transform: uppercase;
 }
+#sub-heading{
+  @include heading();
+  font-size: 26px;
+  top: 46px;
+  left: 280px;
+}
 #block-heading{
-  z-index: 3;
+  @include heading();
   height: 75px;
-  overflow: hidden;
-  position: absolute;
-  left: 25px;
   top: 35px;
+  left: 25px;
 }
 #block-heading-index{
-  z-index: 3;
+  @include heading();
   height: 75px;
-  overflow: hidden;
-  position: fixed;
-  left: 12px;
   top: 20px;
-  color: #666;
+  left: 12px;
 }
