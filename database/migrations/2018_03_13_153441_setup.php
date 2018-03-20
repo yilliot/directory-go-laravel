@@ -38,7 +38,7 @@ class Setup extends Migration
             $table->integer('level_id')->unsigned()->index();
             $table->integer('zone_category_id')->unsigned()->index();
             $table->string('name');
-            $table->string('name_display');
+            $table->string('name_display')->nullable();
             $table->string('bg_colour');
             $table->string('text_colour');
             $table->string('text_size');
@@ -51,7 +51,7 @@ class Setup extends Migration
             $table->integer('block_id')->unsigned()->index();
             $table->integer('level_id')->unsigned()->index();
             $table->string('name');
-            $table->string('name_display');
+            $table->string('name_display')->nullable();
             $table->string('text_size');
             $table->text('area_json');
             $table->timestamps();
