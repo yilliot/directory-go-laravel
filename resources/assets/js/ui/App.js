@@ -18,6 +18,8 @@ export default class App extends Component {
         // this.myfunction = this.myfunction.bind(this);
         this.update = this.update.bind(this);
         this.activate = this.activate.bind(this);
+        this.directorySetup = this.directorySetup.bind(this);
+        this.auto_updater = this.auto_updater.bind(this);
         let category;
         for(let x in blocks) {
             for(let y in blocks[x].levels) {
@@ -56,6 +58,12 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        let directory = this.directorySetup();
+        this.setState({directory: directory});        
+        setInterval(this.auto_updater, 3 * 60 * 60 * 1000);
+    }
+
+    directorySetup() {
         let directory = new Object;
         for(let i in this.state.blocks) {
             let block = this.state.blocks[i];
@@ -74,7 +82,34 @@ export default class App extends Component {
                 
             }
         }
-        this.setState({directory: directory});
+        return directory;
+    }
+
+    auto_updater() {
+        fetch('/publish/version')
+        .then(res => res.json())
+        .then((result) => {
+            console.log('local version: ' + version + ',remote version: ' + result.version);
+            if(result.version > version) {
+                console.log('There is a latest version, update will be update now!');
+                fetch('/publish/data').then(res => res.json()).then((result) => {
+                    let blocks = JSON.parse(result);
+                });
+                this.setState({
+                    blocks: blocks.blocks,
+                    index: [
+                        {name: 'Kampongs Index', ...blocks.kampongIndex},
+                        {name: 'Facilities Index', ...blocks.facilitiesIndex},
+                        {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
+                        {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
+                        {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
+                    ],
+                });
+                this.setState({directory: this.directorySetup()});
+                console.log('updated');
+                
+            } else console.log('There is currently no newer version.');
+        });
     }
 
     activate(block, level, category) {

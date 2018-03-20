@@ -10,10 +10,12 @@ class KioskController extends Controller
     {
         // cached from publishes table
         $s = app(\App\Services\KioskDataProvider::class);
-        $blocks = $s->getLatestData()->data;
+        $latestData = $s->getLatestData();
+        $blocks = $latestData->data;
+        $version = $latestData->id;
         $location = $s->getLocationDirection($request->slug? $request->slug : 'k1');
 
-        return view('index', compact('blocks', 'location'));
+        return view('index', compact('blocks', 'location', 'version'));
     }
 
     function preview(Request $request)

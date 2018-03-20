@@ -15,6 +15,6 @@ class PublishController extends Controller
 
     function getData()
     {
-        return app(\App\Services\KioskDataProvider::class)->getLatestData()->data;
+        return [app(\App\Services\KioskDataProvider::class)->getLatestData()->data];
     }
 }
