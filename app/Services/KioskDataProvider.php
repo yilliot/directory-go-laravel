@@ -4,7 +4,7 @@ namespace App\Services;
 
 class KioskDataProvider
 {
-    function getLocationDirection($slug)
+    function getLocationDirection($slug = 'k1')
     {
         return \App\Models\KioskLocation::where('slug', $slug)
             ->first();
@@ -16,20 +16,20 @@ class KioskDataProvider
 
     function generateData()
     {
-        $blocks = $this->generateBlock();
+        // $blocks = $this->generateBlock();
         // $zoneCategories = $this->generateZoneCategories();
         // $areaCategories = $this->generateAreaCategories();
 
         // kampong index
         $kampongIndex = $this->generateKampongIndex();
 
-        // facilities index
-        $facilitiesIndex = $this->generateFacilitiesIndex();
+        // // facilities index
+        // $facilitiesIndex = $this->generateFacilitiesIndex();
 
-        // meeting room index A-G
-        // meeting room index H-O
-        // meeting room index P-Z
-        $meetingRoomIndex = $this->generateMeetingRoomIndex();
+        // // meeting room index A-G
+        // // meeting room index H-O
+        // // meeting room index P-Z
+        // $meetingRoomIndex = $this->generateMeetingRoomIndex();
 
         return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex'));
     }
