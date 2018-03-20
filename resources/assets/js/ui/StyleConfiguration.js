@@ -1,7 +1,3 @@
-const BUTTONS_BOTTOM_POSITION = '40px';
-const BUTTONS_RIGHT_POSITION = '40px';
-const HEADING_LEFT_POSITION = '40px';
-const HEADING_TOP_POSITION = '40px';
 const BUTTON_WIDTH = '80px';
 const BUTTON_HEIGHT = '60px';
 const BUTTON_MARGIN = '3px';
@@ -9,8 +5,6 @@ const CATEGORY_HEIGHT = '80px';
 const NUMBER_OF_BLOCK = 3;
 const DEVICE_WIDTH = '1920px';
 const DEVICE_HEIGHT = '1080px';
-const DISPLAY_LEFT_POSITION = '0px';
-const DISPLAY_TOP_POSITION = '50px';
 const INDEX_DISPLAY_POSITION_BOTTOM = '50px';
 const INDEX_DISPLAY_POSITION_LEFT = '30px';
 const INDEX_BLOCK_WIDTH = '350px';
@@ -57,13 +51,6 @@ const Style =
         }
     },
     display:{
-        style:{
-            width: parseInt(DEVICE_WIDTH) - parseInt(BUTTONS_RIGHT_POSITION) - parseInt(BUTTON_MARGIN * 8) - parseInt(BUTTON_WIDTH * 4) - parseInt(DISPLAY_LEFT_POSITION) + 'px',
-            zIndex: 0,
-            position: 'absolute',
-            left: DISPLAY_LEFT_POSITION,
-            top: DISPLAY_TOP_POSITION,
-        },
         indexdisplay:{
             blocks: {
                 style:{
