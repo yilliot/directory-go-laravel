@@ -19,6 +19,45 @@ body{font-family: 'stencil';}
   position: fixed;
   top: 35px; right: 24px; bottom: 78px;
 
+  #right-block-index{
+    position: fixed;
+    top: 35px;
+    right: 24px; bottom: 78px;
+    width: 360px;
+    padding-left: 91px;
+    background-color: #666;
+    .block-cell-index{
+      height: 108px;
+      width: 269px;
+      font-size: 20px;
+      text-transform: uppercase;
+      overflow: hidden;
+      &.active{
+        .text{
+          color: #FFF;
+        }
+        .divider{
+          background-color: rgba(255, 255, 255, 0.8);
+        }
+      }
+      .text{
+        margin: 7px 8px;
+        width: 70%;
+        line-height: 1.1em;
+        color: #CCC;
+      }
+      .divider{
+        margin-top: 4px;
+        margin-left: 4px;
+        margin-right: 4px;
+        height: 4px;
+        background-color: rgba(234, 234, 234, 0.5);
+        border-radius: 2px;
+        width: 260px;
+      }
+    }
+  }
+
   #right-block-left{
     position: fixed;
     right: 293px; bottom: 78px;

@@ -158,7 +158,7 @@ function IndexCategorys(props) {
             />);
     });
     return (
-        <div style={props.style.style}>
+        <div id='right-block-index'>
             {content}
         </div>
     );
@@ -167,12 +167,12 @@ function IndexCategorys(props) {
 function IndexCategory(props) {
     return (
         <div
-            className='block-cell'
+            className={'block-cell-index' + (props.active_category === props.category ? 'active' : '')}
             style={props.style.style}
             onClick={props.update.bind(this, {category: props.category})}
-            dangerouslySetInnerHTML={{__html: props.name}}
         >
-            
+            <div className='divider'></div>
+            <div className='text'>{props.name}</div>
         </div>
     );
 }
