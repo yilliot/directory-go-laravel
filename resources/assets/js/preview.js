@@ -22,20 +22,20 @@ function drawArea(ctx, area, width, height) {
             ctx.globalAlpha = 1;
         }
 
-        // let text = area_json.text.text;
-        // if(text) {
-        //     let text_color = area_json.text.color;
-        //     let text_size = area_json.text.size;
-        //     let x = area_json.text.x;
-        //     let y = area_json.text.y;
+        let text = area_json.text.text;
+        if(text) {
+            let text_color = area_json.text.color;
+            let text_size = area_json.text.size;
+            let x = area_json.text.x;
+            let y = area_json.text.y;
 
-        //     ctx.beginPath();
-        //     // console.log(text);
-        //     ctx.font = parseInt(text_size)/4 + 'px' + ' Georgia';
-        //     ctx.fillStyle = text_color;
-        //     ctx.fillText(text, x / c.w * width , y / c.h * height);
-        //     ctx.fill();
-        // }
+            ctx.beginPath();
+            // console.log(text);
+            ctx.font = parseInt(text_size)/4 + 'px' + ' stencil';
+            ctx.fillStyle = text_color;
+            ctx.fillText(text, x / c.w * width , y / c.h * height);
+            ctx.fill();
+        }
         return true;
     } else return false;
 

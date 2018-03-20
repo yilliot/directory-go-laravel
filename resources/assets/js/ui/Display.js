@@ -125,7 +125,7 @@ function drawArea(ctx, area, width, height, direction) {
 
             ctx.beginPath();
             // console.log(text);
-            ctx.font = text_size + ' Georgia';
+            ctx.font = text_size + ' stencil';
             ctx.fillStyle = text_color;
             if(direction) ctx.fillText(text, width - ctx.measureText(text).width - x / c.w * width , height - (y / c.h * height));
             else ctx.fillText(text, x / c.w * width , y / c.h * height);

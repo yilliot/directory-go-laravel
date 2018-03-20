@@ -149,7 +149,7 @@ window.onload = function() {
         // text displaying
         if(this.history[0].text.text) {
             this.ctx.beginPath();
-            this.ctx.font = this.history[0].text.size + ' Georgia';
+            this.ctx.font = this.history[0].text.size + ' stencil';
             this.ctx.fillStyle = this.history[0].text.color;
             if(this.dragging && this.activeTool == 'text')this.ctx.fillText(this.history[0].text.text, this.offsetBufferText.x, this.offsetBufferText.y);
             else this.ctx.fillText(this.history[0].text.text, this.history[0].text.x, this.history[0].text.y);
