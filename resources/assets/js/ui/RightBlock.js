@@ -31,6 +31,7 @@ export default function RightBlock(props) {
                     style={props.style.indexs}
                     update={props.update}
                     active_category={props.category}
+                    index={props.index}
                 />
             </div>
         ;
@@ -143,8 +144,28 @@ function Categorys(props) {
 }
 
 function IndexCategorys(props) {
+    console.log(props.index);
+    let content = [];
+    for(let name in props.index){
+        content.push(
+            <IndexCategory
+                name={name}
+                category={props.index[name]}
+                key={name}
+                style={props.style.category}
+            />);
+    }
     return (
         <div style={props.style.style}>
+            {content}
+        </div>
+    );
+}
+
+function IndexCategory(props) {
+    return (
+        <div style={props.style.style}>
+            {props.name}
         </div>
     );
 }

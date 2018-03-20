@@ -77,7 +77,7 @@ const Style =
             },
             category:{
                 style:{
-                    width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + 'px',
+                    width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + parseInt(BUTTON_MARGIN) * 4 + 'px',
                     height: CATEGORY_HEIGHT
                 }
             }
@@ -89,11 +89,12 @@ const Style =
                 height: '100%',
                 bottom: '0px',
                 right: '0px',
-                backgroundColor: '#666666'
+                backgroundColor: '#666666',
+                paddingLeft: parseInt(BUTTON_WIDTH) + parseInt(BUTTON_MARGIN) * 2 + 'px',
             },
             category:{
                 style:{
-                    width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + 'px',
+                    width: (parseInt(BUTTON_WIDTH) * NUMBER_OF_BLOCK) + parseInt(BUTTON_MARGIN) * 4 + 'px',
                     height: CATEGORY_HEIGHT
                 }
             }

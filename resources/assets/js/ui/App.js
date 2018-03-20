@@ -38,7 +38,13 @@ export default class App extends Component {
             category: blocks.blocks[0].levels[0].zone_categories[1],
             blocks: blocks.blocks,
             direction: direction,
-            index: blocks.blocks[0]
+            index: {
+                ['Kampong Index']: blocks.kampongIndex,
+                ['Facilities Index']: blocks.facilitiesIndex,
+                ['Meeting Rooms Index<br>[A - G]']: blocks.meetingRoomIndex['A-G'],
+                ['Meeting Rooms Index<br>[H - O]']: blocks.meetingRoomIndex['H-O'],
+                ['Meeting Rooms Index<br>[P - Z]']: blocks.meetingRoomIndex['P-Z']
+            }
         };
     }
 
@@ -56,7 +62,7 @@ export default class App extends Component {
                 <Buttons 
                     blocks={this.state.blocks}
                     block={this.state.block}
-                    index={this.state.index}
+                    // index={this.state.index}
                     category={this.state.category}
                     style={Style['buttons']}
                     update={this.update}
@@ -65,6 +71,7 @@ export default class App extends Component {
                     type={this.state.type}
                     block={this.state.block}
                     level={this.state.level}
+                    index={this.state.index}
                     category={this.state.category}
                     style={Style['rightblock']}
                     update={this.update}
