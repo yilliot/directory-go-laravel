@@ -3,3 +3,73 @@
   src: url('/fonts/Geogrotesque Stencil C-Medium.otf');
 }
 body{font-family: 'stencil';}
+
+.heading-font{
+  font-size: 70px;
+  line-height: 1.1em;
+  padding: 0px 10px;
+}
+.text-white{color: #FFF;}
+.text-grey{color: #666;}
+
+
+/** NAV BUTTON **/
+#nav-bottom{
+  position: fixed;
+  right: 24px;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+
+  %block-button {
+    padding-left: 10px;
+    width: 87px;
+    height: 74px;
+    margin-left: 4px;
+    font-size: 55px;
+    line-height: 1em;
+    text-transform: uppercase;
+  }
+  .active{
+    height: 78px;
+  }
+  .block-button{
+    @extend %block-button;
+    color: #FFF;
+  }
+  .index-button{
+    @extend %block-button;
+    padding-left: 4px;
+    line-height: 1.4em;
+    font-size: 30px;
+    color: #CCC;
+    background-color: #666;
+  }
+}
+
+/** HEADINGS **/
+@mixin heading() {
+  z-index: 3;
+  overflow: hidden;
+  position: fixed;
+  text-transform: uppercase;
+}
+#sub-heading{
+  @include heading();
+  font-size: 26px;
+  top: 46px;
+  left: 280px;
+}
+#block-heading{
+  @include heading();
+  height: 75px;
+  top: 35px;
+  left: 25px;
+}
+#block-heading-index{
+  @include heading();
+  height: 75px;
+  top: 20px;
+  left: 12px;
+}

@@ -6,7 +6,6 @@ export default function Buttons(props) {
     buttons.push(
         <IndexButton
             key="index"
-            style={props.style.button}
             update={props.update}
             index={props.index}
         />);
@@ -16,13 +15,12 @@ export default function Buttons(props) {
                 block={value}
                 active_block={props.block}
                 key={i}
-                style={props.style.button}
                 update={props.update}
                 active_category={props.category}
             />);
     });
     return (
-        <div style={props.style.style}>
+        <div id='nav-bottom'>
             {buttons}
         </div>
     );
@@ -54,7 +52,8 @@ function BlockButton(props) {
     : null;
     return (
         <div
-            style={{backgroundColor: props.block.colour, ...props.style.style}}
+            className={'block-button ' + (props.active_block === props.block ? 'active' : '')}
+            style={{backgroundColor: props.block.colour}}
             onClick={update}
         >
             {props.block.name}
@@ -65,7 +64,7 @@ function BlockButton(props) {
 function IndexButton(props) {
     return (
         <div
-            style={{backgroundColor: '#666666', ...props.style.style}}
+            className={'index-button ' + (props.active_block === props.block ? 'active' : '')}
             onClick={props.update.bind(this, {type: 0, block: props.index, category: props.index[Object.keys(props.index)[0]]})}
         >
             Index

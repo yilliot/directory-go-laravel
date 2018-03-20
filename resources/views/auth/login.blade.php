@@ -43,9 +43,10 @@
             {{ __('Login') }}
           </button>
   
-          <a class="ui basic button" href="{{ route('password.request') }}">
+{{--           <a class="ui basic button" href="{{ route('password.request') }}">
             {{ __('Forgot Your Password?') }}
           </a>
+ --}}
         </div>
       </div>
     </form>

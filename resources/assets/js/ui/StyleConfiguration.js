@@ -6,13 +6,6 @@ const BUTTON_WIDTH = '80px';
 const BUTTON_HEIGHT = '60px';
 const BUTTON_MARGIN = '3px';
 const CATEGORY_HEIGHT = '80px';
-const HEADING_LOCATION_WIDTH = '80px';
-const HEADING_INDEX_WIDTH = '110px';
-const HEADING_HEIGHT = '60px';
-const SUBHEADING_LEFT_POSITION = '250px';
-const SUBHEADING_TOP_POSITION = '50px';
-const SUBHEADING_WIDTH = '300px';
-const SUBHEADING_HEIGHT = '100px';
 const NUMBER_OF_BLOCK = 3;
 const DEVICE_WIDTH = '1920px';
 const DEVICE_HEIGHT = '1080px';
@@ -26,23 +19,6 @@ const INDEX_LEVEL_HEIGHT = '100px';
 
 const Style = 
 {
-    buttons:{
-        style:{
-            position: 'absolute',
-            display: 'flex',
-            bottom: BUTTONS_BOTTOM_POSITION,
-            right: BUTTONS_RIGHT_POSITION,
-            zIndex: '4'
-        },
-        button:{
-            style:{
-                position: 'relative',
-                width: BUTTON_WIDTH,
-                height: BUTTON_HEIGHT,
-                margin: BUTTON_MARGIN
-            }
-        }
-    },
     rightblock:{
         style:{
             position: 'absolute',
@@ -105,43 +81,6 @@ const Style =
                     wordWrap: 'normal',
                 }
             }
-        }
-    },
-    heading:{
-        style:{
-            zIndex: 3,
-            position: 'absolute',
-            left: HEADING_LEFT_POSITION,
-            top: HEADING_TOP_POSITION
-        },
-        block:{
-            style:{
-                width: HEADING_LOCATION_WIDTH,
-                height: HEADING_HEIGHT
-            }
-        },
-        level:{
-            style:{
-                width: HEADING_LOCATION_WIDTH,
-                height: HEADING_HEIGHT
-            }
-        },
-        index:{
-            style:{
-                width: HEADING_INDEX_WIDTH,
-                height: HEADING_HEIGHT,
-                backgroundColor: '#666666'
-            }
-        }
-    },
-    subheading:{
-        style:{
-            zIndex: 3,
-            position: 'absolute',
-            left: SUBHEADING_LEFT_POSITION,
-            top: SUBHEADING_TOP_POSITION,
-            width: SUBHEADING_WIDTH,
-            height: SUBHEADING_HEIGHT
         }
     },
     display:{

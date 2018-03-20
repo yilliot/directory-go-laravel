@@ -65,7 +65,6 @@ export default class App extends Component {
                     block={this.state.block}
                     index={this.state.index}
                     category={this.state.category}
-                    style={Style['buttons']}
                     update={this.update}
                 />
                 <RightBlock
@@ -79,11 +78,9 @@ export default class App extends Component {
                 />
                 <Subheading
                     text={this.state.category.name}
-                    style={Style['subheading']}
                 />
                 <Heading
                     type={this.state.type}
-                    style={Style['heading']}
                     level={this.state.level}
                     block={this.state.block}
                 />
