@@ -6,10 +6,6 @@ const BUTTON_WIDTH = '80px';
 const BUTTON_HEIGHT = '60px';
 const BUTTON_MARGIN = '3px';
 const CATEGORY_HEIGHT = '80px';
-const SUBHEADING_LEFT_POSITION = '250px';
-const SUBHEADING_TOP_POSITION = '50px';
-const SUBHEADING_WIDTH = '300px';
-const SUBHEADING_HEIGHT = '100px';
 const NUMBER_OF_BLOCK = 3;
 const DEVICE_WIDTH = '1920px';
 const DEVICE_HEIGHT = '1080px';
@@ -95,16 +91,6 @@ const Style =
                     height: CATEGORY_HEIGHT
                 }
             }
-        }
-    },
-    subheading:{
-        style:{
-            zIndex: 3,
-            position: 'absolute',
-            left: SUBHEADING_LEFT_POSITION,
-            top: SUBHEADING_TOP_POSITION,
-            width: SUBHEADING_WIDTH,
-            height: SUBHEADING_HEIGHT
         }
     },
     display:{

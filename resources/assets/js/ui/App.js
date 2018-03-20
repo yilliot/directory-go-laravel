@@ -78,7 +78,6 @@ export default class App extends Component {
                 />
                 <Subheading
                     text={this.state.category.name}
-                    style={Style['subheading']}
                 />
                 <Heading
                     type={this.state.type}

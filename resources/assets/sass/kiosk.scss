@@ -15,7 +15,15 @@ body{font-family: 'stencil';}
 .text-grey{
   color: #666;
 }
-
+#sub-heading{
+  z-index: 3;
+  font-size: 26px;
+  color: #666;
+  position: fixed;
+  left: 280px;
+  top: 46px;
+  text-transform: uppercase;
+}
 #block-heading{
   z-index: 3;
   height: 75px;
