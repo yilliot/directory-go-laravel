@@ -16,6 +16,7 @@ class CoreSeeder extends Seeder
         $this->runLevel();
         $this->runCategory();
         $this->runZoneCategory();
+        $this->runKisokLocation();
     }
 
     private function runUser()
@@ -280,6 +281,25 @@ class CoreSeeder extends Seeder
                 'name' => $categoryName,
                 'order' => $order++,
             ]);
+        }
+    }
+
+    private function runKisokLocation()
+    {
+        DB::table('kiosk_locations')->truncate();
+
+        $order = 1;
+        $list = range(1, 30);
+
+        foreach ($list as $index) {
+
+            DB::table('kiosk_locations')->insert([
+                'slug' => 'k' . $index,
+                'level_id' =>  collect([1,2,3,4,6,7,8,9,10,11,17,18,19])->random(),
+                'axis' => json_encode(['x' => rand(1, 1000), 'y' => rand(1, 1000)]),
+            ]);
+
+            $index++;
         }
     }
 }
