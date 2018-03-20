@@ -46,23 +46,32 @@ body{font-family: 'stencil';}
     right: 24px; top: 35px; bottom: 78px;
     overflow: auto;
     .block-cell{
-      height: 111px;
+      height: 108px;
       width: 269px;
       font-size: 20px;
       text-transform: uppercase;
       overflow: hidden;
+      &.active{
+        .text{
+          color: #FFF;
+        }
+        .divider{
+          background-color: rgba(255, 255, 255, 0.8);
+        }
+      }
       .text{
         margin: 7px 8px;
         width: 70%;
         line-height: 1.1em;
       }
       .divider{
+        margin-top: 4px;
         margin-left: 4px;
         margin-right: 4px;
         height: 4px;
         background-color: rgba(234, 234, 234, 0.5);
         border-radius: 2px;
-        width: 277px;
+        width: 260px;
       }
     }
   }

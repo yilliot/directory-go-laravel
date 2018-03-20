@@ -100,13 +100,14 @@ function Categorys(props) {
     let content = [];
     let zone_categories = props.level.zone_categories;
     let area_categories = props.level.area_categories;
+
     if(zone_categories) {
         content.push(
             <Category
                 category={zone_categories[Object.keys(zone_categories)[0]]}
                 update={props.update}
                 style={props.style.category}
-                active_category={props.category}            
+                active_category={props.active_category}            
                 key="zone"
             />);
     }
@@ -117,7 +118,7 @@ function Categorys(props) {
                     category={area_categories[x]}
                     update={props.update}
                     style={props.style.category}
-                    active_category={props.category}            
+                    active_category={props.active_category}            
                     key={x}
                 />);
         }
@@ -179,7 +180,7 @@ function IndexCategory(props) {
 function Category(props) {
     return (
         <div
-            className='block-cell'
+            className={'block-cell' + (props.active_category === props.category ? ' active' : '')}
             onClick={props.update.bind(this, {category: props.category})}
         >
             <div className='divider'></div>
