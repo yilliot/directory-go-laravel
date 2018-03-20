@@ -9,7 +9,6 @@ export default function RightBlock(props) {
                 <Levels
                     block={props.block}
                     active_level={props.level}
-                    style={props.style.levels}
                     update={props.update}
                 />
                 <Categorys
@@ -50,7 +49,6 @@ function Levels(props) {
                 level={value}
                 active_color={props.block.colour}
                 active_level={props.active_level}
-                style={props.style.level}
                 update={props.update}
                 key={i}
             />);
