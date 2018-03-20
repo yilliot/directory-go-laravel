@@ -4,6 +4,7 @@ function drawArea(ctx, area, width, height) {
         let area_json = JSON.parse(area.area_json);
         let c = area_json.canvasSize;
         let points = area_json.geometry.points;
+        let offset = {x: area_json.geometry.x, y: area_json.geometry.y};
         if(points) {
             ctx.beginPath();
             let area_color = area_json.geometry.color;
@@ -11,11 +12,13 @@ function drawArea(ctx, area, width, height) {
             ctx.strokeStyle = area_color;
             // console.log(points, area_color);
             ctx.globalAlpha = 0.6;        
+            ctx.translate(offset.x / c.w * width, offset.y / c.h * height)
             points.forEach((point, index) => {
                 if(index == 0)ctx.moveTo(point.x / c.w * width, point.y / c.h * height);
                 else ctx.lineTo(point.x / c.w * width, point.y / c.h * height);
             });
             ctx.fill();
+            ctx.translate(-offset.x / c.w * width, -offset.y / c.h * height)
             ctx.globalAlpha = 1;
         }
 
