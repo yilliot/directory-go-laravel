@@ -7,6 +7,7 @@ export default function Buttons(props) {
         <IndexButton
             key="index"
             update={props.update}
+            active_block={props.block}    
             index={props.index}
         />);
     props.blocks.forEach((value, i) => {
@@ -64,7 +65,7 @@ function BlockButton(props) {
 function IndexButton(props) {
     return (
         <div
-            className={'index-button ' + (props.active_block === props.block ? 'active' : '')}
+            className={'index-button ' + (props.active_block === props.index ? 'active' : '')}
             onClick={props.update.bind(this, {type: 0, block: props.index, category: props.index[Object.keys(props.index)[0]]})}
         >
             Index
