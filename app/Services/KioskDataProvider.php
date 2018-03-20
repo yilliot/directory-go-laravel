@@ -56,9 +56,9 @@ class KioskDataProvider
                         'name_display' => $item->name_display,
                         'text_size' => $item->text_size,
                         'area_json' => $item->area_json,
-                        'category' => $item_area->zoneCategory->name,
-                        'level' => $item_area->level->name,
-                        'block' => $item_area->block->name,
+                        'category' => $item->categories->first()->name,
+                        'level' => $item->level->name,
+                        'block' => $item->block->name,
                     ];
                 });
             })
@@ -67,42 +67,82 @@ class KioskDataProvider
     }
 
     function generateKampongIndex() {
-        $kampongs = \App\Models\ZoneCategory::with('zones', 'zones.level', 'zones.level.block')
-            ->where('id', 1)
-            ->first()
-            ->zones
-            ->groupBy('block_id')
-            ->map(function($item) {
+        // $kampongs = \App\Models\ZoneCategory::with('zones', 'zones.level', 'zones.level.block')
+        //     ->where('id', 1)
+        //     ->first()
+        //     ->zones
+        //     ->groupBy('block_id')
+        //     ->map(function($item) {
+        //         return [
+        //             'id' => $item->first()->level->block->id,
+        //             'name' => $item->first()->level->block->name,
+        //             'bg_colour' => $item->first()->level->block->bg_colour,
+        //             'text_colour' => $item->first()->level->block->text_colour,
+        //             'order' => $item->first()->level->block->order,
+        //             'levels' => $item
+        //                 ->groupBy('level_id')
+        //                 ->map(function($item_level){
+        //                     return [
+        //                         'name' => $item_level->first()->level->name,
+        //                         'level_order' => $item_level->first()->level->level_order,
+        //                         'is_activated' => $item_level->first()->level->is_activated,
+        //                         'zones' => $item_level
+        //                             ->map(function($item_area){
+        //                                 return [
+        //                                     'name' => $item_area->name,
+        //                                     'name_display' => $item_area->name_display,
+        //                                     'text_size' => $item_area->text_size,
+        //                                     'area_json' => $item_area->area_json,
+        //                                     'category' => $item_area->zoneCategory->name,
+        //                                     'level' => $item_area->level->name,
+        //                                     'block' => $item_area->block->name,
+        //                                 ];
+        //                             }),
+        //                     ];
+        //                 }),
+        //         ];
+        //     })
+        //     ->toArray();
+        $kampongs = \App\Models\Block::with('levels', 'levels.zones', 'levels.zones.zoneCategory')
+            ->get()
+            ->map(function($block) {
                 return [
-                    'id' => $item->first()->level->block->id,
-                    'name' => $item->first()->level->block->name,
-                    'bg_colour' => $item->first()->level->block->bg_colour,
-                    'text_colour' => $item->first()->level->block->text_colour,
-                    'order' => $item->first()->level->block->order,
-                    'levels' => $item
-                        ->groupBy('level_id')
-                        ->map(function($item_level){
+                    'id' => $block->id,
+                    'name' => $block->name,
+                    'bg_colour' => $block->bg_colour,
+                    'text_colour' => $block->text_colour,
+                    'order' => $block->order,
+                    'levels' => $block
+                        ->levels
+                        ->map(function($level) {
                             return [
-                                'name' => $item_level->first()->level->name,
-                                'level_order' => $item_level->first()->level->level_order,
-                                'is_activated' => $item_level->first()->level->is_activated,
-                                'zones' => $item_level
-                                    ->map(function($item_area){
-                                        return [
-                                            'name' => $item_area->name,
-                                            'name_display' => $item_area->name_display,
-                                            'text_size' => $item_area->text_size,
-                                            'area_json' => $item_area->area_json,
-                                            'category' => $item_area->zoneCategory->name,
-                                            'level' => $item_area->level->name,
-                                            'block' => $item_area->block->name,
-                                        ];
+                                'name' => $level->name,
+                                'level_order' => $level->level_order,
+                                'is_activated' => $level->is_activated,
+                                'zones' => $level
+                                    ->zones
+                                    ->map(function($zone) {
+                                        $result = [];
+                                        if($zone->zoneCategory->id == 1) {
+                                            $result = [
+                                                'name' => $zone->name,
+                                                'name_display' => $zone->name_display,
+                                                'text_size' => $zone->text_size,
+                                                'area_json' => $zone->area_json,
+                                                'category' => $zone->zoneCategory->name,
+                                                'level' => $zone->level->name,
+                                                'block' => $zone->block->name,
+                                            ];
+                                        }
+                                        return $result;
                                     }),
                             ];
                         }),
                 ];
             })
             ->toArray();
+
+        // dd($kampongs);
 
         return $kampongs;
     }
