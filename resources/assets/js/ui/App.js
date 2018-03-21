@@ -60,7 +60,7 @@ export default class App extends Component {
     componentDidMount() {
         let directory = this.directorySetup();
         this.setState({directory: directory});        
-        setInterval(this.auto_updater, 3 * 60 * 60 * 1000);
+        setInterval(this.auto_updater, 30 * 60 * 1000);
     }
 
     directorySetup() {
@@ -91,22 +91,26 @@ export default class App extends Component {
         .then((result) => {
             console.log('local version: ' + version + ',remote version: ' + result.version);
             if(result.version > version) {
-                console.log('There is a latest version, update will be update now!');
-                fetch('/publish/data').then(res => res.json()).then((result) => {
-                    let blocks = JSON.parse(result);
-                });
-                this.setState({
-                    blocks: blocks.blocks,
-                    index: [
-                        {name: 'Kampongs Index', ...blocks.kampongIndex},
-                        {name: 'Facilities Index', ...blocks.facilitiesIndex},
-                        {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
-                        {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
-                        {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
-                    ],
-                });
-                this.setState({directory: this.directorySetup()});
-                console.log('updated');
+                console.log('There is a lastest version, will refresh in 3 seconds');
+                setTimeout(function(){
+                    location.reload();
+                }, 3000);
+                // console.log('There is a latest version, update will be update now!');
+                // fetch('/publish/data').then(res => res.json()).then((result) => {
+                //     let blocks = JSON.parse(result);
+                // });
+                // this.setState({
+                //     blocks: blocks.blocks,
+                //     index: [
+                //         {name: 'Kampongs Index', ...blocks.kampongIndex},
+                //         {name: 'Facilities Index', ...blocks.facilitiesIndex},
+                //         {name: 'Meeting Rooms Index [A - G]', ...blocks.meetingRoomIndex['A-G']},
+                //         {name: 'Meeting Rooms Index [H - O]', ...blocks.meetingRoomIndex['H-O']},
+                //         {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
+                //     ],
+                // });
+                // this.setState({directory: this.directorySetup()});
+                // console.log('updated');
                 
             } else console.log('There is currently no newer version.');
         });
