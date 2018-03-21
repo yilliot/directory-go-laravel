@@ -267,6 +267,25 @@ body{font-family: 'stencil'; overflow: hidden;}
     flex-direction: row;
     top: 0px;
     position: absolute;
+    .list-row-btn-group{
+      display: flex;
+      align-items: flex-end;
+      .list-column{
+        height: 20px;
+        font-size: 16px;
+        text-align: center;
+        color: #000;
+      }
+      .list-column01{
+        width: 42px;
+      }
+      .list-column02{
+        width: 40px;
+      }
+      .list-column03{
+        width: 34px;
+      }
+    }
   }
   .list{
     margin: 2px;
@@ -278,10 +297,28 @@ body{font-family: 'stencil'; overflow: hidden;}
     text-align: left;
     display: flex;
     justify-content: space-between;
-  }
-  .list-column{
-    height: 30px;
-    width: 40px;
+    font-size: 17px;
+    padding-top: 5px;
+    .list-row-btn-group{
+      display: flex;
+      align-items: flex-end;
+      .list-column{
+        height: 30px;
+        padding-top: 5px;
+        text-align: center;
+        color: #FFF;
+      }
+      .list-column01{
+        width: 42px;
+      }
+      .list-column02{
+        width: 40px;
+      }
+      .list-column03{
+        width: 34px;
+        color: #000;
+      }
+    }
   }
 }
 #meeting-room::-webkit-scrollbar{

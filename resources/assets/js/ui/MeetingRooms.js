@@ -36,10 +36,10 @@ function List(props) {
         return (
             <div className="list">
                 <div style={{display: "flex", justifyContent: 'flex-end'}}>
-                    <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
-                        <div className="list-column">BLK</div>
-                        <div className="list-column">LVL</div>
-                        <div className="list-column">RM</div>
+                    <div className="list-row-btn-group">
+                        <div className="list-column list-column01">BLK</div>
+                        <div className="list-column list-column02">LVL</div>
+                        <div className="list-column list-column03">RM</div>
                     </div>
                 </div>
                 {content}
@@ -58,10 +58,10 @@ function Row(props) {
     return (
         <div className="list-row" onClick={props.activate.bind(this, props.area.block, props.area.level, props.area.category)}>
             {props.area.name}
-            <div style={{width: '100px', display: 'flex', justifyContent: 'space-between'}}>
-                <div className="list-column" style={{backgroundColor: props.area.bg_colour}}>{props.area.block}</div>
-                <div className="list-column" style={{backgroundColor: props.area.bg_colour}}>{props.area.level}</div>
-                <div className="list-column">{props.area.name_display}</div>
+            <div className="list-row-btn-group">
+                <div className="list-column list-column01" style={{backgroundColor: props.area.bg_colour}}>{props.area.block}</div>
+                <div className="list-column list-column02" style={{backgroundColor: props.area.bg_colour}}>{props.area.level}</div>
+                <div className="list-column list-column03">{props.area.name_display}</div>
             </div>
         </div>
     );
