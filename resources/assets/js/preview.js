@@ -25,6 +25,18 @@ function drawArea(ctx, area, width, height) {
             ctx.translate(-offset.x / c.w * width, -offset.y / c.h * height)
             ctx.globalAlpha = 1;
         }
+        return true;
+    } else return false;
+
+}
+
+function drawText(ctx, area, width, height) {
+
+    if(!area){return null}
+    // Check if it is assigned
+    if(!Array.isArray(JSON.parse(area.area_json))) {
+        let area_json = JSON.parse(area.area_json);
+        let c = area_json.canvasSize;
 
         let text = area_json.text.text;
         if(text) {
@@ -64,6 +76,9 @@ window.onload = function() {
         if(area_jsons) {
             area_jsons.forEach((area) => {
                 drawArea(this.ctx, area, this.canvas.width, this.canvas.height)
+            });
+            area_jsons.forEach((area) => {
+                drawText(this.ctx, area, this.canvas.width, this.canvas.height)
             });
         }
     }

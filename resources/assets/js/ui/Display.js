@@ -86,6 +86,10 @@ class Canvas extends Component {
                     // console.log(area);
                     drawArea(ctx, area, canvas.width, canvas.height, this.props.direction);
                 });
+                this.props.areas.forEach((area, index) => {
+                    // console.log(area);
+                    drawText(ctx, area, canvas.width, canvas.height, this.props.direction);
+                });
             }
             if(this.props.pointer) drawPointer(ctx, pointer.json, canvas.width, canvas.height, this.props.direction);
             if(this.props.direction) {
@@ -124,6 +128,16 @@ function drawArea(ctx, area, width, height, direction) {
             ctx.translate(-offset.x / c.w * width, -offset.y / c.h * height)
             ctx.globalAlpha = 1;
         }
+        return true;
+    } else return false;
+
+}
+
+function drawText(ctx, area, width, height, direction) {
+    // Check if it is assigned
+    if(!Array.isArray(JSON.parse(area.area_json))) {
+        let area_json = JSON.parse(area.area_json);
+        let c = area_json.canvasSize;
 
         let text = area_json.text.text;
         if(text) {
