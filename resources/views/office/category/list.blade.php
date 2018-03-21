@@ -22,7 +22,7 @@
       <tr>
         <td>{{$loop->index+1}}</td>
         <td>{{$category->name}}</td>
-        <td>{{$category->counter}}</td>
+        <td>{{$category->areas->count()}}</td>
         <td class="right aligned">
           <form action="/back-office/category/order/{{$category->id}}" class="d-inline" method="POST">
             @csrf

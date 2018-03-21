@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     function getList(Request $request)
     {
-        $categories = Category::orderBy('order', 'asc')->get();
+        $categories = Category::with('areas')->orderBy('order', 'asc')->get();
 
         return view('office.category.list', compact('categories'));
     }
