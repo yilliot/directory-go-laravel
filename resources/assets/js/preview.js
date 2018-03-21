@@ -35,7 +35,7 @@ function drawArea(ctx, area, width, height) {
 
             ctx.beginPath();
             // console.log(text);
-            ctx.font = parseInt(text_size)/4 + 'px' + ' stencil';
+            ctx.font = parseInt(text_size)/ c.w * width + 'px' + ' stencil';
             ctx.fillStyle = text_color;
             ctx.fillText(text, x / c.w * width , y / c.h * height);
             ctx.fill();

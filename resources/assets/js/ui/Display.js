@@ -137,8 +137,7 @@ function drawArea(ctx, area, width, height, direction) {
             let y = area_json.text.y;
 
             ctx.beginPath();
-            // console.log(text);
-            ctx.font = text_size + ' stencil';
+            ctx.font = (parseInt(text_size) / c.w * width) + 'px stencil';
             ctx.fillStyle = text_color;
             if(direction) ctx.fillText(text, width - ctx.measureText(text).width - x / c.w * width , height - (y / c.h * height));
             else ctx.fillText(text, x / c.w * width , y / c.h * height);
@@ -165,8 +164,6 @@ function drawPointer(ctx, json, width, height, direction) {
     let pointer_width = 25;
     let pointer_height = 45;
     pointer.onload = function() {
-        // if(direction) ctx.drawImage(this, width - json.x / c.x * width - pointer_width / 2, height - json.y / c.y * height - pointer_height, pointer_width, pointer_height);
-        // else ctx.drawImage(this, json.x / c.x * width - pointer_width / 2, json.y / c.y * height - pointer_height, pointer_width, pointer_height);
         if(direction) ctx.drawImage(this, width - json.x - pointer_width/2, height - json.y - pointer_height, pointer_width, pointer_height)
         else ctx.drawImage(this, json.x - pointer_width/2, json.y - pointer_height, pointer_width, pointer_height);
     }
