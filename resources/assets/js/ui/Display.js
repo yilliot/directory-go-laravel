@@ -146,11 +146,16 @@ function drawPointer(ctx, json, width, height, direction) {
         ctx.rotate(Math.PI);
         ctx.translate(-width, -height);
     }
-    ctx.beginPath();
-    ctx.fillStyle = 'black';
-    if(direction) ctx.arc(width - json.x / c.x * width, height - json.y / c.y * height, 10, 0, 2* Math.PI, 1);
-    else ctx.arc(json.x / c.x * width, json.y / c.y * height, 10, 0, 2* Math.PI, 1);
-    ctx.fill();
+
+    let pointer = new Image();
+    pointer.src = '/images/you-are-here.png';
+    let pointer_width = 25;
+    let pointer_height = 45;
+    pointer.onload = function() {
+        if(direction) ctx.drawImage(this, width - json.x / c.x * width - pointer_width / 2, height - json.y / c.y * height - pointer_height, pointer_width, pointer_height);
+        else ctx.drawImage(this, json.x / c.x * width - pointer_width / 2, json.y / c.y * height - pointer_height, pointer_width, pointer_height);
+    }
+
     if(direction) {
         ctx.rotate(Math.PI);
         ctx.translate(-width, -height);
