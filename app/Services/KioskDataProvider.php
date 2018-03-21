@@ -180,7 +180,8 @@ class KioskDataProvider
         $areasByCategories = \DB::table('areas')
             ->join('area_categories', 'areas.id', '=', 'area_categories.area_id')
             ->join('categories', 'categories.id', '=', 'area_categories.category_id')
-            ->select('areas.*', 'area_categories.category_id', 'categories.name as category_name')
+            ->select('areas.*', 'area_categories.category_id', 'categories.name as category_name', 'categories.order as category_order')
+            ->orderBy('category_order', 'asc')
             ->get()
             ->groupBy('level_id')
             ->map(function($items, $levelId){
@@ -189,6 +190,7 @@ class KioskDataProvider
                         return [
                             'id' => $id,
                             'name' => $itemsLv2->first()->category_name,
+                            'order' => $itemsLv2->first()->category_order,
                             'areas' => $itemsLv2->map(function($itemLv2){
                                 return [
                                     'id' => $itemLv2->id,
@@ -199,7 +201,7 @@ class KioskDataProvider
                                 ];
                             })->toArray(),
                         ];
-                    });
+                    })->values();
             })->toArray();
 
         $zonesByCategories = \DB::table('zones')
