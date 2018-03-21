@@ -133,7 +133,7 @@ class KioskDataProvider
                                     ->areas
                                     ->map(function($area) {
                                         $result = [];
-                                        if($area->categories->first()->id == 23) {
+                                        if($area->categories->find(23)) {
                                             $result = [
                                                 'name' => $area->name,
                                                 'name_display' => $area->name_display,
