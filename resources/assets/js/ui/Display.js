@@ -30,6 +30,7 @@ class Canvas extends Component {
 
     constructor(props) {
         super(props);
+        this.handleClick = this.handleClick.bind(this);
         this.state = {
             canvas: null,
             ctx: null,
@@ -48,6 +49,10 @@ class Canvas extends Component {
             ctx: this.refs.canvas.getContext('2d'),
             ready: true
         });
+    }
+
+    handleClick(event) {
+        console.log(JSON.stringify({x: event.nativeEvent.offsetX, y:event.nativeEvent.offsetY}));
     }
 
     render() {
@@ -83,7 +88,7 @@ class Canvas extends Component {
         }
 
         return (
-            <canvas ref="canvas" width="1431" height="1012" />
+            <canvas onClick={this.handleClick} ref="canvas" width="1431" height="1012" />
         );
     }
 }
@@ -152,8 +157,10 @@ function drawPointer(ctx, json, width, height, direction) {
     let pointer_width = 25;
     let pointer_height = 45;
     pointer.onload = function() {
-        if(direction) ctx.drawImage(this, width - json.x / c.x * width - pointer_width / 2, height - json.y / c.y * height - pointer_height, pointer_width, pointer_height);
-        else ctx.drawImage(this, json.x / c.x * width - pointer_width / 2, json.y / c.y * height - pointer_height, pointer_width, pointer_height);
+        // if(direction) ctx.drawImage(this, width - json.x / c.x * width - pointer_width / 2, height - json.y / c.y * height - pointer_height, pointer_width, pointer_height);
+        // else ctx.drawImage(this, json.x / c.x * width - pointer_width / 2, json.y / c.y * height - pointer_height, pointer_width, pointer_height);
+        if(direction) ctx.drawImage(this, width - json.x - pointer_width/2, height - json.y - pointer_height, pointer_width, pointer_height)
+        else ctx.drawImage(this, json.x - pointer_width/2, json.y - pointer_height, pointer_width, pointer_height);
     }
 
     if(direction) {
