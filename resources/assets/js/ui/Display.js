@@ -139,7 +139,7 @@ function drawArea(ctx, area, width, height, direction) {
             ctx.beginPath();
             ctx.font = (parseInt(text_size) / c.w * width) + 'px stencil';
             ctx.fillStyle = text_color;
-            if(direction) ctx.fillText(text, width - ctx.measureText(text).width - x / c.w * width , height - (y / c.h * height));
+            if(direction) ctx.fillText(text, width - ctx.measureText(text).width - 4 - x / c.w * width , height + (parseInt(text_size) / c.w * width) / 2 - (y / c.h * height));
             else ctx.fillText(text, x / c.w * width , y / c.h * height);
             ctx.fill();
             if(direction) {
