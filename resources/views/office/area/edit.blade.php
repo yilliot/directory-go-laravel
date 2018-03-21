@@ -63,7 +63,7 @@
         <div class="field">
           <label for="">Font Size</label>
           <select name="text_size" id="select_text_size" class="ui fluid dropdown">
-            @foreach (['14px', '15px', '16px'] as $element)
+            @foreach (['12px','13px','14px', '15px', '16px', '17px', '18px'] as $element)
               <option value="{{$element}}" {{$area->text_size == $element ? 'selected' : ''}}>{{$element}}</option>
             @endforeach
           </select>
