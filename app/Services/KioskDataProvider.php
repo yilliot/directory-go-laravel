@@ -61,7 +61,7 @@ class KioskDataProvider
                         'block' => $item->block->name,
                         'bg_colour' => $item->block->bg_colour,
                     ];
-                });
+                })->sortBy('name')->values();
             })
             ->toArray();
         return $meetingRooms;
