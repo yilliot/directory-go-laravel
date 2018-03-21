@@ -52,7 +52,15 @@ class Canvas extends Component {
     }
 
     handleClick(event) {
-        console.log(JSON.stringify({x: event.nativeEvent.offsetX, y:event.nativeEvent.offsetY}));
+        let coor = {};
+        if (this.props.direction) {
+            coor.x = this.state.canvas.width - event.nativeEvent.offsetX;
+            coor.y = this.state.canvas.height - event.nativeEvent.offsetY;
+        } else {
+            coor.x = event.nativeEvent.offsetX;
+            coor.y = event.nativeEvent.offsetY;
+        }
+        console.log(JSON.stringify({x: coor.x, y:coor.y}));
     }
 
     render() {
