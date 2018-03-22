@@ -101,7 +101,7 @@ function Zones(props) {
 
 function Zone(props) {
     return (
-        <div className="index-zone" onClick={props.activate.bind(this, props.zone.block, props.zone.level, props.zone.category)} style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
+        <div className={"index-zone" + (props.zone.bg_colour? '':' facility')} onClick={props.activate.bind(this, props.zone.block, props.zone.level, props.zone.category)} style={{backgroundColor: props.zone.bg_colour? props.zone.bg_colour: 'white'}}>
             {props.zone.name_display}
         </div>
     );

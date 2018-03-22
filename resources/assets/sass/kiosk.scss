@@ -253,6 +253,9 @@ body{font-family: 'stencil'; overflow: hidden;}
       font-weight: lighter;
       color: white;
       margin: 1px;
+      &.facility{
+        color: black;
+      }
     }
   }
 }
