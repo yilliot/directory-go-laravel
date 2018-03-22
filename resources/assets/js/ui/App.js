@@ -20,6 +20,8 @@ export default class App extends Component {
         this.activate = this.activate.bind(this);
         this.directorySetup = this.directorySetup.bind(this);
         this.auto_updater = this.auto_updater.bind(this);
+        this.inactivity_timer = this.inactivity_timer.bind(this);
+        this.reset_timer = this.reset_timer.bind(this);
         let category;
         for(let x in blocks) {
             for(let y in blocks[x].levels) {
@@ -49,7 +51,8 @@ export default class App extends Component {
                 {name: 'Meeting Rooms Index [P - Z]', ...blocks.meetingRoomIndex['P-Z']}
             ],
             directory: [],
-            pointer: pointer
+            pointer: pointer,
+            timer: null,
         };
     }
 
@@ -61,6 +64,29 @@ export default class App extends Component {
         let directory = this.directorySetup();
         this.setState({directory: directory});        
         setInterval(this.auto_updater, 30 * 60 * 1000);
+        this.inactivity_timer();
+    }
+
+    inactivity_timer() {
+        this.setState({timer: setInterval(() => {
+            // action of redirect
+            for(let i in this.state.blocks) {
+                let levels = this.state.blocks[i].levels;
+                for(let j in levels) {
+                    if(this.state.pointer.level_id == levels[j].id){
+                        // redirect to first category
+                        let category = levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]] ? levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]]: levels[j].area_categories[Object.keys(levels[j].area_categories)[0]];
+                        this.setState({type: 1, block: this.state.blocks[i], level: levels[j], category: category});
+                        break;
+                    }
+                }
+            }
+        }, 3 * 60 * 1000)});
+    }
+
+    reset_timer() {
+        clearInterval(this.state.timer);
+        this.inactivity_timer();
     }
 
     directorySetup() {
@@ -127,7 +153,7 @@ export default class App extends Component {
 
     render() {
         return (
-            <div id="container">
+            <div onClick={this.reset_timer} id="container">
                 <Buttons 
                     blocks={this.state.blocks}
                     block={this.state.block}
