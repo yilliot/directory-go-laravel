@@ -68,7 +68,7 @@ function Level(props) {
     ? {backgroundColor: props.active_color, color: '#a3a3a3'}
     : props.level.is_activated
     ? {}
-    : {backgroundColor: '#666666'};
+    : {backgroundColor: '#ccc'};
     
     let category;
     let zone_categories = props.level.zone_categories;
@@ -90,7 +90,7 @@ function Level(props) {
             onClick={update}
         >
             <div className='text'>
-            {props.level.name}
+            {props.level.is_activated ? props.level.name: ''}
             </div>
         </div>
     );
