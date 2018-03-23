@@ -68,6 +68,7 @@ class Canvas extends Component {
             let { canvas, ctx, direction } = this.state;
             // map
             let img = new Image();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             img.src = '/storage/' + this.props.src;
             if(this.props.direction) {
                 ctx.rotate(Math.PI);
