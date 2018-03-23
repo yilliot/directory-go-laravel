@@ -10,7 +10,7 @@ export default function Display(props) {
         let pointer = props.level.id == props.pointer.level_id ? props.pointer: null;
         return (
             <div id='display'>
-                <Canvas areas={areas} pointer={props.pointer} direction={props.direction} pointer={pointer} src={props.level.map_path}/>
+                <Canvas areas={areas} pointer={props.pointer} direction={props.direction} pointer={pointer} src={props.level.map_path} blocks={props.blocks}/>
             </div>
         );
     } else {
@@ -35,20 +35,35 @@ class Canvas extends Component {
             canvas: null,
             ctx: null,
             ready: false,
-            first: true
+            first: true,
+            imgs: null,
         }
     }
 
     componentWillReceiveProps() {
-        this.setState({first: true}); // On receive props meaning new map need refresh
+        // this.setState({first: true}); // On receive props meaning new map need refresh
     }
 
     componentDidMount() {
+        let imgs = {};
+        for(let i in this.props.blocks) {
+            let block = this.props.blocks[i];
+            for(let j in block.levels) {
+                let level = block.levels[j];
+                if(level.map_path) {
+                    let img = new Image();
+                    img.src = '/storage/' + level.map_path;
+                    imgs[level.map_path] = img;
+                }
+            }
+        }
         this.setState({
             canvas: this.refs.canvas,
             ctx: this.refs.canvas.getContext('2d'),
-            ready: true
+            ready: true,
+            imgs: imgs,
         });
+        console.log(imgs);
     }
 
     handleClick(event) {
@@ -65,22 +80,21 @@ class Canvas extends Component {
 
     render() {
         if(this.state.ready) {
-            let { canvas, ctx, direction } = this.state;
+            let { canvas, ctx, direction, imgs } = this.state;
             // map
-            let img = new Image();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            img.src = '/storage/' + this.props.src;
             if(this.props.direction) {
                 ctx.rotate(Math.PI);
                 ctx.translate(-canvas.width, -canvas.height);
             }
             if(this.state.first) {
-                img.onload = () => {
-                ctx.drawImage(img, canvas.width, canvas.height);
+                imgs[this.props.src].onload = () => {
+                ctx.drawImage(imgs[this.props.src], 0, 0, canvas.width, canvas.height);
                 this.setState({first: false});
                 }
             }
-            else ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            else ctx.drawImage(imgs[this.props.src], 0, 0, canvas.width, canvas.height);
+
 
             if(this.props.areas) {
                 this.props.areas.forEach((area, index) => {

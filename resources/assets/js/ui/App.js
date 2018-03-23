@@ -182,6 +182,7 @@ export default class App extends Component {
                     type={this.state.type}
                     style={Style['display']}
                     level={this.state.level}
+                    blocks={this.state.blocks}
                     category={this.state.category}
                     direction={this.state.direction}
                     activate={this.activate}
