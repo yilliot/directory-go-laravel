@@ -7,11 +7,6 @@ use App\Http\Controllers\Controller;
 
 class LevelController extends Controller
 {
-    function index(Request $request)
-    {
-        $levels = \App\Models\Level::all();
-        return view('office.level.index', compact('levels'));
-    }
     function getList(Request $request)
     {
         $block = \App\Models\Block::find($request->block_id);

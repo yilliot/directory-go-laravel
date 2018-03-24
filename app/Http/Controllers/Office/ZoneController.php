@@ -7,10 +7,6 @@ use App\Http\Controllers\Controller;
 
 class ZoneController extends Controller
 {
-    function index()
-    {
-        return view('office.zone.index');
-    }
     function getList(Request $request)
     {
         $level = \App\Models\Level::with('zones')

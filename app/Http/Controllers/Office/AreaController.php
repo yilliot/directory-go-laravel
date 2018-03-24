@@ -7,10 +7,6 @@ use App\Http\Controllers\Controller;
 
 class AreaController extends Controller
 {
-    function index()
-    {
-        return view('office.area.index');
-    }
     function getList(Request $request)
     {
         $level = \App\Models\Level::with('areas', 'areas.categories')
