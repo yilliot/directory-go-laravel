@@ -20,7 +20,7 @@
         </div>
         <div class="field">
           <label for="name">Name Display</label>
-          <input type="text" name="name_display" id="text" value="{{old('name_display', $area->name_display)}}">
+          <textarea name="name_display" id="text">{{old('name_display', $area->name_display)}}</textarea>
         </div>
         <div class="field">
           <label for="area_category_ids">Area Category</label>
