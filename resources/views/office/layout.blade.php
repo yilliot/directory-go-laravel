@@ -17,11 +17,12 @@
         {{ Auth::user() ? Auth::user()->name : '' }}
         <i class="dropdown icon"></i>
         <div class="menu">
-{{-- 
-          <a class="item" href="#"><i class="add user icon"></i>Add Admin</a>
+
+{{--           <a class="item" href="#"><i class="add user icon"></i>Add Admin</a>
           <div class="divider"></div>
-          <a class="item" href="#"><i class="edit icon"></i>Update Profile</a>
  --}}
+          <a class="item" href="/back-office/user/update"><i class="edit icon"></i>Update Profile</a>
+
           {{ Form::open(['url' => route('logout'), 'method' => 'POST', 'class' => "item clicksubmit"]) }}
             @csrf
             <i class="sign out icon"></i>Logout

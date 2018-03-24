@@ -15,6 +15,8 @@ Route::group(['prefix' => 'publish'], function(){
 
 Route::group(['prefix' => 'back-office', 'namespace' => 'Office', 'middleware' => 'auth'], function(){
     Route::get('/', 'OfficeController@index');
+    Route::get('/user/update', 'OfficeController@getUserUpdate');
+    Route::post('/user/update', 'OfficeController@postUserUpdate');
 
     Route::group(['prefix' => 'publish'], function(){
         Route::post('/create', 'PublishController@postCreate');
