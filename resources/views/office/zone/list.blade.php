@@ -21,7 +21,7 @@
               </select>
             </div>
             <div class="field">
-              <a href="/back-office/zone/create/{{$level->id}}" class="ui red pulled right button">New zone</a>
+              <a href="/back-office/zone/create/{{$level->id}}" class="ui red pulled right button">New Zone</a>
             </div>
           </div>
         </div> {{-- ui form --}}
