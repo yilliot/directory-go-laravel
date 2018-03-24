@@ -58,7 +58,7 @@
       <div class="ui segment bg-grey">
         <h2 class="ui header">Category Preview</h2>
         <select name="select_category" id="select_category" class="ui dropdown">
-          @foreach (\App\Models\Category::all() as $category)
+          @foreach ($categories as $category)
             <option value="{{$category->id}}">
               {{$category->name}}
             </option>

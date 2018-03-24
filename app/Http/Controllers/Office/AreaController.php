@@ -27,7 +27,12 @@ class AreaController extends Controller
                 ];
             });
 
-        return view('office.area.list', compact('level', 'levels', 'category_area'));
+        $categories = $level->areas->map(function($area){
+            return $area->categories;
+        })->flatten()->unique('id')->values();
+
+
+        return view('office.area.list', compact('level', 'levels', 'category_area', 'categories'));
     }
     function getCreate(Request $request)
     {
