@@ -181,6 +181,7 @@ class KioskDataProvider
             ->join('area_categories', 'areas.id', '=', 'area_categories.area_id')
             ->join('categories', 'categories.id', '=', 'area_categories.category_id')
             ->select('areas.*', 'area_categories.category_id', 'categories.name as category_name', 'categories.order as category_order')
+            ->where('categories.id', '<>', 23) // hide facilities index in levels
             ->orderBy('category_order', 'asc')
             ->get()
             ->groupBy('level_id')
