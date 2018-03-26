@@ -64,24 +64,27 @@ export default class App extends Component {
         let directory = this.directorySetup();
         this.setState({directory: directory});        
         setInterval(this.auto_updater, 30 * 60 * 1000);
+        this.lets_go();
         this.inactivity_timer();
     }
 
-    inactivity_timer() {
-        this.setState({timer: setInterval(() => {
-            // action of redirect
-            for(let i in this.state.blocks) {
-                let levels = this.state.blocks[i].levels;
-                for(let j in levels) {
-                    if(this.state.pointer.level_id == levels[j].id){
-                        // redirect to first category
-                        let category = levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]] ? levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]]: levels[j].area_categories[Object.keys(levels[j].area_categories)[0]];
-                        this.setState({type: 1, block: this.state.blocks[i], level: levels[j], category: category});
-                        break;
-                    }
+    lets_go() {
+        // action of redirect
+        for(let i in this.state.blocks) {
+            let levels = this.state.blocks[i].levels;
+            for(let j in levels) {
+                if(this.state.pointer.level_id == levels[j].id){
+                    // redirect to first category
+                    let category = levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]] ? levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]]: levels[j].area_categories[Object.keys(levels[j].area_categories)[0]];
+                    this.setState({type: 1, block: this.state.blocks[i], level: levels[j], category: category});
+                    break;
                 }
             }
-        }, 3 * 60 * 1000)});
+        }
+    }
+    inactivity_timer() {
+        var that = this;
+        this.setState({timer: setInterval(this.lets_go.bind(that), 2 * 60 * 1000)});
     }
 
     reset_timer() {
