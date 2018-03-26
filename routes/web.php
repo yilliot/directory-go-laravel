@@ -22,6 +22,11 @@ Route::group(['prefix' => 'back-office', 'namespace' => 'Office', 'middleware' =
         Route::post('/create', 'PublishController@postCreate');
     });
 
+    Route::group(['prefix' => 'kiosk'], function(){
+        Route::get('/edit/{id}', 'KioskController@getEdit');
+        Route::post('/edit', 'KioskController@postEdit');
+    });
+
     Route::group(['prefix' => 'block'], function(){
         Route::get('/edit/{id}', 'BlockController@getEdit');
         Route::post('/edit/{id}', 'BlockController@postEdit');
