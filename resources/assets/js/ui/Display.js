@@ -63,7 +63,7 @@ class Canvas extends Component {
             ready: true,
             imgs: imgs,
         });
-        console.log(imgs);
+        // console.log(imgs);
     }
 
     handleClick(event) {

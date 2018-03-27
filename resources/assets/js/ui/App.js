@@ -22,6 +22,7 @@ export default class App extends Component {
         this.auto_updater = this.auto_updater.bind(this);
         this.inactivity_timer = this.inactivity_timer.bind(this);
         this.reset_timer = this.reset_timer.bind(this);
+        this.lets_go = this.lets_go.bind(this);
         let category;
         for(let x in blocks) {
             for(let y in blocks[x].levels) {
@@ -75,7 +76,11 @@ export default class App extends Component {
             for(let j in levels) {
                 if(this.state.pointer.level_id == levels[j].id){
                     // redirect to first category
-                    let category = levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]] ? levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]]: levels[j].area_categories[Object.keys(levels[j].area_categories)[0]];
+                    let category = levels[j].zone_categories
+                    ? levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]]
+                    ? levels[j].zone_categories[Object.keys(levels[j].zone_categories)[0]]
+                    : levels[j].area_categories[Object.keys(levels[j].area_categories)[0]]
+                    : levels[j].area_categories[Object.keys(levels[j].area_categories)[0]];
                     this.setState({type: 1, block: this.state.blocks[i], level: levels[j], category: category});
                     break;
                 }
@@ -83,8 +88,7 @@ export default class App extends Component {
         }
     }
     inactivity_timer() {
-        var that = this;
-        this.setState({timer: setInterval(this.lets_go.bind(that), 2 * 60 * 1000)});
+        this.setState({timer: setInterval(this.lets_go, 2 /** 60*/ * 1000)});
     }
 
     reset_timer() {
