@@ -31,34 +31,34 @@ class KioskDataProvider
         // // meeting room index P-Z
         $meetingRoomIndex = $this->generateMeetingRoomIndex();
 
-        $buildingCore = $this->generateBuildingCore();
+        // $buildingCore = $this->generateBuildingCore();
 
         return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex', 'buildingCore'));
     }
 
-    function generateBuildingCore() {
-        $levels = \App\Models\Level::with(['zones' => function($q){
-                    $q->where('zone_category_id', 3);
-                }])
-            ->where('is_activated', true)
-            ->get()
-            ->map(function($level){
-                return [
-                    'id' => $level->id,
-                    'zone' => $level->zones->map(function($zone){
-                        return [
-                            'area_json' => $zone->area_json,
-                            'name_display' => $zone->name_display,
-                            'bg_colour' => $zone->bg_colour,
-                            'text_colour' => $zone->text_colour,
-                        ];
-                    })->toArray(),
-                ];
-            })
-            ->keyBy('id')
-            ->toArray();
-        return $levels;
-    }
+    // function generateBuildingCore() {
+    //     $levels = \App\Models\Level::with(['zones' => function($q){
+    //                 $q->where('zone_category_id', 3);
+    //             }])
+    //         ->where('is_activated', true)
+    //         ->get()
+    //         ->map(function($level){
+    //             return [
+    //                 'id' => $level->id,
+    //                 'zone' => $level->zones->map(function($zone){
+    //                     return [
+    //                         'area_json' => $zone->area_json,
+    //                         'name_display' => $zone->name_display,
+    //                         'bg_colour' => $zone->bg_colour,
+    //                         'text_colour' => $zone->text_colour,
+    //                     ];
+    //                 })->toArray(),
+    //             ];
+    //         })
+    //         ->keyBy('id')
+    //         ->toArray();
+    //     return $levels;
+    // }
 
     function generateMeetingRoomIndex() {
         $meetingRooms = \App\Models\Category::with('areas', 'areas.level', 'areas.block', 'areas.categories')
@@ -267,6 +267,15 @@ class KioskDataProvider
                 if (isset($zonesByCategories[$level['id']])) {
                     $level['zone_categories'] = $zonesByCategories[$level['id']];
                 }
+                $level['building_core'] = \App\Models\Zone::where('zone_category_id', 3)
+                    ->where('level_id', $level['id'])
+                    ->get()
+                    ->map(function($zone) {
+                        return [
+                            'id' => $zone->id,
+                            'area_json' => $zone->area_json,
+                        ];
+                    })->toArray();
                 return $level;
             });
 

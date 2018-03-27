@@ -10,7 +10,7 @@ export default function Display(props) {
         let pointer = props.level.id == props.pointer.level_id ? props.pointer: null;
         return (
             <div id='display'>
-                <Canvas areas={areas} pointer={props.pointer} direction={props.direction} pointer={pointer} src={props.level.map_path} blocks={props.blocks}/>
+                <Canvas areas={areas} building_core={props.level.building_core} pointer={props.pointer} direction={props.direction} pointer={pointer} src={props.level.map_path} blocks={props.blocks}/>
             </div>
         );
     } else {
@@ -97,6 +97,14 @@ class Canvas extends Component {
 
 
             if(this.props.areas) {
+                this.props.building_core.forEach((area, index) => {
+                    // console.log(area);
+                    drawArea(ctx, area, canvas.width, canvas.height, this.props.direction);
+                });
+                this.props.building_core.forEach((area, index) => {
+                    // console.log(area);
+                    drawText(ctx, area, canvas.width, canvas.height, this.props.direction);
+                });
                 this.props.areas.forEach((area, index) => {
                     // console.log(area);
                     drawArea(ctx, area, canvas.width, canvas.height, this.props.direction);
