@@ -184,11 +184,14 @@ function drawText(ctx, area, width, height, direction) {
             ctx.font = (parseInt(text_size) / c.w * width) + 'px stencil';
             ctx.fillStyle = text_color;
             let multiline = multilineToArray(text);
+            let center_line;
             for(let i in multiline) {
                 let line_text = multiline[i];
+                if(i == 0) center_line = parseInt(ctx.measureText(line_text).width)/2;
+                let centralize = parseInt(ctx.measureText(line_text).width)/2;
                 let offset = (-parseInt(text_size)/ c.w * width * (multiline.length - 1) / 2) + parseInt(text_size)/ c.w * width * i;
-                if(direction) ctx.fillText(line_text, width - ctx.measureText(line_text).width - 4 - x / c.w * width , height + (parseInt(text_size) / c.w * width) / 2 - (y / c.h * height) + offset);
-                else ctx.fillText(line_text, x / c.w * width , y / c.h * height + offset);
+                if(direction) ctx.fillText(line_text, width - ctx.measureText(line_text).width - 4 - x / c.w * width + centralize - center_line , height + (parseInt(text_size) / c.w * width) / 2 - (y / c.h * height) + offset);
+                else ctx.fillText(line_text, x / c.w * width - centralize + center_line , y / c.h * height + offset);
             }
 
             ctx.fill();
