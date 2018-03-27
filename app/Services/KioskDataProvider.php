@@ -31,7 +31,33 @@ class KioskDataProvider
         // // meeting room index P-Z
         $meetingRoomIndex = $this->generateMeetingRoomIndex();
 
-        return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex'));
+        $buildingCore = $this->generateBuildingCore();
+
+        return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex', 'buildingCore'));
+    }
+
+    function generateBuildingCore() {
+        $levels = \App\Models\Level::with(['zones' => function($q){
+                    $q->where('zone_category_id', 3);
+                }])
+            ->where('is_activated', true)
+            ->get()
+            ->map(function($level){
+                return [
+                    'id' => $level->id,
+                    'zone' => $level->zones->map(function($zone){
+                        return [
+                            'area_json' => $zone->area_json,
+                            'name_display' => $zone->name_display,
+                            'bg_colour' => $zone->bg_colour,
+                            'text_colour' => $zone->text_colour,
+                        ];
+                    })->toArray(),
+                ];
+            })
+            ->keyBy('id')
+            ->toArray();
+        return $levels;
     }
 
     function generateMeetingRoomIndex() {
@@ -88,7 +114,7 @@ class KioskDataProvider
                                     ->zones
                                     ->map(function($zone) {
                                         $result = [];
-                                        if($zone->zoneCategory->id == 1) {
+                                        if($zone->zoneCategory && $zone->zoneCategory->id == 1) {
                                             $result = [
                                                 'name' => $zone->name,
                                                 'name_display' => $zone->name_display,
