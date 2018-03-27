@@ -88,7 +88,7 @@ export default class App extends Component {
         }
     }
     inactivity_timer() {
-        this.setState({timer: setInterval(this.lets_go, 2 /** 60*/ * 1000)});
+        this.setState({timer: setInterval(this.lets_go, 2 * 60 * 1000)});
     }
 
     reset_timer() {
