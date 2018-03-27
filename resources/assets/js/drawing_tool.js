@@ -1,3 +1,19 @@
+multilineToArray = function(text) {
+    let result = [];
+    let now = 0;
+    while(text.indexOf('\r\n') != -1) {
+        result.push(text.slice(0, text.indexOf('\r\n')));
+        text = text.slice(text.indexOf('\r\n') + 2);
+    }
+    while(text.indexOf('\n') != -1) {
+        result.push(text.slice(0, text.indexOf('\n')));
+        text = text.slice(text.indexOf('\n') + 1);
+    }
+    result.push(text);
+    return result;
+}
+
+
 window.onload = function() {
 
     DrawingSet = new Object;
@@ -151,8 +167,13 @@ window.onload = function() {
             this.ctx.beginPath();
             this.ctx.font = this.history[0].text.size + ' stencil';
             this.ctx.fillStyle = this.history[0].text.color;
-            if(this.dragging && this.activeTool == 'text')this.ctx.fillText(this.history[0].text.text, this.offsetBufferText.x, this.offsetBufferText.y);
-            else this.ctx.fillText(this.history[0].text.text, this.history[0].text.x, this.history[0].text.y);
+            multiline = multilineToArray(this.history[0].text.text);
+            for(let i in multiline) {
+                let text = multiline[i];
+                let height = (-parseInt(this.history[0].text.size) * (multiline.length - 1) / 2) + parseInt(this.history[0].text.size) * i;
+                if(this.dragging && this.activeTool == 'text')this.ctx.fillText(text, this.offsetBufferText.x, this.offsetBufferText.y + height);
+                else this.ctx.fillText(text, this.history[0].text.x, this.history[0].text.y + height);
+            }
             this.ctx.fill();
         }
         if(this.dragging) this.ctx.translate(-this.offsetBuffer.x, -this.offsetBuffer.y);
