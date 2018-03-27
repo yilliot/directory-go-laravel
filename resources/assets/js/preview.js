@@ -1,5 +1,20 @@
 const $ = require('jquery');
 
+multilineToArray = function(text) {
+    let result = [];
+    let now = 0;
+    while(text.indexOf('\r\n') != -1) {
+        result.push(text.slice(0, text.indexOf('\r\n')));
+        text = text.slice(text.indexOf('\r\n') + 2);
+    }
+    while(text.indexOf('\n') != -1) {
+        result.push(text.slice(0, text.indexOf('\n')));
+        text = text.slice(text.indexOf('\n') + 1);
+    }
+    result.push(text);
+    return result;
+}
+
 function drawArea(ctx, area, width, height) {
 
     if(!area){return null}
@@ -49,7 +64,12 @@ function drawText(ctx, area, width, height) {
             // console.log(text);
             ctx.font = parseInt(text_size)/ c.w * width + 'px' + ' stencil';
             ctx.fillStyle = text_color;
-            ctx.fillText(text, x / c.w * width , y / c.h * height);
+            multiline = multilineToArray(text);
+            for(let i in multiline) {
+                let line_text = multiline[i];
+                let offset = (-parseInt(text_size)/ c.w * width * (multiline.length - 1) / 2) + parseInt(text_size)/ c.w * width * i;
+                ctx.fillText(line_text, x / c.w * width , y / c.h * height + offset);
+            }
             ctx.fill();
         }
         return true;

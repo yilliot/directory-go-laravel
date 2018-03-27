@@ -120,6 +120,21 @@ class Canvas extends Component {
     }
 }
 
+function multilineToArray(text) {
+    let result = [];
+    let now = 0;
+    while(text.indexOf('\r\n') != -1) {
+        result.push(text.slice(0, text.indexOf('\r\n')));
+        text = text.slice(text.indexOf('\r\n') + 2);
+    }
+    while(text.indexOf('\n') != -1) {
+        result.push(text.slice(0, text.indexOf('\n')));
+        text = text.slice(text.indexOf('\n') + 1);
+    }
+    result.push(text);
+    return result;
+}
+
 function drawArea(ctx, area, width, height, direction) {
     // Check if it is assigned
     if(!Array.isArray(JSON.parse(area.area_json))) {
@@ -168,8 +183,14 @@ function drawText(ctx, area, width, height, direction) {
             ctx.beginPath();
             ctx.font = (parseInt(text_size) / c.w * width) + 'px stencil';
             ctx.fillStyle = text_color;
-            if(direction) ctx.fillText(text, width - ctx.measureText(text).width - 4 - x / c.w * width , height + (parseInt(text_size) / c.w * width) / 2 - (y / c.h * height));
-            else ctx.fillText(text, x / c.w * width , y / c.h * height);
+            let multiline = multilineToArray(text);
+            for(let i in multiline) {
+                let line_text = multiline[i];
+                let offset = (-parseInt(text_size)/ c.w * width * (multiline.length - 1) / 2) + parseInt(text_size)/ c.w * width * i;
+                if(direction) ctx.fillText(line_text, width - ctx.measureText(line_text).width - 4 - x / c.w * width , height + (parseInt(text_size) / c.w * width) / 2 - (y / c.h * height) + offset);
+                else ctx.fillText(line_text, x / c.w * width , y / c.h * height + offset);
+            }
+
             ctx.fill();
             if(direction) {
                 ctx.rotate(Math.PI);
