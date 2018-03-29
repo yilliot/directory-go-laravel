@@ -31,34 +31,8 @@ class KioskDataProvider
         // // meeting room index P-Z
         $meetingRoomIndex = $this->generateMeetingRoomIndex();
 
-        // $buildingCore = $this->generateBuildingCore();
-
         return collect(compact('blocks', 'kampongIndex', 'facilitiesIndex', 'meetingRoomIndex', 'buildingCore'));
     }
-
-    // function generateBuildingCore() {
-    //     $levels = \App\Models\Level::with(['zones' => function($q){
-    //                 $q->where('zone_category_id', 3);
-    //             }])
-    //         ->where('is_activated', true)
-    //         ->get()
-    //         ->map(function($level){
-    //             return [
-    //                 'id' => $level->id,
-    //                 'zone' => $level->zones->map(function($zone){
-    //                     return [
-    //                         'area_json' => $zone->area_json,
-    //                         'name_display' => $zone->name_display,
-    //                         'bg_colour' => $zone->bg_colour,
-    //                         'text_colour' => $zone->text_colour,
-    //                     ];
-    //                 })->toArray(),
-    //             ];
-    //         })
-    //         ->keyBy('id')
-    //         ->toArray();
-    //     return $levels;
-    // }
 
     function generateMeetingRoomIndex() {
         $meetingRooms = \App\Models\Category::with('areas', 'areas.level', 'areas.block', 'areas.categories')
@@ -139,7 +113,7 @@ class KioskDataProvider
 
     function generateFacilitiesIndex()
     {
-        $facilities = \App\Models\Block::with('levels', 'levels.areas', 'levels.areas.categories')
+        $facilities = \App\Models\Block::with('levels', 'levels.areas', 'levels.areas.categories', 'levels.areas.block', 'levels.areas.level')
             ->get()
             ->map(function($block) {
                 return [
@@ -201,7 +175,9 @@ class KioskDataProvider
 
     function generateBlock()
     {
-        $blocks = \App\Models\Block::with('levels')->get();
+        $blocks = \App\Models\Block::with(['levels', 'levels.zones' => function($q) {
+            $q->where('zone_category_id', 3);
+        }])->get();
 
         $areasByCategories = \DB::table('areas')
             ->join('area_categories', 'areas.id', '=', 'area_categories.area_id')
@@ -260,23 +236,23 @@ class KioskDataProvider
         $blocks = $blocks->map(function($block) use ($areasByCategories, $zonesByCategories) {
 
             $levels = $block->levels->map(function($level) use ($areasByCategories, $zonesByCategories) {
-                $level = $level->only(['id', 'name', 'map_path', 'level_order', 'is_activated']);
-                if (isset($areasByCategories[$level['id']])) {
-                    $level['area_categories'] = $areasByCategories[$level['id']];
-                }
-                if (isset($zonesByCategories[$level['id']])) {
-                    $level['zone_categories'] = $zonesByCategories[$level['id']];
-                }
-                $level['building_core'] = \App\Models\Zone::where('zone_category_id', 3)
-                    ->where('level_id', $level['id'])
-                    ->get()
+
+                $return = $level->only(['id', 'name', 'map_path', 'level_order', 'is_activated']);
+
+                $return['building_core'] = $level->zones
                     ->map(function($zone) {
                         return [
                             'id' => $zone->id,
                             'area_json' => $zone->area_json,
                         ];
                     })->toArray();
-                return $level;
+                if (isset($areasByCategories[$return['id']])) {
+                    $return['area_categories'] = $areasByCategories[$return['id']];
+                }
+                if (isset($zonesByCategories[$return['id']])) {
+                    $return['zone_categories'] = $zonesByCategories[$return['id']];
+                }
+                return $return;
             });
 
             $block = $block->only(['id', 'name', 'bg_colour', 'text_colour', 'order']);
