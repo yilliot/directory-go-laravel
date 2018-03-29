@@ -23,7 +23,9 @@ class LevelController extends Controller
     {
         $level = \App\Models\Level::find($request->id);
         $level->name = $request->name;
-        $level->map_path = $request->file('map_path')->store('map_path', 'public');
+        if ($request->has('map_path')) {
+            $level->map_path = $request->file('map_path')->store('map_path', 'public');
+        }
         $level->save();
 
         return back()->with('success', 'Success');
