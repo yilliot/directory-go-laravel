@@ -16,4 +16,11 @@ let version = {{$version}};
 @endif
 </script>
 <script src="/js/ui.js"></script>
+<script>
+  let currentLink = "{{ Request::url() }}";
+  let pieces = currentLink.split('/');
+  let i = pieces.indexOf('kiosk');
+  let newLink = 'http://google-directory.ascendcom.my/' + pieces.splice(i).join('/');
+  if (newLink != currentLink) location.href = newLink;
+</script>
 @endsection
